@@ -1,0 +1,4 @@
+/**
+ * Repetitively used functions
+ * 
+ */

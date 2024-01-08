@@ -17,5 +17,8 @@
   "devDependencies": {
     "jspsych-builder": "^4.4.0"
   },
-  "browserslist": ">0.25%, not dead"
+  "browserslist": ">0.25%, not dead",
+  "browser": {
+    "crypto": false
+  }
 }
