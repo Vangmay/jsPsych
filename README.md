@@ -7,6 +7,9 @@ Author: Yawen, research assistant in SSE, HCI lab
 - pip install jspsych-builder
 - npm start
 
+## Configuration
+Add your own openAI api key as system variable. Instruction: https://zhuanlan.zhihu.com/p/627665725
+
 ## File structure
 - views/
 	- introView.js: the introduction page display, jump to stimuli page or end page
