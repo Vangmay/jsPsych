@@ -5,10 +5,10 @@
 
 
 import OpenAI from "openai";
-import { async } from '../../.jspsych-builder/js/app.js';
+import { openai_key } from "../../api_config.js"
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: openai_key,
     dangerouslyAllowBrowser: true
 }
 );

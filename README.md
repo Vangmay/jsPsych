@@ -8,7 +8,11 @@ Author: Yawen, research assistant in SSE, HCI lab
 - npm start
 
 ## Configuration
-Add your own openAI api key as system variable. Instruction: https://zhuanlan.zhihu.com/p/627665725
+Create a "api_config.js" in the root and add your own openAI api key, as:
+```
+const openai_key = '<your_api_key>';
+export { openai_key};
+```
 
 ## File structure
 - views/
