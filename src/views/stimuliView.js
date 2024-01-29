@@ -2,7 +2,7 @@
  * Stimuli page of the exp
  * - show haiku and choose accept or not
  */
-import { setResult, getResult,setHaiku, getHaiku, addCount, getCount } from "../models/resultModel.js"
+import { appendResult, getResult,setHaiku, getHaiku, addCount, getCount } from "../models/resultModel.js"
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import { getHaiku_API } from "../APIs/openAI.js"
 import { s3 } from "./endView.js"
@@ -42,10 +42,14 @@ function addRespFromButton(data) {
     var accept = "rejected";
     if (data.response == 0)
         accept = "accepted";
-    var result =getResult()+ data.stimulus + "<br>"
-        + accept + " " + data.rt + "ms"
-        + "<br><br>";
-    setResult(result);
+    var result = {
+        stimulus:data.stimulus,
+        acceptance: accept,
+        rspTime:data.rt
+    };
+    appendResult(result);
+    data.myResult = getResult();
+    //console.log(data.myResult);
 }
 
 export {

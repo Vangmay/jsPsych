@@ -4,7 +4,7 @@
  *
  */
 
-var result = "";
+var result = [];
 var next_haiku = "";
 var count = 0;
 
@@ -25,8 +25,8 @@ function getCount() {
 }
 
 
-function setResult(r) {
-    result = r;
+function appendResult(r) {
+    result.push(r);
 }
 
 function getResult() {
@@ -34,7 +34,7 @@ function getResult() {
 }
 
 export {
-    setResult,
+    appendResult,
     getResult,
     setHaiku,
     getHaiku,
