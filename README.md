@@ -6,6 +6,7 @@ Author: Yawen, research assistant in SSE, HCI lab
 
 - pip install jspsych-builder
 - npm start
+- create a "result" folder in the root and put txt experiment result inside, if you want to use the python file to parse result
 
 ## Configuration
 Create a "api_config.js" in the root and add your own openAI api key, as:

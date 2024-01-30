@@ -2,3 +2,6 @@ node_modules/
 .vs/
 .jspsych-builder/
 api_config.js
+/python/.idea
+/.idea
+/results
