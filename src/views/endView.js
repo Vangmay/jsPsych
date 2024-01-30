@@ -18,6 +18,7 @@ function showResult(result) {
     return displayR;
 }
 
+// show this page within T ms
 var s3 = {
     type: HtmlKeyboardResponsePlugin,
     stimulus: '<p style="font-size:48px; color:red;">Final page</p>',
@@ -25,6 +26,7 @@ var s3 = {
         var result = getResult();
         return showResult(result);
     },
+    trial_duration: 5000,
 };
 
 export {

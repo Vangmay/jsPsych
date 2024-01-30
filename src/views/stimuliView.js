@@ -13,14 +13,21 @@ import { jsPsych } from "../models/jsPsychModel.js"
 var s2 = {
     type: htmlButtonResponse,
     choices: ['Accept', 'Re-generate'],
-    stimulus: function () {
-        return getHaiku();
-    },
+    stimulus: '<p id="stimulus" style="font-size:24px;">loading...</p>',
     on_start: async function getStimuli() {
         var next_haiku = await getHaiku_API();
         setHaiku(next_haiku);
+
+        document.getElementById("stimulus").innerText = next_haiku;
+        document.querySelector('#jspsych-html-button-response-button-0 button').disabled = false;
+        document.querySelector('#jspsych-html-button-response-button-1 button').disabled = false;
         console.log(next_haiku);
         addCount();
+    },
+
+    on_load: function () {
+        document.querySelector('#jspsych-html-button-response-button-0 button').disabled = true;
+        document.querySelector('#jspsych-html-button-response-button-1 button').disabled = true;
     },
 
     on_finish: function (data) {
@@ -42,8 +49,9 @@ function addRespFromButton(data) {
     var accept = "rejected";
     if (data.response == 0)
         accept = "accepted";
+    data.stimulus = getHaiku();//otherwise it will be the initial stimuli somehow....
     var result = {
-        stimulus:data.stimulus,
+        stimulus: data.stimulus,
         acceptance: accept,
         rspTime:data.rt
     };
