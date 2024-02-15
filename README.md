@@ -3,8 +3,14 @@ A JsPsych website for psychology experiment. During the experiment, openAI API w
 
 This readme will explain how to install and use the website, as well as the design principles. For the design process, please refer to [issues](https://github.com/wdhub/jsPsych/issues).
 
+<<<<<<< Updated upstream
 For research purpose, the project is led by [Hui Sun](https://www.huisunsh.com/) from House of Innovation, Stockholm School of Economics. See paper (not published yet)...
 Contact: [Yawen](yawend@kth.se), research assistant, if you have any question.
+=======
+- pip install jspsych-builder
+- npm start
+- create a "result" folder in the root and put txt experiment result inside, if you want to use the python file to parse result. 
+>>>>>>> Stashed changes
 
 ## Update:
 In the latest release, the experiment is about letting participants decide if they accept the realtime-generated Haiku or not. If accepted, their reaction time and choices will be shown on the final page. Participants can reject the stimuli for maximun 3 times. This, however, is only a demo to build and test the tech stack.
