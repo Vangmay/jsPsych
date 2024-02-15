@@ -52,9 +52,9 @@ Enter `localhost:3000` in your browser as the npm indicates project running. If 
 ```
 npm run jatos
 ```
-The packaged .jzip file will be found in the `/packaged`. Then import it in your remote Jatos server and run. If it runs as local, congratulations! The project is installed in your cloud server.
+The packaged `.jzip` file will be found in the `/packaged`. Then import it in your remote Jatos server and run. If it runs as local, congratulations! The project is installed in your cloud server.
 
-- Parse results: create a `/result` folder in the root and put txt experiment result inside, if you want to use the python file to parse results.
+- Parse results: create a `/result` folder in the root and put txt experiment result inside, if you want to use the python file to parse results.The parsed result will be saved as CSV file in the same `/result` folder.
 
 ## Programming Guide
 You are welcome to customize your own experiment on this project. Here I will explain the design of the architecture a bit, so that it's easier to follow. Instead of the full MVP model, we use a simplified version, consisting only of views and models. 
