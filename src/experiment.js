@@ -14,7 +14,9 @@
 import "../styles/main.scss";
 
 import { jsPsych } from "./models/jsPsychModel.js"
-import { s1} from "./views/introView.js"
+import { s1 } from "./views/introView.js"
+//import { record } from "./views/testView.js"
+//import initializeMicrophone from '@jspsych/plugin-initialize-microphone';
 
 
 
@@ -25,15 +27,20 @@ import { s1} from "./views/introView.js"
  */
 
 export async function run({ assetPaths, input = {}, environment, title, version }) {
-  
+    //var trial = {
+    //    type: initializeMicrophone
+    //};
 
-  const timeline = [];
-  timeline.push(s1);
+
+    const timeline = [];
+    timeline.push(s1)
+    //timeline.push(trial);
+    //timeline.push(record);
 
 
-  await jsPsych.run(timeline);
+    await jsPsych.run(timeline);
 
   // Return the jsPsych instance so jsPsych Builder can access the experiment results (remove this
   // if you handle results yourself, be it here or in `on_finish()`)
-  return jsPsych;
+    return jsPsych;
 }
