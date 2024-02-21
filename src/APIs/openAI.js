@@ -5,10 +5,9 @@
 
 
 import OpenAI from "openai";
-import { openai_key } from "../../api_config.js"
 
 const openai = new OpenAI({
-    apiKey: openai_key,
+    apiKey: GLOBAL.OPENAI_API_KEY,
     dangerouslyAllowBrowser: true
 }
 );

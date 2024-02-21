@@ -13,9 +13,11 @@
     "@jspsych/plugin-html-keyboard-response": "^1.1.2",
     "@jspsych/plugin-initialize-microphone": "^1.0.3",
     "@jspsych/plugin-preload": "^1.1.2",
+    "html-webpack-tags-plugin": "^3.0.2",
     "jspsych": "^7.3.1",
     "openai": "^4.20.1",
-    "p5": "^1.9.0"
+    "p5": "^1.9.0",
+    "webpack-define-envs-plugin": "^0.2.0"
   },
   "devDependencies": {
     "jspsych-builder": "^4.4.0"

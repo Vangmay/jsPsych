@@ -35,10 +35,10 @@ OpenAI API is maily called to generate the stimuli. In specific, [gpt-3.5-turbo-
 git clone https://github.com/wdhub/jsPsych.git
 ```
 
-- Configuration: Create a "api_config.js" in the root and add your own openAI api key, as:
+- Configuration: Add an openai key variable in the system environment variable via the advanced setting in your PC. This is adviced by openAI for [security reasons](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety).
 ```
-const openai_key = '<your_api_key>';
-export { openai_key};
+Variable name:OPENAI_API_KEY
+Variable value:<your_api_key>
 
 ```
 

@@ -24,7 +24,7 @@ var s2 = {
         document.querySelector('#jspsych-html-button-response-button-1 button').disabled = false;
 
         startTime = Date.now();//start timing after the haiku is presented
-        console.log(startTime);
+        //console.log(startTime);
         console.log(next_haiku);
 
         addCount();
