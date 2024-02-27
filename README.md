@@ -29,7 +29,7 @@ OpenAI API is maily called to generate the stimuli. In specific, [gpt-3.5-turbo-
 	- make sure you have git bash/github desktop and `npm` installed in your computer
 	- In need of hosting the webiste remote, there should be a server with Jatos installed. 
 	- In need of parsing the results via the python codes, a python IDE, e.g PyCharm, might need to be used.
-
+	- recommended version: `Node.js>=18`, browser `Firefox>=112`, as required by Pyodide.
 - Download the repository under your chosen directory via
 ```
 git clone https://github.com/wdhub/jsPsych.git
