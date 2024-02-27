@@ -5,3 +5,4 @@ api_config.js
 /python/.idea
 /.idea
 /results
+dist/
