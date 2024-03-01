@@ -8,21 +8,26 @@ import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import { s3 } from "./endView.js"
 import { s2 } from "./stimuliView.js"
 import { jsPsych } from "../models/jsPsychModel.js"
-const { loadPyodide } = require("pyodide");
+import { runPython } from "../models/jsPyModel.js"
+
+//async function isFileExisted(file) {
+//    const stat = await fs.stat(file);
+//    console.log(stat.isFile());
+//};
 
 
-async function hello_python() {
-    let pyodide = await globalThis.loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/" });//`${window.location.origin}/pyodide`
-    await pyodide.loadPackage("micropip");
-    const micropip = pyodide.pyimport("micropip");
-    await micropip.install('scikit-learn');
-    return pyodide.runPythonAsync(`
-        from sklearn import linear_model
-        reg = linear_model.LinearRegression()
-        reg.fit([[0, 0], [1, 1], [2, 2]], [0, 1, 2])
-        reg.coef_
-        `);
-}
+//async function hello_python() {
+
+//    let pyodide = await globalThis.loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/" });//`${window.location.origin}/pyodide`
+//    await pyodide.loadPackage("micropip");
+//    const micropip = pyodide.pyimport("micropip");
+//    await micropip.install('assets/pyModel-0.1-py3-none-any.whl');
+//    //await micropip.install('assets/sentence_transformers-2.5.0.dev0-py3-none-any.whl');
+//    return pyodide.runPythonAsync(`
+//        from pyModel import nlpModel
+//        nlpModel.testAPI()
+//        `);
+//    }
 
 
 var s_py = {
@@ -31,7 +36,10 @@ var s_py = {
     choices: ['Start', 'Exit'],
 
     on_start: function () {
-        hello_python().then((result) => {
+        runPython(`
+            from pyModel import nlpModel
+            nlpModel.testAPI()
+        `).then((result) => {
             console.log("Python says version is ", result);
         });
     },

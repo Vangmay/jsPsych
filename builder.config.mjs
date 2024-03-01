@@ -19,6 +19,7 @@ export function webpack(config) {
         pyP,
         //new SubresourceIntegrityPlugin(),
       );
+
       //console.log(config);
 
 	  return config;

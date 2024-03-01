@@ -6,3 +6,4 @@ api_config.js
 /.idea
 /results
 dist/
+/python/pyModel.egg-info/

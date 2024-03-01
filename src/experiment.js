@@ -7,13 +7,14 @@
  * @author Yawen D
  * @version 0.1.0
  *
- * @assets assets/
+ * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sentence_transformers-2.5.0.dev0-py3-none-any.whl
  */
 
 // You can import stylesheets (.scss or .css).
 import "../styles/main.scss";
 
 import { jsPsych } from "./models/jsPsychModel.js"
+import { init_py } from "./models/jsPyModel.js"
 import { s1 } from "./views/introView.js"
 import { s_py } from "./views/tV_py"
 //import initializeMicrophone from '@jspsych/plugin-initialize-microphone';
@@ -31,6 +32,8 @@ export async function run({ assetPaths, input = {}, environment, title, version 
     //    type: initializeMicrophone
     //};
 
+    // initial python installation
+    await init_py();
 
     const timeline = [];
     timeline.push(s_py);
