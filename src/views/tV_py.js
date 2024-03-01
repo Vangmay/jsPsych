@@ -8,7 +8,7 @@ import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import { s3 } from "./endView.js"
 import { s2 } from "./stimuliView.js"
 import { jsPsych } from "../models/jsPsychModel.js"
-import { runPython } from "../models/jsPyModel.js"
+import { runPython, passPara } from "../models/jsPyModel.js"
 
 //async function isFileExisted(file) {
 //    const stat = await fs.stat(file);
@@ -16,18 +16,14 @@ import { runPython } from "../models/jsPyModel.js"
 //};
 
 
-//async function hello_python() {
-
-//    let pyodide = await globalThis.loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/" });//`${window.location.origin}/pyodide`
-//    await pyodide.loadPackage("micropip");
-//    const micropip = pyodide.pyimport("micropip");
-//    await micropip.install('assets/pyModel-0.1-py3-none-any.whl');
-//    //await micropip.install('assets/sentence_transformers-2.5.0.dev0-py3-none-any.whl');
-//    return pyodide.runPythonAsync(`
-//        from pyModel import nlpModel
-//        nlpModel.testAPI()
-//        `);
-//    }
+function load(name) {
+    let xhr = new XMLHttpRequest(),
+        okStatus = document.location.protocol === "file:" ? 0 : 200;
+    xhr.open('GET', name, false);
+    xhr.overrideMimeType("text/html;charset=utf-8");//Ä¬ÈÏÎªutf-8
+    xhr.send(null);
+    return xhr.status === okStatus ? xhr.responseText : null;
+}
 
 
 var s_py = {
@@ -36,9 +32,17 @@ var s_py = {
     choices: ['Start', 'Exit'],
 
     on_start: function () {
+        let text = load('assets/sample.txt');
+        const myArray = text.split("\n");
+        console.log(myArray[0]);
+        let para = { s1: myArray[0], database: myArray,distance:0.0};
+
+        passPara(para)
+
         runPython(`
             from pyModel import nlpModel
-            nlpModel.testAPI()
+            from my_js_namespace import s1,database,distance
+            nlpModel.find_similar(s1,database,distance)
         `).then((result) => {
             console.log("Python says version is ", result);
         });

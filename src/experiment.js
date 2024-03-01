@@ -7,7 +7,7 @@
  * @author Yawen D
  * @version 0.1.0
  *
- * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sentence_transformers-2.5.0.dev0-py3-none-any.whl
+ * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt
  */
 
 // You can import stylesheets (.scss or .css).

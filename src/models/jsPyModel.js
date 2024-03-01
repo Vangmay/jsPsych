@@ -3,6 +3,7 @@
  * APIs: 
  *  init_py(),install pyodide model and related python wheels
  *  runPython(pyScript), run specific API in python model
+ *  passPara(nameSpace), pass parameter to python
  */
 
 const { loadPyodide } = require("pyodide");
@@ -18,6 +19,10 @@ async function init_py() {
     //await micropip.install('assets/sentence_transformers-2.5.0.dev0-py3-none-any.whl');
 }
 
+function passPara(my_js_namespace) {
+    pyodide.registerJsModule("my_js_namespace", my_js_namespace);
+}
+
 // example of pyScript: `
 //from pyModel import nlpModel
 //        nlpModel.testAPI()
@@ -29,5 +34,6 @@ async function runPython(pyScript) {
 
 export {
     init_py,
+    passPara,
     runPython
 }

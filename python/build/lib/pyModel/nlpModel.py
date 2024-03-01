@@ -1,21 +1,29 @@
 # NLP via python
 # caculate similarity between text
-# APIs:testAPI
+# APIs:find_similar
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-def testAPI():
+# s1 is a string, database is a list of strings
+# distance: a float, find the string with the closest distance
+# output: a string
+# consine distance
+def find_similar(s1,database,distance):
 	vectorizer = TfidfVectorizer()
 
-	text_0=['this is no for it','when u come to me','for now, we cant do this','sdfsdfetewer' ]
-	text_1=['this is no for it.','when u come to me','for now, u can do this','for now, we cant do this','nope, u will fix that','there got some problem']
+	text_0=[s1]
+	text_1= list(database)#just in case of wrong proxy type
 
 	vectorizer.fit(text_0+text_1)
 	tfidf_0=vectorizer.transform(text_0)
 	tfidf_1=vectorizer.transform(text_1)
 
+	similarity_matrix = cosine_similarity(tfidf_0,tfidf_1)[0]
 
-	similarity_matrix = cosine_similarity(tfidf_0,tfidf_1)
-	print(similarity_matrix)
+	# find the target distance
+	distances=abs(similarity_matrix-distance)
+	minIndex=np.argmin(distances)
+
+	return database[minIndex]
