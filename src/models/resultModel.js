@@ -7,6 +7,7 @@
 var result = [];
 var next_haiku = "";
 var count = 0;
+var database = [];
 
 function setHaiku(haiku) {
     next_haiku = haiku;
@@ -14,6 +15,14 @@ function setHaiku(haiku) {
 
 function getHaiku() {
     return next_haiku;
+}
+
+function setData(data) {
+    database = data;
+}
+
+function getData() {
+    return database;
 }
 
 function addCount() {
@@ -39,5 +48,7 @@ export {
     setHaiku,
     getHaiku,
     getCount,
-    addCount
+    addCount,
+    setData,
+    getData,
 }

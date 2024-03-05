@@ -16,7 +16,6 @@ import "../styles/main.scss";
 import { jsPsych } from "./models/jsPsychModel.js"
 import { init_py } from "./models/jsPyModel.js"
 import { s1 } from "./views/introView.js"
-import { s_py } from "./views/tV_py"
 //import initializeMicrophone from '@jspsych/plugin-initialize-microphone';
 
 
@@ -36,7 +35,7 @@ export async function run({ assetPaths, input = {}, environment, title, version 
     await init_py();
 
     const timeline = [];
-    timeline.push(s_py);
+    timeline.push(s1);
     //timeline.push(trial);
     //timeline.push(record);
 

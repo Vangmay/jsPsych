@@ -6,6 +6,7 @@
 
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import { s3 } from "./endView.js"
+import { s_py } from "./tV_py"
 import {s2} from "./stimuliView.js"
 import { jsPsych } from "../models/jsPsychModel.js"
 
@@ -16,8 +17,7 @@ var s1 = {
 
     on_finish: function (data) {
         if (data.response == 0) {
-            jsPsych.addNodeToEndOfTimeline(s2);
-            console.log("jump to s2")
+            jsPsych.addNodeToEndOfTimeline(s_py);
         }
         else {
             jsPsych.addNodeToEndOfTimeline(s3)
