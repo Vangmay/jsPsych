@@ -19,8 +19,19 @@ async function init_py() {
     //await micropip.install('assets/sentence_transformers-2.5.0.dev0-py3-none-any.whl');
 }
 
-function passPara(my_js_namespace) {
-    pyodide.registerJsModule("my_js_namespace", my_js_namespace);
+//set global parameters so python can look up
+function passPara(para) {
+    Object.entries(para).forEach(([key, value]) => {
+        pyodide.globals.set(key, value);
+    });
+    
+}
+//destroy global parameters to avoid memory leak
+function destroyPara(para) {
+    Object.entries(para).forEach(([key, value]) => {
+        pyodide.globals.delete(key, value);
+    });
+
 }
 
 // example of pyScript: `
@@ -35,5 +46,6 @@ async function runPython(pyScript) {
 export {
     init_py,
     passPara,
-    runPython
+    runPython,
+    destroyPara,
 }

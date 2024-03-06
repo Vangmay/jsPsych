@@ -1,11 +1,10 @@
 /**
  * @title demo
  * @description 
- * demo for HCI interview, 
- * please wait approx 3 second after pressing each button so that the API response is fetched
- * do not use/copy the API key any other purpose but trying this demo, as it's my personal billing
+ * demo for similar text search, 
+ * installing and importing the Python packages takes time.
  * @author Yawen D
- * @version 0.1.0
+ * @version 0.2.0
  *
  * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt
  */

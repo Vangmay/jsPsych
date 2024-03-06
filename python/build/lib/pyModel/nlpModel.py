@@ -11,6 +11,7 @@ import numpy as np
 # output: a string
 # consine distance
 def find_similar(s1,database,distance):
+	print("s1 passed to Python: "+s1+" similarity: "+str(distance))
 	vectorizer = TfidfVectorizer()
 
 	text_0=[s1]
@@ -25,5 +26,7 @@ def find_similar(s1,database,distance):
 	# find the target distance
 	distances=abs(similarity_matrix-distance)
 	minIndex=np.argmin(distances)
+
+	print("Python caculated: "+database[minIndex])
 
 	return database[minIndex]
