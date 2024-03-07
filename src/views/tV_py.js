@@ -108,6 +108,40 @@ var s_py1 = {
     }
 };
 
+// test the scatter plot
+// to-be-done:change the distribution over time,destroy previous display?
+var s_py2 = {
+    type: htmlButtonResponse,
+    stimulus: '<p id="stimulus" style="font-size:16px;">waiting for random distribution</p>',
+    choices: ['Uniform', 'Gaussian','Poisson'],
+
+    on_load: async function () {
+        // set the distribution type
+        let para = { "type": "uniform", "mean": 0, "sd": 1 };
+        passPara(para);
+
+        runPython(`
+            from pyModel import plotModel
+            plotModel.plotRandom()
+        `).then(() => {
+            document.getElementById("stimulus").innerText = "random distribution";
+            startTime = Date.now();//start timing after the stimuli is presented
+        });
+
+        addCount();
+    },
+
+    on_finish: async function (data) {
+        if (getCount() >= 3)
+            jsPsych.addNodeToEndOfTimeline(s3)
+        else
+            jsPsych.addNodeToEndOfTimeline(s_py2)
+
+
+    }
+};
+
 export {
     s_py,
+    s_py2,
 }

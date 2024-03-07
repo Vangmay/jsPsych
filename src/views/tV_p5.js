@@ -8,6 +8,7 @@ import { s2 } from "./stimuliView.js"
 import { jsPsych } from "../models/jsPsychModel.js"
 import p5 from 'p5';
 import "../p5.sound";
+import "../grafica";
 import aniTest from './aniTest.js'
 
 var s_p5 = {

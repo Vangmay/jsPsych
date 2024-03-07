@@ -6,7 +6,8 @@
 
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import { s3 } from "./endView.js"
-import { s_py } from "./tV_py"
+import { s_py,s_py2 } from "./tV_py"
+import { s_p5 } from "./tV_p5"
 import {s2} from "./stimuliView.js"
 import { jsPsych } from "../models/jsPsychModel.js"
 
@@ -17,7 +18,8 @@ var s1 = {
 
     on_finish: function (data) {
         if (data.response == 0) {
-            jsPsych.addNodeToEndOfTimeline(s_py);
+            //s2 for haiku demo,s_py for similar-text-search, s_py2 for random process demo
+            jsPsych.addNodeToEndOfTimeline(s_py2);
         }
         else {
             jsPsych.addNodeToEndOfTimeline(s3)

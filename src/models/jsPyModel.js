@@ -15,6 +15,7 @@ async function init_py() {
     pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/" });//`${window.location.origin}/pyodide`
     await pyodide.loadPackage("micropip");
     const micropip = pyodide.pyimport("micropip");
+    await micropip.install('matplotlib');
     await micropip.install('assets/pyModel-0.1-py3-none-any.whl');
     //await micropip.install('assets/sentence_transformers-2.5.0.dev0-py3-none-any.whl');
 }

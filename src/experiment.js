@@ -1,7 +1,9 @@
 /**
  * @title demo
  * @description 
- * demo for similar text search, 
+ * Current demo: random process evaluation, 
+ * To choose between demo:change the stimuliView to jump to in 'introView'.
+ * Available demos:haiku demo,similar-text-search, random process demo
  * installing and importing the Python packages takes time.
  * @author Yawen D
  * @version 0.2.0
