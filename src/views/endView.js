@@ -19,7 +19,7 @@ function showResult(result) {
 }
 
 // show this page within T ms
-var s3 = {
+var s4 = {
     type: HtmlKeyboardResponsePlugin,
     stimulus: '<p style="font-size:48px; color:red;">Final page</p>',
     prompt: function () {
@@ -30,5 +30,5 @@ var s3 = {
 };
 
 export {
-    s3
+    s4
 }

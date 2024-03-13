@@ -8,7 +8,7 @@
  * @author Yawen D
  * @version 0.2.0
  *
- * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt
+ * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png
  */
 
 // You can import stylesheets (.scss or .css).
@@ -32,8 +32,8 @@ export async function run({ assetPaths, input = {}, environment, title, version 
     //    type: initializeMicrophone
     //};
 
-    // initial python installation
-    await init_py();
+    //// initial python installation
+    //await init_py();
 
     const timeline = [];
     timeline.push(s1);

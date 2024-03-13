@@ -3,7 +3,7 @@
 // the height of the ball is determined by the amplitude of the mic sound
 
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
-import { s3 } from "./endView.js"
+import { s4 } from "./endView.js"
 import { s2 } from "./stimuliView.js"
 import { jsPsych } from "../models/jsPsychModel.js"
 import p5 from 'p5';
@@ -26,7 +26,7 @@ var s_p5 = {
             console.log("jump to s2")
         }
         else {
-            jsPsych.addNodeToEndOfTimeline(s3)
+            jsPsych.addNodeToEndOfTimeline(s4)
         }
     }
 };

@@ -4,12 +4,15 @@
  */
 import { appendResult, getResult,setHaiku, getHaiku, addCount, getCount } from "../models/resultModel.js"
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
+import imageButtonResponse from '@jspsych/plugin-image-button-response';
+import surveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
 import { getHaiku_API } from "../APIs/openAI.js"
-import { s3 } from "./endView.js"
+import { s3 } from "./surveyView"
 import { jsPsych } from "../models/jsPsychModel.js"
 
 var startTime;
 
+// haiku-acceptance interaction
 var s2 = {
     type: htmlButtonResponse,
     choices: ['Accept', 'Re-generate'],
@@ -39,11 +42,11 @@ var s2 = {
     on_finish: function (data) {
         addRespFromButton(data, Date.now() - startTime);
         if (data.response == 0) {
-            jsPsych.addNodeToEndOfTimeline(s3);
+            jsPsych.addNodeToEndOfTimeline(s4);
         }
         else {
             if (getCount() >= 3)
-                jsPsych.addNodeToEndOfTimeline(s3)
+                jsPsych.addNodeToEndOfTimeline(s4)
             else
                 jsPsych.addNodeToEndOfTimeline(s2)
 
@@ -66,8 +69,43 @@ function addRespFromButton(data,rt) {
     //console.log(data.myResult);
 }
 
+// image-title match
+
+// show image and title
+var s2_img = {
+    type: imageButtonResponse,
+    stimulus: 'assets/img.png',
+    choices: ['STOP', 'Generate New Title'],
+    prompt: '<div><p style="font-size:16px; color: grey;">New title</p><p style="font-size:24px;">Infinity and beyond</p></div>',
+    on_finish: function (data) {
+        if (data.response == 0) {
+            jsPsych.addNodeToEndOfTimeline(s2_choose);
+        }
+        else {
+            jsPsych.addNodeToEndOfTimeline(s2_img);
+        }
+    },
+}
+
+// choose the ideal title
+var s2_choose = {
+    type: surveyMultiChoice,
+    questions: [
+        {
+            prompt: "Select the painting title you think that is the most creative.",
+            name: 'choice_title',
+            options: ['Infinity and beyond', 'Solar System', 'Eggplant'],
+            required: true
+        },
+    ],
+    on_finish: function (data) {
+        jsPsych.addNodeToEndOfTimeline(s3);
+    }
+};
+
 export {
-    s2
+    s2,
+    s2_img
 }
 
 

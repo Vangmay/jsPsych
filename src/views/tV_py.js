@@ -7,7 +7,7 @@
 import htmlSliderResponse from '@jspsych/plugin-html-slider-response';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 
-import { s3 } from "./endView.js"
+import { s4 } from "./endView.js"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { runPython, passPara, destroyPara } from "../models/jsPyModel.js"
 import { appendResult, getResult, setHaiku, getHaiku, addCount, getCount, setData, getData } from "../models/resultModel.js"
@@ -95,11 +95,11 @@ var s_py1 = {
         data.myResult = getResult();
 
         if (data.response == 0) {
-            jsPsych.addNodeToEndOfTimeline(s3);
+            jsPsych.addNodeToEndOfTimeline(s4);
         }
         else {
             if (getCount() >= 3)
-                jsPsych.addNodeToEndOfTimeline(s3)
+                jsPsych.addNodeToEndOfTimeline(s4)
             else
                 jsPsych.addNodeToEndOfTimeline(s_py)
 
@@ -133,7 +133,7 @@ var s_py2 = {
 
     on_finish: async function (data) {
         if (getCount() >= 3)
-            jsPsych.addNodeToEndOfTimeline(s3)
+            jsPsych.addNodeToEndOfTimeline(s4)
         else
             jsPsych.addNodeToEndOfTimeline(s_py2)
 
