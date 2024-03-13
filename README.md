@@ -35,12 +35,17 @@ OpenAI API is maily called to generate the stimuli. In specific, [gpt-3.5-turbo-
 git clone https://github.com/wdhub/jsPsych.git
 ```
 
-- Configuration: Add an openai key variable in the system environment variable via the advanced setting in your PC. This is adviced by openAI for [security reasons](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety).
-```
-Variable name:OPENAI_API_KEY
-Variable value:<your_api_key>
+- Configuration: 
+	- Load the plugin that enables webpack knowing the environment variables. Open the CMD under the directory and enter this line. 
+	```
+	npm i webpack-define-envs-plugin
+	```	
+- Add an openai key variable in the system environment variable via the advanced setting in your PC. This is adviced by openAI for [security reasons](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety).
+	```
+	Variable name:OPENAI_API_KEY
+	Variable value:<your_api_key>
 
-```
+	```
 
 - Run the website locally: open the CMD under the directory and enter this line. It might take some minutes in the first time. 
 ```
