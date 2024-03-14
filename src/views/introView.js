@@ -41,7 +41,7 @@ var s1 = {
     //preload the python packages
     on_load: async function () {
         document.querySelector('#jspsych-survey-text-next').disabled = true;//disable the button before the packages loaded
-        await init_py();
+        //await init_py();
         document.querySelector('#jspsych-survey-text-next').disabled = false;
     },
 
@@ -59,11 +59,11 @@ var s1_instruction = {
 
     on_load: async function () {
         document.querySelector('#jspsych-html-button-response-button-0 button').disabled = true;
-        //run the python script once for preloading
-        await runPython(`
-            from pyModel import nlpModel
-            nlpModel.find_similar("apple",["orange","apple banana"],0.1)
-        `);
+        ////run the python script once for preloading
+        //await runPython(`
+        //    from pyModel import nlpModel
+        //    nlpModel.find_similar("apple",["orange","apple banana"],0.1)
+        //`);
         document.querySelector('#jspsych-html-button-response-button-0 button').disabled = false;
     },
 

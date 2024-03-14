@@ -75,8 +75,19 @@ function addRespFromButton(data,rt) {
 var s2_img = {
     type: imageButtonResponse,
     stimulus: 'assets/img.png',
+    stimulus_height: 300,
+    button_html: ['<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>', '<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>'],
     choices: ['STOP', 'Generate New Title'],
-    prompt: '<div><p style="font-size:16px; color: grey;">New title</p><p style="font-size:24px;">Infinity and beyond</p></div>',
+    prompt: '<div style = "position:relative; bottom: 50px"><p style="font-size:16px; color: grey;">New title</p><p style="font-size:24px;">Infinity and beyond</p></div>',
+
+    //render some additional components
+    on_load: function () {
+        var html = '<div class="div-score"><p>Remaining points</p></div>';
+        var div = document.createElement("div");
+        div.innerHTML = html;
+        document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);
+    },
+
     on_finish: function (data) {
         if (data.response == 0) {
             jsPsych.addNodeToEndOfTimeline(s2_choose);
