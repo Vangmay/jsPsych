@@ -4,51 +4,50 @@
  *
  */
 
-var result = [];
-var next_haiku = "";
-var count = 0;
-var database = [];
+export default class ResultModel {
+    constructor(database) {
+        this.result = [];//result of stimuli, reaction time, choice, etc
+        this.next_stimuli = "";
+        this.score = 6;//score that is left for user to re-generate
+        this.database = database;//database to fetch the stimuli from
+        this.stmPool = [];//pool of chosen stimulus
+    }
 
-function setHaiku(haiku) {
-    next_haiku = haiku;
-}
+    appendPool(newStm) {
+        this.stmPool.push(newStm);
+    }
 
-function getHaiku() {
-    return next_haiku;
-}
+    getPool() {
+        return this.stmPool;
+    }
 
-function setData(data) {
-    database = data;
-}
+    setHaiku(haiku) {
+        this.next_stimuli = haiku;
+    }
 
-function getData() {
-    return database;
-}
+    getHaiku() {
+        return this.next_stimuli;
+    }
 
-function addCount() {
-    count += 1;
-}
+    getData() {
+        return this.database;
+    }
 
-function getCount() {
-    return count;
-}
+    addCount() {
+        this.score -= 2;
+    }
+
+    getCount() {
+        return this.score;
+    }
 
 
-function appendResult(r) {
-    result.push(r);
-}
+    appendResult(r) {
+        this.result.push(r);
+    }
 
-function getResult() {
-    return result;
-}
+    getResult() {
+        return this.result;
+    }
 
-export {
-    appendResult,
-    getResult,
-    setHaiku,
-    getHaiku,
-    getCount,
-    addCount,
-    setData,
-    getData,
 }

@@ -2,7 +2,7 @@
  * Ending page of the exp
  *
  */
-import { getResult } from "../models/resultModel.js"
+//import { getResult } from "../models/resultModel.js"
 import HtmlKeyboardResponsePlugin from "@jspsych/plugin-html-keyboard-response";
 import { jsPsych } from "../models/jsPsychModel.js"
 

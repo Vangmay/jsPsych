@@ -11,6 +11,8 @@ import { s2_img } from "./stimuliView"
 import { init_py } from "../models/jsPyModel.js"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { runPython} from "../models/jsPyModel.js"
+import { loadFile } from "../utilities"
+import ResultModel from "../models/ResultModel.js"
 
 var s1_0 = {
     type: htmlButtonResponse,
@@ -45,7 +47,7 @@ var s1 = {
         document.querySelector('#jspsych-survey-text-next').disabled = false;
     },
 
-    on_finish: function (data) {
+    on_finish: function () {
         jsPsych.addNodeToEndOfTimeline(s1_instruction);
     }
 }
@@ -59,6 +61,11 @@ var s1_instruction = {
 
     on_load: async function () {
         document.querySelector('#jspsych-html-button-response-button-0 button').disabled = true;
+        //load the database of titles
+        let text = loadFile('assets/sample.txt');
+        const myArray = text.split("\n");//each sample ends with this flag
+        globalThis.myResultMoodel=new ResultModel(myArray);//initialize the model with database
+
         ////run the python script once for preloading
         //await runPython(`
         //    from pyModel import nlpModel

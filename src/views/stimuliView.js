@@ -2,7 +2,7 @@
  * Stimuli page of the exp
  * - show haiku and choose accept or not
  */
-import { appendResult, getResult,setHaiku, getHaiku, addCount, getCount } from "../models/resultModel.js"
+//import { appendResult, getResult,setHaiku, getHaiku, addCount, getCount } from "../models/resultModel.js"
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import imageButtonResponse from '@jspsych/plugin-image-button-response';
 import surveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
@@ -78,13 +78,22 @@ var s2_img = {
     stimulus_height: 300,
     button_html: ['<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>', '<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>'],
     choices: ['STOP', 'Generate New Title'],
-    prompt: '<div style = "position:relative; bottom: 50px"><p style="font-size:16px; color: grey;">New title</p><p style="font-size:24px;">Infinity and beyond</p></div>',
+    prompt: '<div style = "position:relative; bottom: 50px"><p style="font-size:16px; color: grey;">New title</p><p style="font-size:24px;">Infinity and beyond</p><script></script></div>',
 
     //render some additional components
     on_load: function () {
-        var html = '<div class="div-score"><p>Remaining points</p></div>';
-        var div = document.createElement("div");
-        div.innerHTML = html;
+        console.log(globalThis.myResultMoodel.getCount());
+        console.log(globalThis.myResultMoodel.getData()[0]);
+        var html1 = '<div class="div-score" id="remain"></div>';
+        var div1 = document.createElement("div");
+        div1.innerHTML = html1;
+        document.getElementsByClassName("jspsych-display-element")[0].appendChild(div1);
+
+        var html = `<script type="text/javascript">
+                        document.getElementById('remain').innerHTML = "Remaining points "+globalThis.myResultMoodel.getCount();
+                    </script>`;
+        var div = document.createRange().createContextualFragment(html);
+        //div.innerHTML = html;
         document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);
     },
 
