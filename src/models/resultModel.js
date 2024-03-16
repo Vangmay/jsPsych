@@ -3,6 +3,7 @@
  * - haiku,reaction time
  *
  */
+import { runPython, passPara, destroyPara } from "./jsPyModel.js"
 
 export default class ResultModel {
     constructor(database) {
@@ -23,10 +24,6 @@ export default class ResultModel {
 
     setHaiku(haiku) {
         this.next_stimuli = haiku;
-    }
-
-    getHaiku() {
-        return this.next_stimuli;
     }
 
     getData() {

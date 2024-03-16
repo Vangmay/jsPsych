@@ -2,15 +2,17 @@
  * Stimuli page of the exp
  * - show haiku and choose accept or not
  */
-//import { appendResult, getResult,setHaiku, getHaiku, addCount, getCount } from "../models/resultModel.js"
+
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import imageButtonResponse from '@jspsych/plugin-image-button-response';
 import surveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
 import { getHaiku_API } from "../APIs/openAI.js"
 import { s3 } from "./surveyView"
 import { jsPsych } from "../models/jsPsychModel.js"
+import { runPython, passPara, destroyPara } from "../models/jsPyModel.js"
 
 var startTime;
+var div = document.createElement("div");//div for additional components
 
 // haiku-acceptance interaction
 var s2 = {
@@ -71,6 +73,38 @@ function addRespFromButton(data,rt) {
 
 // image-title match
 
+//get the initial title or calculate similar title
+//set the title component to be the fetched title
+//sim:similarity, a number 0-1;initIndex:the first title to pick from the database, 0-24
+//this function cannot be in model as the asynchronization is not blocked....
+async function calTitle(initIndex,sim) {
+    var pool = globalThis.myResultMoodel.getPool();
+    var data = globalThis.myResultMoodel.getData();
+
+    if (pool.length <= 0) {//it's the first title
+        var title = data[initIndex];
+        document.getElementById('title').innerHTML = title;
+        globalThis.myResultMoodel.appendPool(title);//save this title in stimulus pool
+    }
+    else {
+        var last_title = pool[pool.length - 1];
+        let para = { "s1": last_title, "database": data, "distance": sim };
+        console.log("current parameters in js ", para);
+        passPara(para);
+
+        //calculate the title
+        runPython(`
+                    from pyModel import nlpModel
+                    nlpModel.find_similar(s1,database,distance)
+                `).then((result) => {
+                    console.log("Python says ", result);
+                    destroyPara(para);//destroy the global parameters to avoid memory leak
+                    globalThis.myResultMoodel.appendPool(result);//save this title in stimulus pool
+                    document.getElementById('title').innerHTML = result;
+                });
+    }
+}
+
 // show image and title
 var s2_img = {
     type: imageButtonResponse,
@@ -78,31 +112,44 @@ var s2_img = {
     stimulus_height: 300,
     button_html: ['<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>', '<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>'],
     choices: ['STOP', 'Generate New Title'],
-    prompt: '<div style = "position:relative; bottom: 50px"><p style="font-size:16px; color: grey;">New title</p><p style="font-size:24px;">Infinity and beyond</p><script></script></div>',
+    prompt: '<div style = "position:relative; bottom: 50px"><p style="font-size:16px; color: grey;">New title</p><p id="title" style="font-size:24px;">loading...</p></div >',
 
     //render some additional components
-    on_load: function () {
-        console.log(globalThis.myResultMoodel.getCount());
-        console.log(globalThis.myResultMoodel.getData()[0]);
-        var html1 = '<div class="div-score" id="remain"></div>';
-        var div1 = document.createElement("div");
-        div1.innerHTML = html1;
-        document.getElementsByClassName("jspsych-display-element")[0].appendChild(div1);
+    on_start: function () {
+        //register template for components
+        var html1 = '<div class="div-score" id="remain"></div>';//html for the remaining points
+        html1 +='<div class="div-pool" id="pool"></div>';//html for title pools
 
-        var html = `<script type="text/javascript">
-                        document.getElementById('remain').innerHTML = "Remaining points "+globalThis.myResultMoodel.getCount();
-                    </script>`;
-        var div = document.createRange().createContextualFragment(html);
-        //div.innerHTML = html;
-        document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);
+        div.innerHTML = html1;
+        document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);//put the template on display
+
+        // get actual data of components
+        document.getElementById('remain').innerHTML = "Remaining points " + globalThis.myResultMoodel.getCount();
+        var pool = globalThis.myResultMoodel.getPool();
+        //put the pool list into seperate lines
+        document.getElementById('pool').innerHTML = pool.map((tt) => '<br>' + tt + '</br>');
+
+    },
+
+    on_load: async function () {
+        await calTitle(5,0.05);//get or calculate title
     },
 
     on_finish: function (data) {
-        if (data.response == 0) {
+        // remove the additional components
+        document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
+
+        //jump to current page or choosing page
+        if (globalThis.myResultMoodel.getCount() <= 0)
             jsPsych.addNodeToEndOfTimeline(s2_choose);
-        }
         else {
-            jsPsych.addNodeToEndOfTimeline(s2_img);
+            if (data.response == 0) {//if subject choose to stop
+                jsPsych.addNodeToEndOfTimeline(s2_choose);
+            }
+            else {//if subject choose to generate
+                globalThis.myResultMoodel.addCount();//add the times of generation, in this case, minus 2 score
+                jsPsych.addNodeToEndOfTimeline(s2_img);
+            }
         }
     },
 }
@@ -114,7 +161,9 @@ var s2_choose = {
         {
             prompt: "Select the painting title you think that is the most creative.",
             name: 'choice_title',
-            options: ['Infinity and beyond', 'Solar System', 'Eggplant'],
+            options: function () {
+                return globalThis.myResultMoodel.getPool();
+            },
             required: true
         },
     ],

@@ -43,7 +43,7 @@ var s1 = {
     //preload the python packages
     on_load: async function () {
         document.querySelector('#jspsych-survey-text-next').disabled = true;//disable the button before the packages loaded
-        //await init_py();
+        await init_py();
         document.querySelector('#jspsych-survey-text-next').disabled = false;
     },
 
@@ -63,14 +63,14 @@ var s1_instruction = {
         document.querySelector('#jspsych-html-button-response-button-0 button').disabled = true;
         //load the database of titles
         let text = loadFile('assets/sample.txt');
-        const myArray = text.split("\n");//each sample ends with this flag
+        const myArray = text.split("\r\n");//each sample ends with this flag
         globalThis.myResultMoodel=new ResultModel(myArray);//initialize the model with database
 
-        ////run the python script once for preloading
-        //await runPython(`
-        //    from pyModel import nlpModel
-        //    nlpModel.find_similar("apple",["orange","apple banana"],0.1)
-        //`);
+        //run the python script once for preloading
+        await runPython(`
+            from pyModel import nlpModel
+            nlpModel.find_similar("apple",["orange","apple banana"],0.1)
+        `);
         document.querySelector('#jspsych-html-button-response-button-0 button').disabled = false;
     },
 

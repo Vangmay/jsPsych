@@ -2,7 +2,7 @@
  * Ending page of the exp
  *
  */
-//import { getResult } from "../models/resultModel.js"
+
 import HtmlKeyboardResponsePlugin from "@jspsych/plugin-html-keyboard-response";
 import { jsPsych } from "../models/jsPsychModel.js"
 
@@ -23,7 +23,7 @@ var s4 = {
     type: HtmlKeyboardResponsePlugin,
     stimulus: '<p style="font-size:48px; color:red;">Final page</p>',
     prompt: function () {
-        var result = getResult();
+        var result = globalThis.myResultMoodel.getResult();
         return showResult(result);
     },
     trial_duration: 5000,
