@@ -21,12 +21,15 @@ function showResult(result) {
 // show this page within T ms
 var s4 = {
     type: HtmlKeyboardResponsePlugin,
-    stimulus: '<p style="font-size:48px; color:red;">Final page</p>',
+    stimulus: '<p class="p-descript">Thank you for the participation. Here are your choices.</p>',
     prompt: function () {
         var result = globalThis.myResultMoodel.getResult();
         return showResult(result);
     },
     trial_duration: 5000,
+    on_finish:function (data) {
+        data.myResult =globalThis.myResultMoodel.saveModel();//save statistics in the model after the experiment is finished
+    },
 };
 
 export {

@@ -34,7 +34,7 @@ var s1_0 = {
 //the HTML consent form content should be in another file?
 var s1 = {
     type: surveyText,
-    preamble: '<p style="width:70%; margin:auto; text-align:left;"><b>Hello! </b>Our studies are purely for academic purposes. The results will be made available to the public in scientific journals. You are free to withdraw from the study without any penalty to you. Your data will remain completely confidential and will not be released in any way that can be linked to you.<br><b>I declare being of age and accept of free will, after having read and fully understood the above paragraphs, to participate in the study.</b></br></p>',
+    preamble: '<p class="p-descript"><b>Hello! </b>Our studies are purely for academic purposes. The results will be made available to the public in scientific journals. You are free to withdraw from the study without any penalty to you. Your data will remain completely confidential and will not be released in any way that can be linked to you.<br><b>I declare being of age and accept of free will, after having read and fully understood the above paragraphs, to participate in the study.</b></br></p>',
     questions: [
         { prompt: 'Your Prolific ID:', placeholder: '123456', name: 'ID', required: true },
     ],
@@ -44,10 +44,16 @@ var s1 = {
     on_load: async function () {
         document.querySelector('#jspsych-survey-text-next').disabled = true;//disable the button before the packages loaded
         await init_py();
+        //load the database of titles
+        let text = loadFile('assets/sample.txt');
+        const myArray = text.split("\r\n");//each sample ends with this flag
+        globalThis.myResultMoodel = new ResultModel(myArray);//initialize the model with database
+
         document.querySelector('#jspsych-survey-text-next').disabled = false;
     },
 
-    on_finish: function () {
+    on_finish: function (data) {
+        globalThis.myResultMoodel.setID(data.response.ID);
         jsPsych.addNodeToEndOfTimeline(s1_instruction);
     }
 }
@@ -61,10 +67,6 @@ var s1_instruction = {
 
     on_load: async function () {
         document.querySelector('#jspsych-html-button-response-button-0 button').disabled = true;
-        //load the database of titles
-        let text = loadFile('assets/sample.txt');
-        const myArray = text.split("\r\n");//each sample ends with this flag
-        globalThis.myResultMoodel=new ResultModel(myArray);//initialize the model with database
 
         //run the python script once for preloading
         await runPython(`

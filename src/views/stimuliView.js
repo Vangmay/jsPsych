@@ -101,6 +101,7 @@ async function calTitle(initIndex,sim) {
                     destroyPara(para);//destroy the global parameters to avoid memory leak
                     globalThis.myResultMoodel.appendPool(result);//save this title in stimulus pool
                     document.getElementById('title').innerHTML = result;
+                    startTime = Date.now();//start timing after the stimuli presented
                 });
     }
 }
@@ -112,33 +113,62 @@ var s2_img = {
     stimulus_height: 300,
     button_html: ['<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>', '<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>'],
     choices: ['STOP', 'Generate New Title'],
-    prompt: '<div style = "position:relative; bottom: 50px"><p style="font-size:16px; color: grey;">New title</p><p id="title" style="font-size:24px;">loading...</p></div >',
+    prompt: '<div class="div-title"><p id="above_title" class="p-aboveTitle">New title</p><p id="title" style="font-size:24px;">loading...</p></div >',
 
     //render some additional components
     on_start: function () {
         //register template for components
         var html1 = '<div class="div-score" id="remain"></div>';//html for the remaining points
-        html1 +='<div class="div-pool" id="pool"></div>';//html for title pools
+        html1 += '<div class="div-pool" id="pool"></div>';//html for title pools
+        //hints for buttons
+        html1 +='<div class="div-hint" id="hint_stop">I have made up my mind.</div>'
+        html1 += '<div class="div-hint" id="hint_gen">Use 2 scores to generate another title.</div>'
 
         div.innerHTML = html1;
         document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);//put the template on display
 
         // get actual data of components
+        //score component
         document.getElementById('remain').innerHTML = "Remaining points " + globalThis.myResultMoodel.getCount();
-        var pool = globalThis.myResultMoodel.getPool();
-        //put the pool list into seperate lines
-        document.getElementById('pool').innerHTML = pool.map((tt) => '<br>' + tt + '</br>');
+        ////title pool
+        //var pool = globalThis.myResultMoodel.getPool();
+        //var html_pool = pool.map((tt) => '<br>' + tt + '</br>');//put the pool list into seperate lines
+        //html_pool=html_pool.join("");
+        //document.getElementById('pool').innerHTML = html_pool;
 
     },
 
     on_load: async function () {
-        await calTitle(5,0.05);//get or calculate title
+        await calTitle(5, 0.05);//get or calculate title
+        //hint below button
+        document.querySelector('#jspsych-image-button-response-button-0 button').addEventListener("mouseover", () => {
+            document.getElementById('hint_stop').style.visibility = "visible";
+        });
+        document.querySelector('#jspsych-image-button-response-button-0 button').addEventListener("mouseout", () => {
+            document.getElementById('hint_stop').style.visibility = "hidden";
+        });
+        document.querySelector('#jspsych-image-button-response-button-1 button').addEventListener("mouseover", () => {
+            document.getElementById('hint_gen').style.visibility = "visible";
+        });
+        document.querySelector('#jspsych-image-button-response-button-1 button').addEventListener("mouseout", () => {
+            document.getElementById('hint_gen').style.visibility = "hidden";
+        });
+        //display the most recent titles as prompt
+        var pool = globalThis.myResultMoodel.getPool();
+        var last_titles = pool.slice(-3);//latest 3 titles
+        var html_titles = last_titles.map((tt) => tt + '\t');
+        html_titles = "..."+html_titles.join(",")+"...";
+        document.getElementById('above_title').innerHTML = html_titles;
+
     },
 
     on_finish: function (data) {
         // remove the additional components
         document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
-
+        //save results:don't use the data.stimulus,use startTime
+        data.myResult = globalThis.myResultMoodel.saveResult(
+            "", data.response, data.rt, startTime
+        );
         //jump to current page or choosing page
         if (globalThis.myResultMoodel.getCount() <= 0)
             jsPsych.addNodeToEndOfTimeline(s2_choose);
@@ -157,6 +187,7 @@ var s2_img = {
 // choose the ideal title
 var s2_choose = {
     type: surveyMultiChoice,
+    data: { startTime: 0 },
     questions: [
         {
             prompt: "Select the painting title you think that is the most creative.",
@@ -167,7 +198,12 @@ var s2_choose = {
             required: true
         },
     ],
+
     on_finish: function (data) {
+        //save results,don't use start time
+        data.myResult = globalThis.myResultMoodel.saveResult(
+            data.trial_type, data.response.choice_title, data.rt, -1
+        );
         jsPsych.addNodeToEndOfTimeline(s3);
     }
 };

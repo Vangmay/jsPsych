@@ -11,7 +11,7 @@ selected = []
 for ss in sC:
     selected.append(ss[0])
 
-# save in txt
+# save in txt,E:/Download/jsPsych/assets/sample.txt
 f = open("sample.txt", "w", encoding='utf-8')
 f.write('0000 0000\n'.join(selected))
 f.close()

@@ -4,6 +4,31 @@
   background-color: #ffffff;
 }
 
+.p-descript {
+    width:70%; 
+    margin:auto; 
+    text-align:left;
+}
+
+.div-title {
+    position:relative; 
+    bottom: 50px;
+}
+
+.p-aboveTitle {
+    font-size: 16px;
+    color: grey;
+    width: 600px;
+}
+
+.div-hint {
+    position: relative;
+    bottom: 70px;
+    visibility: hidden;
+    width: 50%;
+    margin: auto;
+}
+
 .div-score {
     position: fixed;
     bottom: 50px;

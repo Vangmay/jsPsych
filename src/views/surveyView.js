@@ -23,7 +23,11 @@ var s3 = {
         { prompt: "The title I chose is creative.", name: 'rate_creative', labels: likert_scale, required: true},
         { prompt: "The selection process is intuitive.", name: 'rate_intuitive', labels: likert_scale, required: true  },
     ],
-    on_finish: function () {
+    on_finish: function (data) {
+        //save results,don't use start time
+        data.myResult = globalThis.myResultMoodel.saveResult(
+            data.trial_type, data.response, data.rt, -1
+        );
         jsPsych.addNodeToEndOfTimeline(s4);
     }
 };

@@ -7,11 +7,27 @@ import { runPython, passPara, destroyPara } from "./jsPyModel.js"
 
 export default class ResultModel {
     constructor(database) {
+        this.ID = 0;
         this.result = [];//result of stimuli, reaction time, choice, etc
         this.next_stimuli = "";
         this.score = 6;//score that is left for user to re-generate
         this.database = database;//database to fetch the stimuli from
         this.stmPool = [];//pool of chosen stimulus
+    }
+
+    getID() {
+        return ID;
+    }
+
+    setID(id) {
+        this.ID = id;
+    }
+
+    //save statistics in the model after the experiment is finished
+    saveModel() {
+        var model2save = {ID:this.ID,final_score:this.score}
+        this.result.push(model2save);
+        return this.result;//for display
     }
 
     appendPool(newStm) {
@@ -38,9 +54,27 @@ export default class ResultModel {
         return this.score;
     }
 
+    //save user response
+    //elements:stimulus,response,response time, time that user can start to response
+    //set stm to ""if not using the data.stimulus, set startTime to -1 if using the data.rt directly
+    saveResult(stm, accept, rt, startTime) {
+        //if pre-loading is involved when measuring time
+        if (startTime >= 0)
+            rt = Date.now() - startTime;//if pre-loading is involved
 
-    appendResult(r) {
-        this.result.push(r);
+        //if stm is from stimulus pool
+        var myStm = stm;
+        if (stm == "")
+            myStm = this.stmPool[this.stmPool.length - 1];
+
+        var myResponse = {
+            stimulus: myStm,
+            acceptance: accept,
+            rspTime: rt
+        };
+        //save result
+        this.result.push(myResponse);
+        return this.result;
     }
 
     getResult() {

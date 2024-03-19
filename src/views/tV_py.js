@@ -10,7 +10,7 @@ import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import { s4 } from "./endView.js"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { runPython, passPara, destroyPara } from "../models/jsPyModel.js"
-import { appendResult, getResult, setHaiku, getHaiku, addCount, getCount, setData, getData } from "../models/resultModel.js"
+import { saveResult, getResult, setHaiku, getHaiku, addCount, getCount, setData, getData } from "../models/resultModel.js"
 import { loadFile } from "../utilities"
 
 var startTime;
@@ -79,20 +79,16 @@ var s_py1 = {
             startTime = Date.now();//start timing after the stimuli is presented
         });
 
-        addCount();
+        globalThis.myResultMoodel.addCount();
     },
 
     on_finish: async function (data) {
         // save the response of this slide
         data.stimulus = getHaiku();//otherwise it will be the initial stimuli somehow....
-        var myResponse = {
-            stimulus: data.stimulus,
-            acceptance: data.response,
-            rspTime: Date.now() - startTime
-        };
-        //save result
-        appendResult(myResponse);
-        data.myResult = getResult();
+        //save results
+        data.myResult = globalThis.myResultMoodel.saveResult(
+            data.stimulus, data.response, data.rt, startTime
+        );
 
         if (data.response == 0) {
             jsPsych.addNodeToEndOfTimeline(s4);
@@ -128,7 +124,7 @@ var s_py2 = {
             startTime = Date.now();//start timing after the stimuli is presented
         });
 
-        addCount();
+        globalThis.myResultMoodel.addCount();
     },
 
     on_finish: async function (data) {
