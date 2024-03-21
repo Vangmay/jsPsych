@@ -19,14 +19,9 @@ var s1_0 = {
     stimulus: '<p id="stimulus" style="font-size:48px; color:red;">Intro</p>',
     choices: ['Start', 'Exit'],
 
-    on_finish: function (data) {
-        if (data.response == 0) {
-            //s2 for haiku demo,s_py for similar-text-search, s_py2 for random process demo
-            jsPsych.addNodeToEndOfTimeline(s_py2);
-        }
-        else {
-            jsPsych.addNodeToEndOfTimeline(s4)
-        }
+    on_finish: function () {
+        globalThis.myResultMoodel = new ResultModel([]);//initialize an empty model
+        jsPsych.addNodeToEndOfTimeline(s4)
     }
 };
 
@@ -82,5 +77,5 @@ var s1_instruction = {
 }
 
 export {
-    s1,
+    s1,s1_0,
 }

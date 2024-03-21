@@ -6,10 +6,13 @@
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import imageButtonResponse from '@jspsych/plugin-image-button-response';
 import surveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
+import htmlSliderResponse from '@jspsych/plugin-html-slider-response';
+
 import { getHaiku_API } from "../APIs/openAI.js"
 import { s3 } from "./surveyView"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { runPython, passPara, destroyPara } from "../models/jsPyModel.js"
+import { get_condition} from "../conditionManager"
 
 var startTime;
 var div = document.createElement("div");//div for additional components
@@ -77,7 +80,7 @@ function addRespFromButton(data,rt) {
 //set the title component to be the fetched title
 //sim:similarity, a number 0-1;initIndex:the first title to pick from the database, 0-24
 //this function cannot be in model as the asynchronization is not blocked....
-async function calTitle(initIndex,sim) {
+async function calTitle(initIndex) {
     var pool = globalThis.myResultMoodel.getPool();
     var data = globalThis.myResultMoodel.getData();
 
@@ -88,7 +91,7 @@ async function calTitle(initIndex,sim) {
     }
     else {
         var last_title = pool[pool.length - 1];
-        let para = { "s1": last_title, "database": data, "distance": sim };
+        let para = { "s1": last_title, "database": data, "distance": get_condition().similarity.pop() };
         console.log("current parameters in js ", para);
         passPara(para);
 
@@ -130,16 +133,18 @@ var s2_img = {
         // get actual data of components
         //score component
         document.getElementById('remain').innerHTML = "Remaining points " + globalThis.myResultMoodel.getCount();
-        ////title pool
-        //var pool = globalThis.myResultMoodel.getPool();
-        //var html_pool = pool.map((tt) => '<br>' + tt + '</br>');//put the pool list into seperate lines
-        //html_pool=html_pool.join("");
-        //document.getElementById('pool').innerHTML = html_pool;
+        //title pool
+        if (get_condition().bank_position == "corner") {
+            var pool = globalThis.myResultMoodel.getPool();
+            var html_pool = pool.map((tt) => '<br>' + tt + '</br>');//put the pool list into seperate lines
+            html_pool = '<p>Title bank\n</p>'+html_pool.join("");
+            document.getElementById('pool').innerHTML = html_pool;
+        }
 
     },
 
     on_load: async function () {
-        await calTitle(5, 0.05);//get or calculate title
+        await calTitle(5);//get or calculate title
         //hint below button
         document.querySelector('#jspsych-image-button-response-button-0 button').addEventListener("mouseover", () => {
             document.getElementById('hint_stop').style.visibility = "visible";
@@ -154,11 +159,13 @@ var s2_img = {
             document.getElementById('hint_gen').style.visibility = "hidden";
         });
         //display the most recent titles as prompt
-        var pool = globalThis.myResultMoodel.getPool();
-        var last_titles = pool.slice(-3);//latest 3 titles
-        var html_titles = last_titles.map((tt) => tt + '\t');
-        html_titles = "..."+html_titles.join(",")+"...";
-        document.getElementById('above_title').innerHTML = html_titles;
+        if (get_condition().bank_position == "center") {
+            var pool = globalThis.myResultMoodel.getPool();
+            var last_titles = pool.slice(-3);//latest 3 titles
+            var html_titles = last_titles.map((tt) => tt + '\t');
+            html_titles = "..."+html_titles.join(",")+"...";
+            document.getElementById('above_title').innerHTML = html_titles;
+        }
 
     },
 
@@ -187,19 +194,31 @@ var s2_img = {
 // choose the ideal title
 var s2_choose = {
     type: surveyMultiChoice,
-    data: { startTime: 0 },
-    questions: [
-        {
-            prompt: "Select the painting title you think that is the most creative.",
-            name: 'choice_title',
-            options: function () {
-                return globalThis.myResultMoodel.getPool();
-            },
-            required: true
-        },
-    ],
+    css_classes: ['questions'],
+    button_html: ['<button class="jspsych-btn" style = "position:fixed; bottom: 20px;right:60px;">%choice%</button>'],
+    questions: 
+        [
+            {
+                prompt: 'Select the painting title you think that is the most creative',
+                name: 'choice_title',
+                options: function () {
+                    return globalThis.myResultMoodel.getPool();
+                },
+                required: true
+            }
+        ],
+
+    //render some additional components
+    on_start: function () {
+        var html1 = '<img src="assets/img.png" class="img-choice">';//html for the image
+        div.innerHTML = html1;
+        document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);//put the template on display
+
+    },
 
     on_finish: function (data) {
+        // remove the additional components
+        document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
         //save results,don't use start time
         data.myResult = globalThis.myResultMoodel.saveResult(
             data.trial_type, data.response.choice_title, data.rt, -1

@@ -3,11 +3,25 @@
 .jspsych-display-element {
   background-color: #ffffff;
 }
+.questions {
+    position: relative;
+    left: 100px;
+    width: 70%;
+    margin: auto;
+}
 
 .p-descript {
     width:70%; 
     margin:auto; 
     text-align:left;
+}
+
+.img-choice {
+    float: left;
+    width: 150px;
+    position: relative;
+    bottom: 300px;
+    margin-right: 10px;
 }
 
 .div-title {
@@ -40,6 +54,8 @@
 
 .div-pool {
     position: fixed;
+    line-height: 16px;
+    font-size: 16px;
     top: 0px;
     left: 0px;
 }

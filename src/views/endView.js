@@ -4,7 +4,7 @@
  */
 
 import HtmlKeyboardResponsePlugin from "@jspsych/plugin-html-keyboard-response";
-import { jsPsych } from "../models/jsPsychModel.js"
+import { get_condition } from "../conditionManager"
 
 // display result in a format
 function showResult(result) {
@@ -28,7 +28,9 @@ var s4 = {
     },
     trial_duration: 5000,
     on_finish:function (data) {
-        data.myResult =globalThis.myResultMoodel.saveModel();//save statistics in the model after the experiment is finished
+        data.myResult = globalThis.myResultMoodel.saveModel();//save statistics in the model after the experiment is finished
+        //save experiment conditions
+        data.myResult.push(get_condition())
     },
 };
 
