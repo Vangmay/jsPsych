@@ -37,7 +37,7 @@
 
 .div-hint {
     position: relative;
-    bottom: 70px;
+    bottom: 30px;
     visibility: hidden;
     width: 50%;
     margin: auto;
@@ -60,4 +60,16 @@
     left: 0px;
 }
 
+.div-slider {
+    width: 100%;
+    position: relative;
+    bottom: 200%;
+    left: 80%;
+}
+
+.input-slider {
+    position: relative;
+    right: 10%;
+    transform: rotate(270deg);
+}
 

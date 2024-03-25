@@ -20,6 +20,6 @@ setup(
     install_requires=[
         'numpy>=1.18.5',
         'scikit-learn>=0.23.2',
-        'gensim>=3.4.0',
     ],
+    #'gensim>=3.4.0',
 )

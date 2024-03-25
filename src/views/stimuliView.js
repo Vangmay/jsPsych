@@ -6,13 +6,12 @@
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import imageButtonResponse from '@jspsych/plugin-image-button-response';
 import surveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
-import htmlSliderResponse from '@jspsych/plugin-html-slider-response';
 
 import { getHaiku_API } from "../APIs/openAI.js"
 import { s3 } from "./surveyView"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { runPython, passPara, destroyPara } from "../models/jsPyModel.js"
-import { get_condition} from "../conditionManager"
+import { get_condition, appendSimilarity } from "../conditionManager"
 
 var startTime;
 var div = document.createElement("div");//div for additional components
@@ -91,7 +90,11 @@ async function calTitle(initIndex) {
     }
     else {
         var last_title = pool[pool.length - 1];
-        let para = { "s1": last_title, "database": data, "distance": get_condition().similarity.pop() };
+        if (get_condition().isSlider)
+            var sim_queue = [...get_condition().similarity];//deep copy so that the actuall queue is not popped later
+        else
+            var sim_queue = get_condition().similarity;
+        let para = { "s1": last_title, "database": data, "distance": sim_queue.pop() };
         console.log("current parameters in js ", para);
         passPara(para);
 
@@ -124,8 +127,16 @@ var s2_img = {
         var html1 = '<div class="div-score" id="remain"></div>';//html for the remaining points
         html1 += '<div class="div-pool" id="pool"></div>';//html for title pools
         //hints for buttons
-        html1 +='<div class="div-hint" id="hint_stop">I have made up my mind.</div>'
-        html1 += '<div class="div-hint" id="hint_gen">Use 2 scores to generate another title.</div>'
+        html1 += '<div class="div-hint" id="hint_stop">I have made up my mind.</div>';
+        html1 += '<div class="div-hint" id="hint_gen">Price:2 points.</div>';
+        //slider
+        if (get_condition().isSlider) {
+            html1 += `<div class="div-slider">
+                        <p>similar</p>
+                        <input type="range" min="1" max="100" value="50" class="input-slider"id="user_similarity">
+                        <p>variant</p>
+                       </div>`;
+        }
 
         div.innerHTML = html1;
         document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);//put the template on display
@@ -170,12 +181,18 @@ var s2_img = {
     },
 
     on_finish: function (data) {
+        //get similarity from slider
+        if (get_condition().isSlider)
+            var user_sim = document.getElementById("user_similarity").value;
+
         // remove the additional components
         document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
-        //save results:don't use the data.stimulus,use startTime
+
+        //save responses:don't use the data.stimulus,use startTime
         data.myResult = globalThis.myResultMoodel.saveResult(
             "", data.response, data.rt, startTime
         );
+
         //jump to current page or choosing page
         if (globalThis.myResultMoodel.getCount() <= 0)
             jsPsych.addNodeToEndOfTimeline(s2_choose);
@@ -185,6 +202,10 @@ var s2_img = {
             }
             else {//if subject choose to generate
                 globalThis.myResultMoodel.addCount();//add the times of generation, in this case, minus 2 score
+
+                if (get_condition().isSlider) //update similarity if user wants new
+                    appendSimilarity(Number(user_sim) / 100.0);//transfer into a float 0-1
+                
                 jsPsych.addNodeToEndOfTimeline(s2_img);
             }
         }
@@ -195,7 +216,7 @@ var s2_img = {
 var s2_choose = {
     type: surveyMultiChoice,
     css_classes: ['questions'],
-    button_html: ['<button class="jspsych-btn" style = "position:fixed; bottom: 20px;right:60px;">%choice%</button>'],
+    button_html: ['<button class="jspsych-btn" style = "position:fixed; bottom: 20px;right:60px;">%choice%</button>'],//not working??
     questions: 
         [
             {

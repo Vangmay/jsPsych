@@ -5,8 +5,8 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-import gensim.downloader as api
-from gensim import matutils
+# import gensim.downloader as api
+# from gensim import matutils
 
 
 # s1 is a string, database is a list of strings

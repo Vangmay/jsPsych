@@ -29,8 +29,9 @@ import { s1 } from "./views/introView.js"
 
 export async function run({ assetPaths, input = {}, environment, title, version }) {
     //set up experiment conditions
-    const ui = { "bank": "corner" };
-    const para = {"similarity":"variant"}
+    const ui = { "bank": "center", "isSlider": false };
+    const para = { "similarity": "variant" };
+
     init_condition(ui, para);
 
     const timeline = [];
