@@ -6,13 +6,14 @@
 import { runPython, passPara, destroyPara } from "./jsPyModel.js"
 
 export default class ResultModel {
-    constructor(database) {
+    constructor(database,sim_table) {
         this.ID = 0;
         this.result = [];//result of stimuli, reaction time, choice, etc
         this.next_stimuli = "";
         this.score = 6;//score that is left for user to re-generate
         this.database = database;//database to fetch the stimuli from
         this.stmPool = [];//pool of chosen stimulus
+        this.sim_table = sim_table;//similarity table
     }
 
     getID() {

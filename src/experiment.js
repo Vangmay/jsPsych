@@ -15,7 +15,7 @@
 import "../styles/main.scss";
 
 import { jsPsych } from "./models/jsPsychModel.js"
-import { init_condition } from "./conditionManager"
+import { init_condition } from "./models/conditionManager"
 import { s1 } from "./views/introView.js"
 //import initializeMicrophone from '@jspsych/plugin-initialize-microphone';
 
@@ -29,10 +29,11 @@ import { s1 } from "./views/introView.js"
 
 export async function run({ assetPaths, input = {}, environment, title, version }) {
     //set up experiment conditions
-    const ui = { "bank": "center", "isSlider": false };
+    const ui = { "bank": "corner", "isSlider": true };
     const para = { "similarity": "variant" };
+    const algo = { "useTable": true };
 
-    init_condition(ui, para);
+    init_condition(ui, para,algo);
 
     const timeline = [];
     timeline.push(s1);

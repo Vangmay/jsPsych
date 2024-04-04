@@ -11,7 +11,7 @@ import { getHaiku_API } from "../APIs/openAI.js"
 import { s3 } from "./surveyView"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { runPython, passPara, destroyPara } from "../models/jsPyModel.js"
-import { get_condition, appendSimilarity } from "../conditionManager"
+import { get_condition, appendSimilarity } from "../models/conditionManager"
 
 var startTime;
 var div = document.createElement("div");//div for additional components
@@ -94,6 +94,8 @@ async function calTitle(initIndex) {
             var sim_queue = [...get_condition().similarity];//deep copy so that the actuall queue is not popped later
         else
             var sim_queue = get_condition().similarity;
+
+        //unfinished: if-condition, use similarity table to get the desired title------------------
         let para = { "s1": last_title, "database": data, "distance": sim_queue.pop() };
         console.log("current parameters in js ", para);
         passPara(para);

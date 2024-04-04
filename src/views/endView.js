@@ -4,7 +4,7 @@
  */
 
 import HtmlKeyboardResponsePlugin from "@jspsych/plugin-html-keyboard-response";
-import { get_condition } from "../conditionManager"
+import { get_condition } from "../models/conditionManager"
 
 // display result in a format
 function showResult(result) {

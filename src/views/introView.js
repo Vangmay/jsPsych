@@ -8,11 +8,9 @@ import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import surveyText from '@jspsych/plugin-survey-text';
 import { s4 } from "./endView.js"
 import { s2_img } from "./stimuliView"
-import { init_py } from "../models/jsPyModel.js"
 import { jsPsych } from "../models/jsPsychModel.js"
-import { runPython} from "../models/jsPyModel.js"
-import { loadFile } from "../utilities"
 import ResultModel from "../models/ResultModel.js"
+import { prepare_data } from "../models/conditionManager"
 
 var s1_0 = {
     type: htmlButtonResponse,
@@ -38,12 +36,7 @@ var s1 = {
     //preload the python packages
     on_load: async function () {
         document.querySelector('#jspsych-survey-text-next').disabled = true;//disable the button before the packages loaded
-        await init_py();
-        //load the database of titles
-        let text = loadFile('assets/sample.txt');
-        const myArray = text.split("\r\n");//each sample ends with this flag
-        globalThis.myResultMoodel = new ResultModel(myArray);//initialize the model with database
-
+        await prepare_data();
         document.querySelector('#jspsych-survey-text-next').disabled = false;
     },
 
@@ -61,14 +54,8 @@ var s1_instruction = {
     choices: ['Start'],
 
     on_load: async function () {
-        document.querySelector('#jspsych-html-button-response-button-0 button').disabled = true;
-
-        //run the python script once for preloading
-        await runPython(`
-            from pyModel import nlpModel
-            nlpModel.find_similar("apple",["orange","apple banana"],0.1)
-        `);
-        document.querySelector('#jspsych-html-button-response-button-0 button').disabled = false;
+        //document.querySelector('#jspsych-html-button-response-button-0 button').disabled = true;
+        //document.querySelector('#jspsych-html-button-response-button-0 button').disabled = false;
     },
 
     on_finish: function () {
