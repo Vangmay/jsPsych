@@ -5,6 +5,7 @@
 
 import { runPython, init_py } from "./jsPyModel.js"
 import { loadFile } from "../utilities"
+import ResultModel from "./ResultModel.js"
 
 var bank_position = "";//UI condition
 var similarity = [];//parameter condition
@@ -41,7 +42,6 @@ function init_condition(ui, para,algo) {
     console.log("similarity set to be ", similarity);
 }
 
-//unfinished:read similarity table
 async function prepare_data() {
     //if real-time calculation needed,initial the python packages
     if (!useTable) {
@@ -56,12 +56,20 @@ async function prepare_data() {
     let text = loadFile('assets/sample.txt');
     const myArray = text.split("\r\n");//each sample ends with this flag
 
-    sim_table = [];
+    //load pre-calculated similarity
+    var sim_table = [];
     if (useTable) {
-        let table = loadFile('assets/sample.txt');
+        let table = loadFile('assets/sample.csv');
+        var tableArray = table.split("\r\n"); 
+        tableArray.shift();//delete the column names
+        //seperate to a list of title pairs and similarity
+        sim_table = tableArray.map((tt) => {
+            var temp = tt.split(",")
+            return [temp[0] + "," + temp[1], parseFloat(temp[2])];
+        });
     }
 
-    globalThis.myResultMoodel = new ResultModel(myArray,sim_table);//initialize the model with database
+    globalThis.myResultMoodel = new ResultModel(myArray,sim_table);//initialize the model with data
 
 
 }

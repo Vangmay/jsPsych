@@ -9,7 +9,6 @@ import surveyText from '@jspsych/plugin-survey-text';
 import { s4 } from "./endView.js"
 import { s2_img } from "./stimuliView"
 import { jsPsych } from "../models/jsPsychModel.js"
-import ResultModel from "../models/ResultModel.js"
 import { prepare_data } from "../models/conditionManager"
 
 var s1_0 = {

@@ -8,7 +8,7 @@
  * @author Yawen D
  * @version 0.2.0
  *
- * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png
+ * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv
  */
 
 // You can import stylesheets (.scss or .css).
@@ -30,7 +30,7 @@ import { s1 } from "./views/introView.js"
 export async function run({ assetPaths, input = {}, environment, title, version }) {
     //set up experiment conditions
     const ui = { "bank": "corner", "isSlider": true };
-    const para = { "similarity": "variant" };
+    const para = { "similarity": "similar" };//similar,different,variant
     const algo = { "useTable": true };
 
     init_condition(ui, para,algo);

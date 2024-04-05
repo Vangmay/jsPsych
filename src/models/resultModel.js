@@ -47,6 +47,10 @@ export default class ResultModel {
         return this.database;
     }
 
+    getTable() {
+        return this.sim_table;
+    }
+
     addCount() {
         this.score -= 2;
     }

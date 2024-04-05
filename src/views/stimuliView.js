@@ -12,6 +12,7 @@ import { s3 } from "./surveyView"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { runPython, passPara, destroyPara } from "../models/jsPyModel.js"
 import { get_condition, appendSimilarity } from "../models/conditionManager"
+import { getSimilar } from "../utilities"
 
 var startTime;
 var div = document.createElement("div");//div for additional components
@@ -82,6 +83,7 @@ function addRespFromButton(data,rt) {
 async function calTitle(initIndex) {
     var pool = globalThis.myResultMoodel.getPool();
     var data = globalThis.myResultMoodel.getData();
+    var table = globalThis.myResultMoodel.getTable();
 
     if (pool.length <= 0) {//it's the first title
         var title = data[initIndex];
@@ -94,24 +96,33 @@ async function calTitle(initIndex) {
             var sim_queue = [...get_condition().similarity];//deep copy so that the actuall queue is not popped later
         else
             var sim_queue = get_condition().similarity;
-
-        //unfinished: if-condition, use similarity table to get the desired title------------------
-        let para = { "s1": last_title, "database": data, "distance": sim_queue.pop() };
-        console.log("current parameters in js ", para);
-        passPara(para);
-
-        //calculate the title
-        runPython(`
-                    from pyModel import nlpModel
-                    nlpModel.find_similar(s1,database,distance)
-                `).then((result) => {
-                    console.log("Python says ", result);
-                    destroyPara(para);//destroy the global parameters to avoid memory leak
-                    globalThis.myResultMoodel.appendPool(result);//save this title in stimulus pool
-                    document.getElementById('title').innerHTML = result;
-                    startTime = Date.now();//start timing after the stimuli presented
-                });
+        let para = {};
+        //choose similarity measurement algorithms
+        if (get_condition().use_table) {
+            para = { "s1": last_title, "database": table, "distance": sim_queue.pop() };
+            const result = getSimilar(para);
+            console.log("Similar title counted from table:", result);
+            printResult(result);
+        }
+        else {
+            para = { "s1": last_title, "database": data, "distance": sim_queue.pop() };
+            passPara(para);
+            runPython(`
+                        from pyModel import nlpModel
+                        nlpModel.find_similar(s1,database,distance)
+                    `).then((result) => {
+                        console.log("Similar title counted real-time:", result);
+                        destroyPara(para);//destroy the global parameters to avoid memory leak
+                        printResult(result);
+                    });
+        }
     }
+}
+
+function printResult(result) {
+    globalThis.myResultMoodel.appendPool(result);//save this title in stimulus pool
+    document.getElementById('title').innerHTML = result;
+    startTime = Date.now();//start timing after the stimuli presented
 }
 
 // show image and title
