@@ -10,7 +10,7 @@ export default class ResultModel {
         this.ID = 0;
         this.result = [];//result of stimuli, reaction time, choice, etc
         this.next_stimuli = "";
-        this.score = 6;//score that is left for user to re-generate
+        this.score = 50;//score that is left for user to re-generate
         this.database = database;//database to fetch the stimuli from
         this.stmPool = [];//pool of chosen stimulus
         this.sim_table = sim_table;//similarity table

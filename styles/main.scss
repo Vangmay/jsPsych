@@ -19,9 +19,15 @@
 .img-choice {
     float: left;
     width: 150px;
-    position: relative;
-    bottom: 300px;
+    position: fixed;
+    top: 220px;
+    left: 5%;
     margin-right: 10px;
+}
+
+.btn-img {
+    position: relative;
+    top: 100px;
 }
 
 .div-title {
@@ -36,11 +42,36 @@
 }
 
 .div-hint {
-    position: relative;
-    bottom: 30px;
-    visibility: hidden;
-    width: 50%;
-    margin: auto;
+    position: absolute;
+    left: 0px;
+    top: 30px;
+    width:200px;
+    display: inline-block;
+    font-size: 14px;
+    /*    visibility: hidden;*/
+    text-align: center;
+    margin: 10px;
+}
+
+.my-jspsych-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    cursor: pointer;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    width:200px;
 }
 
 .div-score {
@@ -54,22 +85,37 @@
 
 .div-pool {
     position: fixed;
-    line-height: 16px;
-    font-size: 16px;
-    top: 0px;
+    line-height: 12px;
+    font-size: 14px;
+    height:400px;
+    width:180px;
+    top: 20px;
     left: 0px;
+    overflow-y:scroll;
 }
 
 .div-slider {
-    width: 100%;
+    width:10px;
     position: relative;
-    bottom: 200%;
-    left: 80%;
+    bottom: 400px;
+    left: 60%;
+}
+
+.div-scale {
+    position: absolute;
+    width: 100px;
+    line-height: 50px;
+    font-size: 14px;
+    bottom: -236px;
+    left: 220px;
 }
 
 .input-slider {
-    position: relative;
-    right: 10%;
+/*    background: -webkit-linear-gradient(#40c35f, #40c35f) no-repeat #cccccc;
+    background-color: #9a905d;*/
+    position: absolute;
+    width: 400px;
+    top: 0px;
+    left:0px;
     transform: rotate(270deg);
 }
-

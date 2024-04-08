@@ -130,7 +130,7 @@ var s2_img = {
     type: imageButtonResponse,
     stimulus: 'assets/img.png',
     stimulus_height: 300,
-    button_html: ['<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>', '<button class="jspsych-btn" style = "position:relative; top: 100px">%choice%</button>'],
+    button_html: ['<div class="btn-img"><button class="my-jspsych-btn">%choice%</button><div class="div-hint" id="hint_stop">I have made up my mind.</div></div>', '<div class="btn-img"><button class="my-jspsych-btn">%choice%</button><div class="div-hint" id="hint_gen">Price: 2 scores.</div></div>'],
     choices: ['STOP', 'Generate New Title'],
     prompt: '<div class="div-title"><p id="above_title" class="p-aboveTitle">New title</p><p id="title" style="font-size:24px;">loading...</p></div >',
 
@@ -139,15 +139,18 @@ var s2_img = {
         //register template for components
         var html1 = '<div class="div-score" id="remain"></div>';//html for the remaining points
         html1 += '<div class="div-pool" id="pool"></div>';//html for title pools
-        //hints for buttons
-        html1 += '<div class="div-hint" id="hint_stop">I have made up my mind.</div>';
-        html1 += '<div class="div-hint" id="hint_gen">Price:2 points.</div>';
+
         //slider
         if (get_condition().isSlider) {
             html1 += `<div class="div-slider">
-                        <p>similar</p>
                         <input type="range" min="1" max="100" value="50" class="input-slider"id="user_similarity">
-                        <p>variant</p>
+                        <div class="div-scale">
+                            <br>100% Similar</br>
+                            <br>75%</br>
+                            <br>50%</br>
+                            <br>25%</br>
+                            <br>0% Similar</br>
+                        </div>
                        </div>`;
         }
 
@@ -157,11 +160,12 @@ var s2_img = {
         // get actual data of components
         //score component
         document.getElementById('remain').innerHTML = "Remaining points " + globalThis.myResultMoodel.getCount();
+
         //title pool
         if (get_condition().bank_position == "corner") {
             var pool = globalThis.myResultMoodel.getPool();
             var html_pool = pool.map((tt) => '<br>' + tt + '</br>');//put the pool list into seperate lines
-            html_pool = '<p>Title bank\n</p>'+html_pool.join("");
+            html_pool = '<p>Title bank</p>'+html_pool.join("");
             document.getElementById('pool').innerHTML = html_pool;
         }
 
@@ -170,18 +174,7 @@ var s2_img = {
     on_load: async function () {
         await calTitle(5);//get or calculate title
         //hint below button
-        document.querySelector('#jspsych-image-button-response-button-0 button').addEventListener("mouseover", () => {
-            document.getElementById('hint_stop').style.visibility = "visible";
-        });
-        document.querySelector('#jspsych-image-button-response-button-0 button').addEventListener("mouseout", () => {
-            document.getElementById('hint_stop').style.visibility = "hidden";
-        });
-        document.querySelector('#jspsych-image-button-response-button-1 button').addEventListener("mouseover", () => {
-            document.getElementById('hint_gen').style.visibility = "visible";
-        });
-        document.querySelector('#jspsych-image-button-response-button-1 button').addEventListener("mouseout", () => {
-            document.getElementById('hint_gen').style.visibility = "hidden";
-        });
+        //hint_hover();
         //display the most recent titles as prompt
         if (get_condition().bank_position == "center") {
             var pool = globalThis.myResultMoodel.getPool();
@@ -225,11 +218,27 @@ var s2_img = {
     },
 }
 
+// make hint appear when mouse hovers
+function hint_hover() {
+    document.querySelector('#jspsych-image-button-response-button-0 button').addEventListener("mouseover", () => {
+        document.getElementById('hint_stop').style.visibility = "visible";
+    });
+    document.querySelector('#jspsych-image-button-response-button-0 button').addEventListener("mouseout", () => {
+        document.getElementById('hint_stop').style.visibility = "hidden";
+    });
+    document.querySelector('#jspsych-image-button-response-button-1 button').addEventListener("mouseover", () => {
+        document.getElementById('hint_gen').style.visibility = "visible";
+    });
+    document.querySelector('#jspsych-image-button-response-button-1 button').addEventListener("mouseout", () => {
+        document.getElementById('hint_gen').style.visibility = "hidden";
+    });
+}
+
 // choose the ideal title
 var s2_choose = {
     type: surveyMultiChoice,
     css_classes: ['questions'],
-    button_html: ['<button class="jspsych-btn" style = "position:fixed; bottom: 20px;right:60px;">%choice%</button>'],//not working??
+    button_html: ['<button class="jspsych-btn" style = "position:fixed; bottom: 20px;right:60px;">%choice%</button>'],
     questions: 
         [
             {

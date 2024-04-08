@@ -13,7 +13,7 @@ var simType = "";//similarity type
 var isSlider = false;//UI condition, whether it's the slider trial or image-response trial
 var useTable = true;//algorithm condition, use similarity table or real-time calculation
 
-var max_gen = 3;//maximum times of generate new stimulus
+var max_gen = 25;//maximum times of generate new stimulus
 
 function init_condition(ui, para,algo) {
     bank_position = ui.bank;

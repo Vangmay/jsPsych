@@ -6,19 +6,19 @@
 
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import surveyText from '@jspsych/plugin-survey-text';
+import fullscreen from '@jspsych/plugin-fullscreen';
+
 import { s4 } from "./endView.js"
 import { s2_img } from "./stimuliView"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { prepare_data } from "../models/conditionManager"
 
 var s1_0 = {
-    type: htmlButtonResponse,
-    stimulus: '<p id="stimulus" style="font-size:48px; color:red;">Intro</p>',
-    choices: ['Start', 'Exit'],
+    type: fullscreen,
+    stimulus: '<p id="stimulus" style="font-size:48px;">Welcome to the experiment</p>',
 
     on_finish: function () {
-        globalThis.myResultMoodel = new ResultModel([]);//initialize an empty model
-        jsPsych.addNodeToEndOfTimeline(s4)
+        jsPsych.addNodeToEndOfTimeline(s1)
     }
 };
 
