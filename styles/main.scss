@@ -76,11 +76,15 @@
 
 .div-score {
     position: fixed;
-    bottom: 50px;
-    right: 50px;
+    bottom: 10px;
+    right: 20px;
+    height:90px;
+    vertical-align:top;
+    line-height: 50px;
     background-image: url(./piggy-bank.png);
-    background-size: 60px;
+    background-size: 50px;
     background-repeat: no-repeat;
+    background-position: 50% 90%;
 }
 
 .div-pool {
@@ -89,9 +93,10 @@
     font-size: 14px;
     height:400px;
     width:180px;
-    top: 20px;
+    top: 0px;
     left: 0px;
     overflow-y:scroll;
+    padding:20px;
 }
 
 .div-slider {

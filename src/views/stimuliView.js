@@ -99,7 +99,7 @@ async function calTitle(initIndex) {
         let para = {};
         //choose similarity measurement algorithms
         if (get_condition().use_table) {
-            para = { "s1": last_title, "database": table, "distance": sim_queue.pop() };
+            para = { "s1": last_title, "database": table, "distance": sim_queue.pop(),"pool":pool };
             const result = getSimilar(para);
             console.log("Similar title counted from table:", result);
             printResult(result);
@@ -109,7 +109,7 @@ async function calTitle(initIndex) {
             passPara(para);
             runPython(`
                         from pyModel import nlpModel
-                        nlpModel.find_similar(s1,database,distance)
+                        nlpModel.find_similar(s1,database,distance,pool)
                     `).then((result) => {
                         console.log("Similar title counted real-time:", result);
                         destroyPara(para);//destroy the global parameters to avoid memory leak
@@ -130,7 +130,18 @@ var s2_img = {
     type: imageButtonResponse,
     stimulus: 'assets/img.png',
     stimulus_height: 300,
-    button_html: ['<div class="btn-img"><button class="my-jspsych-btn">%choice%</button><div class="div-hint" id="hint_stop">I have made up my mind.</div></div>', '<div class="btn-img"><button class="my-jspsych-btn">%choice%</button><div class="div-hint" id="hint_gen">Price: 2 scores.</div></div>'],
+    button_html: () => {
+        var html_btn0 = '<div class="btn-img"><button class="my-jspsych-btn">%choice%</button>';
+        html_btn0 += '<div class="div-hint" id="hint_stop">I have made up my mind.</div></div>'
+        var html_btn1 = '<div class="btn-img"><button class="my-jspsych-btn">%choice%</button>';
+        //whether the hint about scores will be shown
+        if (get_condition().show_score)
+            html_btn1 += '<div class="div-hint" id="hint_gen">Price: 2 scores.</div></div>';
+        else
+            html_btn1 += '</div>';
+        return [html_btn0, html_btn1];
+
+    },
     choices: ['STOP', 'Generate New Title'],
     prompt: '<div class="div-title"><p id="above_title" class="p-aboveTitle">New title</p><p id="title" style="font-size:24px;">loading...</p></div >',
 
@@ -159,7 +170,12 @@ var s2_img = {
 
         // get actual data of components
         //score component
-        document.getElementById('remain').innerHTML = "Remaining points " + globalThis.myResultMoodel.getCount();
+        var html_score = "Remaining points: " + globalThis.myResultMoodel.getCount()+"\n";
+        document.getElementById('remain').innerHTML = html_score;
+        // if the score is set to be hidden
+        if (!get_condition().show_score) 
+            document.getElementById('remain').style.visibility = "hidden";
+            
 
         //title pool
         if (get_condition().bank_position == "corner") {

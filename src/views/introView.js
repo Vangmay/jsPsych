@@ -22,6 +22,8 @@ var s1_0 = {
     }
 };
 
+//var isFull;//global in introView, if it's fullscreen
+
 // the consent form
 //the HTML consent form content should be in another file?
 var s1 = {
@@ -36,7 +38,21 @@ var s1 = {
     on_load: async function () {
         document.querySelector('#jspsych-survey-text-next').disabled = true;//disable the button before the packages loaded
         await prepare_data();
+        //listen to exit of fullscreen, if exit pop up alert
+        window.addEventListener('resize', (event) => {
+            //different browser has different ways of detecting fullscreen
+            var userAgent = navigator.userAgent;
+            var isFull = window.screenTop && window.screenY;
+            if (userAgent.indexOf('Chrome') != -1)
+                isFull = !isFull;
+            //var isFull = window.innerWidth == screen.width && window.innerHeight == screen.height;//it will fire every time resized
+            if (isFull) {
+                //globalThis.myResultMoodel.confirmDistracted();//the listen doesn't recognize globalThis
+                alert("Please press Fn+F11 to enter fullscreen mode!");
+            }
+        });
         document.querySelector('#jspsych-survey-text-next').disabled = false;
+
     },
 
     on_finish: function (data) {

@@ -1,10 +1,10 @@
 /**
- * @title demo_design1_corner_variant
+ * @title demo_design2_slider
  * @description 
  * Current demo: 
- *  - similar title search,design 2,
+ *  - similar title search,design 1,
  *  - title bank at corner,
- *  -use slider to change similarity,
+ *  - similarity set to be 0.15,
  *  - doesn't calculate similarity in real-time
  * To choose between demo:change the stimuliView to jump to in 'introView'.
  * 
@@ -32,8 +32,8 @@ import { s1_0 } from "./views/introView.js"
 
 export async function run({ assetPaths, input = {}, environment, title, version }) {
     //set up experiment conditions
-    const ui = { "bank": "corner", "isSlider": true };//corner,center
-    const para = { "similarity": "variant" };//similar,different,variant
+    const ui = { "bank": "corner", "isSlider": false, "showScore":false };//corner,center
+    const para = { "similarity": "similar" };//similar,different,variant
     const algo = { "useTable": true };
 
     init_condition(ui, para,algo);

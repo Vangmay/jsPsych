@@ -1,5 +1,5 @@
 // manage the experiment conditions, such as UI, parameters, timeline, ect
-// UI condition:design 1 title bank at the corner/center
+// UI condition:design 1 title bank at the corner/center, whether to show remaining scores
 // Parameter condition:similarity of next title (similar,different, variant)
 // algorithm condition:use pre-calculated similarity table, or calculate similarity in real time
 
@@ -12,21 +12,24 @@ var similarity = [];//parameter condition
 var simType = "";//similarity type
 var isSlider = false;//UI condition, whether it's the slider trial or image-response trial
 var useTable = true;//algorithm condition, use similarity table or real-time calculation
+var showScore = true;//UI condition:if the remaining score will be shown
 
-var max_gen = 25;//maximum times of generate new stimulus
+var max_gen = 24;//maximum times of generate new stimulus
 
 function init_condition(ui, para,algo) {
     bank_position = ui.bank;
     simType = para.similarity;
     isSlider = ui.isSlider;
     useTable = algo.useTable;
+    showScore = ui.showScore;
+
     if (!isSlider) {
         switch (simType) {
             case "similar":
                 similarity = new Array(max_gen).fill(0.6);
                 break;
             case "different":
-                similarity = new Array(max_gen).fill(0.01);
+                similarity = new Array(max_gen).fill(0.15);
                 break;
             case "variant":
                 //80% similar,20% different
@@ -81,6 +84,7 @@ function get_condition() {
         "sim_type": simType,
         "isSlider": isSlider,
         "use_table": useTable,
+        "show_score": showScore,
     };
 }
 

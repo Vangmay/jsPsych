@@ -10,10 +10,11 @@ export default class ResultModel {
         this.ID = 0;
         this.result = [];//result of stimuli, reaction time, choice, etc
         this.next_stimuli = "";
-        this.score = 50;//score that is left for user to re-generate
+        this.score = 48;//score that is left for user to re-generate
         this.database = database;//database to fetch the stimuli from
         this.stmPool = [];//pool of chosen stimulus
         this.sim_table = sim_table;//similarity table
+        this.isDistracted = false;//whether user is distracted during the task
     }
 
     getID() {
@@ -24,9 +25,13 @@ export default class ResultModel {
         this.ID = id;
     }
 
+    confirmDistracted() {
+        this.isDistracted = true;
+    }
+
     //save statistics in the model after the experiment is finished
     saveModel() {
-        var model2save = {ID:this.ID,final_score:this.score}
+        var model2save = { ID: this.ID, final_score: this.score, is_distracted: this.isDistracted };
         this.result.push(model2save);
         return this.result;//for display
     }

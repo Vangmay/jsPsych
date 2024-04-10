@@ -18,6 +18,7 @@ function getSimilar(para) {
     var target = para.s1;
     var table = para.database;
     var sim = para.distance;
+    var pool = para.pool;
 
     // find the closest via iterations
     var newTitle = "";
@@ -29,12 +30,16 @@ function getSimilar(para) {
             other_title=other_title.replace(",", "");
             //mark the title with closest similarity
             if (Math.abs(tt[1] - sim) < minDistance) {
-                newTitle = other_title;
-                minDistance = Math.abs(tt[1] - sim);
+                //if title has not been shown before
+                if (pool.indexOf(other_title) < 0) {
+                    newTitle = other_title;
+                    minDistance = Math.abs(tt[1] - sim);
+                    
+                }
             }
         }
     });
-
+    console.log("the distance between required similarity and actual similarity: ", minDistance);
     return newTitle;
 }
 

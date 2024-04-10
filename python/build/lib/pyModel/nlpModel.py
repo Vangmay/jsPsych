@@ -13,11 +13,14 @@ import numpy as np
 # distance: a float, find the string with the closest distance
 # output: a string
 # consine distance
-def find_similar(s1, database, distance):
+def find_similar(s1, database, distance,pool):
     print("s1 passed to Python: " + s1 + " similarity: " + str(distance))
 
     text_0 = [s1]
     text_1 = list(database)  # just in case of wrong proxy type
+    used=list(pool)
+
+    text_1=list(set(text_1).difference(set(used))) # titles that has not appeared yet
 
     similarity_matrix = calCosineDistance(text_0, text_1)
 
