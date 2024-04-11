@@ -4,6 +4,8 @@
 
 
 import surveyLikert from '@jspsych/plugin-survey-likert';
+import fullscreen from '@jspsych/plugin-fullscreen';
+
 import { s4 } from "./endView.js"
 import { jsPsych } from "../models/jsPsychModel.js"
 
@@ -15,6 +17,7 @@ var likert_scale = [
     "4",
     "5"
 ];
+
 
 var s3 = {
     type: surveyLikert,

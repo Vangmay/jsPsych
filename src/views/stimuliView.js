@@ -125,6 +125,7 @@ function printResult(result) {
     startTime = Date.now();//start timing after the stimuli presented
 }
 
+
 // show image and title
 var s2_img = {
     type: imageButtonResponse,

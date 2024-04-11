@@ -43,7 +43,22 @@ function getSimilar(para) {
     return newTitle;
 }
 
+function fullscreenListener(event){
+    //different browser has different ways of detecting fullscreen
+    var userAgent = navigator.userAgent;
+    var notFull = (window.screenTop + window.screenLeft) || (window.screenY + window.screeX);//ensure the functionality in old versions
+    //console.log("top screen: " + window.screenTop + " left screen: " + window.screenLeft);
+
+    if (userAgent.indexOf('Chrome') != -1)
+        notFull = (window.screenTop + window.screenLeft) <= 0 || (window.screenY + window.screeX) <= 0;
+    //var isFull = window.innerWidth == screen.width && window.innerHeight == screen.height;//it will fire every time resized
+    if (notFull) {
+        globalThis.myResultMoodel.confirmDistracted();//"this" serves the same as window; but the listener can't recognize when it's an arrow function
+        alert("Please press Fn+F11 to enter fullscreen mode!");
+    }
+}
+
 export {
-    loadFile, getSimilar
+    loadFile, getSimilar, fullscreenListener
 
 };

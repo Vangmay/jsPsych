@@ -4,7 +4,12 @@
  */
 
 import HtmlKeyboardResponsePlugin from "@jspsych/plugin-html-keyboard-response";
+import fullscreen from '@jspsych/plugin-fullscreen';
+
+import { jsPsych } from "../models/jsPsychModel.js"
 import { get_condition } from "../models/conditionManager"
+import { fullscreenListener } from "../utilities"
+
 
 // display result in a format
 function showResult(result) {
@@ -16,6 +21,13 @@ function showResult(result) {
             + "<br><br>";
     })
     return displayR;
+}
+
+//exit fullscreen after the results are shown
+var exit_fullscreen = {
+    type: fullscreen,
+    fullscreen_mode: false,
+    delay_after: 0,
 }
 
 // show this page within T ms
@@ -30,9 +42,16 @@ var s4 = {
     on_finish:function (data) {
         data.myResult = globalThis.myResultMoodel.saveModel();//save statistics in the model after the experiment is finished
         //save experiment conditions
-        data.myResult.push(get_condition())
+        data.myResult.push(get_condition());
+
+        //exit fullscreen
+        window.removeEventListener('resize', fullscreenListener);
+        jsPsych.addNodeToEndOfTimeline(exit_fullscreen);
+
     },
 };
+
+
 
 export {
     s4
