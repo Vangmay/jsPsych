@@ -84,7 +84,7 @@ export default class ResultModel {
         };
         //save result
         this.result.push(myResponse);
-        return this.result;
+        //return this.result;
     }
 
     getResult() {

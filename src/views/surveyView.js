@@ -28,7 +28,7 @@ var s3 = {
     ],
     on_finish: function (data) {
         //save results,don't use start time
-        data.myResult = globalThis.myResultMoodel.saveResult(
+        globalThis.myResultMoodel.saveResult(
             data.trial_type, data.response, data.rt, -1
         );
         jsPsych.addNodeToEndOfTimeline(s4);

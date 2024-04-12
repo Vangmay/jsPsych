@@ -212,7 +212,7 @@ var s2_img = {
         document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
 
         //save responses:don't use the data.stimulus,use startTime
-        data.myResult = globalThis.myResultMoodel.saveResult(
+        globalThis.myResultMoodel.saveResult(
             "", data.response, data.rt, startTime
         );
 
@@ -280,7 +280,7 @@ var s2_choose = {
         // remove the additional components
         document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
         //save results,don't use start time
-        data.myResult = globalThis.myResultMoodel.saveResult(
+        globalThis.myResultMoodel.saveResult(
             data.trial_type, data.response.choice_title, data.rt, -1
         );
         jsPsych.addNodeToEndOfTimeline(s3);
