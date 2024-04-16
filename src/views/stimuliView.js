@@ -87,8 +87,7 @@ async function calTitle(initIndex) {
 
     if (pool.length <= 0) {//it's the first title
         var title = data[initIndex];
-        document.getElementById('title').innerHTML = title;
-        globalThis.myResultMoodel.appendPool(title);//save this title in stimulus pool
+        printResult(title);
     }
     else {
         var last_title = pool[pool.length - 1];
@@ -102,7 +101,9 @@ async function calTitle(initIndex) {
             para = { "s1": last_title, "database": table, "distance": sim_queue.pop(),"pool":pool };
             const result = getSimilar(para);
             console.log("Similar title counted from table:", result);
-            printResult(result);
+            //pretend it's loading
+            const delay = t => new Promise(resolve => setTimeout(resolve, t));
+            delay(Math.random()*3000+2000).then(() => printResult(result));
         }
         else {
             para = { "s1": last_title, "database": data, "distance": sim_queue.pop() };
@@ -121,7 +122,8 @@ async function calTitle(initIndex) {
 
 function printResult(result) {
     globalThis.myResultMoodel.appendPool(result);//save this title in stimulus pool
-    document.getElementById('title').innerHTML = result;
+    document.getElementById('title').innerHTML = "&#91;" + result + "&#93;";
+    document.getElementById('title_container').style.backgroundImage = "url(/style/blank.png)";
     startTime = Date.now();//start timing after the stimuli presented
 }
 
@@ -130,23 +132,26 @@ function printResult(result) {
 var s2_img = {
     type: imageButtonResponse,
     stimulus: 'assets/img.png',
-    stimulus_height: 300,
+    stimulus_height: 0.6 * window.innerHeight,
     button_html: () => {
         var html_btn0 = '<div class="btn-img"><button class="my-jspsych-btn">%choice%</button>';
-        html_btn0 += '<div class="div-hint" id="hint_stop">I have made up my mind.</div></div>'
-        var html_btn1 = '<div class="btn-img"><button class="my-jspsych-btn">%choice%</button>';
         //whether the hint about scores will be shown
         if (get_condition().show_score)
-            html_btn1 += '<div class="div-hint" id="hint_gen">Price: 2 scores.</div></div>';
+            html_btn0 += '<div class="div-hint" id="hint_gen">Price: 2 scores.</div>';
         else
-            html_btn1 += '</div>';
+            html_btn0 += '<div class="div-hint" id="hint_gen">It takes a few seconds for the Gen AI to create a new name. Thank you for your patience.</div>';
+        html_btn0 += '</div>';
+
+        var html_btn1 = '<div class="btn-img"><button class="my-jspsych-btn">%choice%</button>';
+        html_btn1 += '<div class="div-hint" id="hint_stop">I have made up my mind.</div></div>'
+
         return [html_btn0, html_btn1];
 
     },
-    choices: ['STOP', 'Generate New Title'],
-    prompt: '<div class="div-title"><p id="above_title" class="p-aboveTitle">New title</p><p id="title" style="font-size:24px;">loading...</p></div >',
+    choices: ['Generate New Title', 'STOP'],
+    prompt: '<div id="title_container" class="div-title"><p id="title" class="p-title">\t\t\t\t</p></div >',
 
-    //render some additional components
+    //render some additional components <img id="img-buff" src="assets/buffering.gif">
     on_start: function () {
         //register template for components
         var html1 = '<div class="div-score" id="remain"></div>';//html for the remaining points
@@ -157,32 +162,42 @@ var s2_img = {
             html1 += `<div class="div-slider">
                         <input type="range" min="1" max="100" value="50" class="input-slider"id="user_similarity">
                         <div class="div-scale">
-                            <br>100% Similar</br>
-                            <br>75%</br>
-                            <br>50%</br>
-                            <br>25%</br>
-                            <br>0% Similar</br>
-                        </div>
-                       </div>`;
+                            <br>   100% Similar</br>
+                            <br>-  </br>
+                            <br>-  80%</br>
+                            <br>-  </br>
+                            <br>-  60%</br>
+                            <br>-  </br>
+                            <br>-  40%</br>
+                            <br>-  </br>
+                            <br>-  20%</br>
+                            <br>-  </br>
+                            <br>   0% Similar</br>
+                        </div>`
+            ////if it's the first time the slider is shown
+            //if (globalThis.myResultMoodel.getPool().length <= 0)
+            //    html1 += '<p class="p-drag"><- drag me!</p>';
+            html1+='</div > ';
+
         }
 
         div.innerHTML = html1;
         document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);//put the template on display
 
         // get actual data of components
+
         //score component
         var html_score = "Remaining points: " + globalThis.myResultMoodel.getCount()+"\n";
         document.getElementById('remain').innerHTML = html_score;
         // if the score is set to be hidden
         if (!get_condition().show_score) 
             document.getElementById('remain').style.visibility = "hidden";
-            
 
         //title pool
         if (get_condition().bank_position == "corner") {
             var pool = globalThis.myResultMoodel.getPool();
             var html_pool = pool.map((tt) => '<br>' + tt + '</br>');//put the pool list into seperate lines
-            html_pool = '<p>Title bank</p>'+html_pool.join("");
+            html_pool = '<p align="center"><b>Title Bank</b></p>'+html_pool.join("");
             document.getElementById('pool').innerHTML = html_pool;
         }
 
@@ -220,7 +235,7 @@ var s2_img = {
         if (globalThis.myResultMoodel.getCount() <= 0)
             jsPsych.addNodeToEndOfTimeline(s2_choose);
         else {
-            if (data.response == 0) {//if subject choose to stop
+            if (data.response == 1) {//if subject choose to stop
                 jsPsych.addNodeToEndOfTimeline(s2_choose);
             }
             else {//if subject choose to generate
