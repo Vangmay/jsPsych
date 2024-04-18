@@ -16,10 +16,27 @@ import { fullscreenListener } from "../utilities"
 
 var s1_0 = {
     type: fullscreen,
-    stimulus: '<p id="stimulus" style="font-size:48px;">Welcome to the experiment</p>',
+    message: '<p id="msg">The experiment will switch to full screen mode when you press the button below (no mobile user allowed)</p>',
+    on_load: async function () {
+        //detect mobile users and forbid
+        var userAgentInfo = navigator.userAgent.toLowerCase();
+        console.log("user agent: ", userAgentInfo);
+        var agents = ["android", "iphone",
+            "symbianos", "windows phone",
+            "ipad", "ipod"];
 
+        agents.forEach((ag, index) => {
+            if (userAgentInfo.indexOf(ag) >= 0) {
+                document.getElementById('msg').innerHTML = 'Sorry, please switch to a PC or laptop.';
+                document.querySelector('#jspsych-fullscreen-btn').style.visibility = "hidden";
+                const delay = t => new Promise(resolve => setTimeout(resolve, t));
+                delay(2500).then(() => jsPsych.endExperiment());
+            }
+
+        })
+    },
     on_finish: function () {
-        jsPsych.addNodeToEndOfTimeline(s1)
+        jsPsych.addNodeToEndOfTimeline(s1);
     }
 };
 
