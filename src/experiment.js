@@ -12,7 +12,7 @@
  * @author Yawen D
  * @version 0.5.0
  *
- * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv
+ * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv,assets/piggy-bank.png
  */
 
 // You can import stylesheets (.scss or .css).
@@ -35,7 +35,7 @@ export async function run({ assetPaths, input = {}, environment, title, version 
     //set up experiment conditions
     const ui = { "bank": "corner", "isSlider": true, "showScore":false };//corner,center
     const para = { "similarity": "similar" };//similar,different,variant
-    const algo = { "useTable": true };
+    const algo = { "useTable": false };
 
     init_condition(ui, para,algo);
 

@@ -7,7 +7,7 @@ import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import imageButtonResponse from '@jspsych/plugin-image-button-response';
 import surveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
 
-import { getHaiku_API } from "../APIs/openAI.js"
+import { getHaiku_API, getTitle_API } from "../APIs/openAI.js"
 import { s3 } from "./surveyView"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { runPython, passPara, destroyPara } from "../models/jsPyModel.js"
@@ -76,52 +76,10 @@ function addRespFromButton(data,rt) {
 
 // image-title match
 
-//get the initial title or calculate similar title
-//set the title component to be the fetched title
-//sim:similarity, a number 0-1;initIndex:the first title to pick from the database, 0-24
-//this function cannot be in model as the asynchronization is not blocked....
-async function calTitle(initIndex) {
-    var pool = globalThis.myResultMoodel.getPool();
-    var data = globalThis.myResultMoodel.getData();
-    var table = globalThis.myResultMoodel.getTable();
 
-    if (pool.length <= 0) {//it's the first title
-        var title = data[initIndex];
-        printResult(title);
-    }
-    else {
-        var last_title = pool[pool.length - 1];
-        if (get_condition().isSlider)
-            var sim_queue = [...get_condition().similarity];//deep copy so that the actuall queue is not popped later
-        else
-            var sim_queue = get_condition().similarity;
-        let para = {};
-        //choose similarity measurement algorithms
-        if (get_condition().use_table) {
-            para = { "s1": last_title, "database": table, "distance": sim_queue.pop(),"pool":pool };
-            const result = getSimilar(para);
-            console.log("Similar title counted from table:", result);
-            //pretend it's loading
-            const delay = t => new Promise(resolve => setTimeout(resolve, t));
-            delay(Math.random()*3000+2000).then(() => printResult(result));
-        }
-        else {
-            para = { "s1": last_title, "database": data, "distance": sim_queue.pop() };
-            passPara(para);
-            runPython(`
-                        from pyModel import nlpModel
-                        nlpModel.find_similar(s1,database,distance,pool)
-                    `).then((result) => {
-                        console.log("Similar title counted real-time:", result);
-                        destroyPara(para);//destroy the global parameters to avoid memory leak
-                        printResult(result);
-                    });
-        }
-    }
-}
 
 function printResult(result) {
-    globalThis.myResultMoodel.appendPool(result);//save this title in stimulus pool
+    globalThis.myResultModel.appendPool(result);//save this title in stimulus pool
     document.getElementById('title').innerHTML = "&#91;" + result + "&#93;";
     document.getElementById('title_container').style.backgroundImage = "url(/style/blank.png)";
     startTime = Date.now();//start timing after the stimuli presented
@@ -175,7 +133,7 @@ var s2_img = {
                             <br>   0% Similar</br>
                         </div>`
             ////if it's the first time the slider is shown
-            //if (globalThis.myResultMoodel.getPool().length <= 0)
+            //if (globalThis.myResultModel.getPool().length <= 0)
             //    html1 += '<p class="p-drag"><- drag me!</p>';
             html1+='</div > ';
 
@@ -187,7 +145,7 @@ var s2_img = {
         // get actual data of components
 
         //score component
-        var html_score = "Remaining points: " + globalThis.myResultMoodel.getCount()+"\n";
+        var html_score = "Remaining points: " + globalThis.myResultModel.getCount()+"\n";
         document.getElementById('remain').innerHTML = html_score;
         // if the score is set to be hidden
         if (!get_condition().show_score) 
@@ -195,7 +153,7 @@ var s2_img = {
 
         //title pool
         if (get_condition().bank_position == "corner") {
-            var pool = globalThis.myResultMoodel.getPool();
+            var pool = globalThis.myResultModel.getPool();
             var html_pool = pool.map((tt) => '<br>' + tt + '</br>');//put the pool list into seperate lines
             html_pool = '<p align="center"><b>Title Bank</b></p>'+html_pool.join("");
             document.getElementById('pool').innerHTML = html_pool;
@@ -204,12 +162,12 @@ var s2_img = {
     },
 
     on_load: async function () {
-        await calTitle(5);//get or calculate title
+        globalThis.myResultModel.calTitle(5).then((result) => printResult(result));//get or calculate title
         //hint below button
         //hint_hover();
         //display the most recent titles as prompt
         if (get_condition().bank_position == "center") {
-            var pool = globalThis.myResultMoodel.getPool();
+            var pool = globalThis.myResultModel.getPool();
             var last_titles = pool.slice(-3);//latest 3 titles
             var html_titles = last_titles.map((tt) => tt + '\t');
             html_titles = "..."+html_titles.join(",")+"...";
@@ -227,19 +185,19 @@ var s2_img = {
         document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
 
         //save responses:don't use the data.stimulus,use startTime
-        globalThis.myResultMoodel.saveResult(
+        globalThis.myResultModel.saveResult(
             "", data.response, data.rt, startTime
         );
 
         //jump to current page or choosing page
-        if (globalThis.myResultMoodel.getCount() <= 0)
+        if (globalThis.myResultModel.getCount() <= 0)
             jsPsych.addNodeToEndOfTimeline(s2_choose);
         else {
             if (data.response == 1) {//if subject choose to stop
                 jsPsych.addNodeToEndOfTimeline(s2_choose);
             }
             else {//if subject choose to generate
-                globalThis.myResultMoodel.addCount();//add the times of generation, in this case, minus 2 score
+                globalThis.myResultModel.addCount();//add the times of generation, in this case, minus 2 score
 
                 if (get_condition().isSlider) //update similarity if user wants new
                     appendSimilarity(Number(user_sim) / 100.0);//transfer into a float 0-1
@@ -277,7 +235,7 @@ var s2_choose = {
                 prompt: 'Select the painting title you think that is the most creative',
                 name: 'choice_title',
                 options: function () {
-                    return globalThis.myResultMoodel.getPool();
+                    return globalThis.myResultModel.getPool();
                 },
                 required: true
             }
@@ -295,7 +253,7 @@ var s2_choose = {
         // remove the additional components
         document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
         //save results,don't use start time
-        globalThis.myResultMoodel.saveResult(
+        globalThis.myResultModel.saveResult(
             data.trial_type, data.response.choice_title, data.rt, -1
         );
         jsPsych.addNodeToEndOfTimeline(s3);

@@ -4,6 +4,7 @@
 // algorithm condition:use pre-calculated similarity table, or calculate similarity in real time
 
 import { runPython, init_py } from "./jsPyModel.js"
+import { getHaiku_API, getTitle_API } from "../APIs/openAI.js"
 import { loadFile } from "../utilities"
 import ResultModel from "./ResultModel.js"
 
@@ -46,22 +47,27 @@ function init_condition(ui, para,algo) {
 }
 
 async function prepare_data() {
-    //if real-time calculation needed,initial the python packages
-    if (!useTable) {
-        await init_py();
-        await runPython(`
-            from pyModel import nlpModel
-            nlpModel.find_similar("apple",["orange","apple banana"],0.1)
-        `);
-    }
-
     //load the database of titles
     let text = loadFile('assets/sample.txt');
-    const myArray = text.split("\r\n");//each sample ends with this flag
-
-    //load pre-calculated similarity
+    var myArray = text.split("\r\n");//each sample ends with this flag
     var sim_table = [];
-    if (useTable) {
+
+    //if real-time calculation needed,initial the python packages
+    if (!useTable) {
+        //init python packages
+        await init_py();
+        await runPython(`
+                from pyModel import nlpModel
+                nlpModel.find_similar("apple",["orange","apple banana","orange apple"],0.1,["orange apple"])
+            `);
+        //load the database of titles
+        getTitle_API('assets/img.png').then((myArray) => {
+            console.log("titles:", myArray);
+            globalThis.myResultMoodel = new ResultModel(myArray, sim_table);//initialize the model with data
+            return;
+        });
+    }
+    else {//load similarity table
         let table = loadFile('assets/sample.csv');
         var tableArray = table.split("\r\n"); 
         tableArray.shift();//delete the column names
@@ -72,7 +78,8 @@ async function prepare_data() {
         });
     }
 
-    globalThis.myResultMoodel = new ResultModel(myArray,sim_table);//initialize the model with data
+    globalThis.myResultModel = new ResultModel(myArray, sim_table);//initialize the model with data
+    console.log("my model is built!", globalThis.myResultModel);
 
 
 }

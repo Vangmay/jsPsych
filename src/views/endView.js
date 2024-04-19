@@ -35,12 +35,12 @@ var s4 = {
     type: HtmlKeyboardResponsePlugin,
     stimulus: '<p class="p-descript">Thank you for the participation. Here are your choices.</p>',
     prompt: function () {
-        var result = globalThis.myResultMoodel.getResult();
+        var result = globalThis.myResultModel.getResult();
         return showResult(result);
     },
     trial_duration: 5000,
     on_finish:function (data) {
-        data.myResult = globalThis.myResultMoodel.saveModel();//save statistics and user response
+        data.myResult = globalThis.myResultModel.saveModel();//save statistics and user response
         //save experiment conditions
         data.myResult.push(get_condition());
 

@@ -63,7 +63,7 @@ var s1 = {
     },
 
     on_finish: function (data) {
-        globalThis.myResultMoodel.setID(data.response.ID);
+        globalThis.myResultModel.setID(data.response.ID);
         jsPsych.addNodeToEndOfTimeline(s1_instruction);
     }
 }

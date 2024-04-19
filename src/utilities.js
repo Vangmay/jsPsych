@@ -53,12 +53,12 @@ function fullscreenListener(event){
         notFull = (window.screenTop + window.screenLeft) <= 0 || (window.screenY + window.screeX) <= 0;
     //var isFull = window.innerWidth == screen.width && window.innerHeight == screen.height;//it will fire every time resized
     if (notFull) {
-        globalThis.myResultMoodel.confirmDistracted();//"this" serves the same as window; but the listener can't recognize when it's an arrow function
+        globalThis.myResultModel.confirmDistracted();//"this" serves the same as window; but the listener can't recognize when it's an arrow function
         alert("Please press Fn+F11 to enter fullscreen mode!");
     }
 }
 
 export {
-    loadFile, getSimilar, fullscreenListener
+    loadFile, getSimilar, fullscreenListener,
 
 };
