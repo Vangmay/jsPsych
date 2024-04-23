@@ -68,7 +68,8 @@ export default class ResultModel {
 
     //get the initial title or calculate similar title
     //initIndex:the first title to pick from the database, 0-24
-    async calTitle(initIndex) {
+    //delayTime:ms, like [3000,5000]->delay for 3-5s after calculation
+    async calTitle(initIndex,delayTime) {
         return new Promise((resolve) => {
             var pool = this.stmPool;
             var data = this.database;
@@ -94,7 +95,7 @@ export default class ResultModel {
                     console.log("Similar title counted from table:", result);
                     //pretend it's loading
                     const delay = t => new Promise(resolve => setTimeout(resolve, t));
-                    delay(Math.random() * 3000 + 2000).then(() => resolve(result));
+                    delay(Math.random() * (delayTime[1] - delayTime[0]) + delayTime[0]).then(() => resolve(result));
                 }
                 else {
                     para = { "s1": last_title, "database": data, "distance": sim_queue.pop() };

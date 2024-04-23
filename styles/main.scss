@@ -66,12 +66,12 @@
 
 .div-title {
     position: relative;
+    top:-50px;
     z-index: 0;
-    bottom: 60px;
+    height: 30px;
     background-image: url(./buffering.gif);
     background-repeat: no-repeat;
     background-position: center;
-    display: inline-block;
 }
 
 .div-hint {
@@ -105,6 +105,11 @@
     background-color: #fff;
     border-color: #ccc;
     width: 200px;
+}
+
+.my-jspsych-btn:disabled {
+    background-color:lightgray;
+    opacity: 0.6;
 }
 
 .div-score {

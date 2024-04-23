@@ -10,9 +10,7 @@ import surveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
 import { getHaiku_API, getTitle_API } from "../APIs/openAI.js"
 import { s3 } from "./surveyView"
 import { jsPsych } from "../models/jsPsychModel.js"
-import { runPython, passPara, destroyPara } from "../models/jsPyModel.js"
 import { get_condition, appendSimilarity } from "../models/conditionManager"
-import { getSimilar } from "../utilities"
 
 var startTime;
 var div = document.createElement("div");//div for additional components
@@ -81,7 +79,9 @@ function addRespFromButton(data,rt) {
 function printResult(result) {
     globalThis.myResultModel.appendPool(result);//save this title in stimulus pool
     document.getElementById('title').innerHTML = "&#91;" + result + "&#93;";
-    document.getElementById('title_container').style.backgroundImage = "url(/style/blank.png)";
+    document.getElementById('title_container').style.backgroundImage = "none";//"url(/assets/blank.png)"
+    document.querySelector('#jspsych-image-button-response-button-0 button').disabled = false;
+    document.querySelector('#jspsych-image-button-response-button-1 button').disabled = false;
     startTime = Date.now();//start timing after the stimuli presented
 }
 
@@ -162,7 +162,9 @@ var s2_img = {
     },
 
     on_load: async function () {
-        globalThis.myResultModel.calTitle(5).then((result) => printResult(result));//get or calculate title
+        document.querySelector('#jspsych-image-button-response-button-0 button').disabled = true;
+        document.querySelector('#jspsych-image-button-response-button-1 button').disabled = true;
+        globalThis.myResultModel.calTitle(5,[5000,8000]).then((result) => printResult(result));//get or calculate title,no delay
         //hint below button
         //hint_hover();
         //display the most recent titles as prompt

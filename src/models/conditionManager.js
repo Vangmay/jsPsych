@@ -27,16 +27,16 @@ function init_condition(ui, para,algo) {
     if (!isSlider) {
         switch (simType) {
             case "similar":
-                similarity = new Array(max_gen).fill(0.6);
+                similarity = new Array(max_gen).fill(0.5);
                 break;
             case "different":
-                similarity = new Array(max_gen).fill(0.15);
+                similarity = new Array(max_gen).fill(0.1);
                 break;
             case "variant":
                 //80% similar,20% different
                 var sim_num = Math.floor(max_gen * 0.8);
                 var dif_num = max_gen - sim_num;
-                var variant = new Array(dif_num).fill(0.01).concat(new Array(sim_num).fill(0.6));
+                var variant = new Array(dif_num).fill(0.1).concat(new Array(sim_num).fill(0.5));
                 similarity = variant.sort(() => Math.random() - 0.5);//shuffle
                 break;
             default:
