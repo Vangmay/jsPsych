@@ -57,6 +57,7 @@ var s3 = {
 var div = document.createElement("div");
 
 
+var age = 0;//age of user
 
 var s3_info = {
     type: surveyMultiChoice,
@@ -64,7 +65,7 @@ var s3_info = {
     questions:
         [
             {
-                prompt: 'How do you describe yourself?',
+                prompt: 'What is your age in years? Please enter numbers only. <input number="number" min="0" max="60" id = "age"><br>How do you describe yourself?',
                 name: 'choice_gender',
                 options: ['Male','Female','Other'],
                 required: true
@@ -73,19 +74,15 @@ var s3_info = {
 
     //render age input
     on_start: function () {
-        var html1 = '<div  class="div-age">What is your age in years? Please enter numbers only.<input number="number" min="0" max="60" id = "age"></div >';//html for the age input
-
-        div.innerHTML = html1;
-        document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);//put the template on display
 
     },
 
     //block continue if user doesn't enter name
     on_load() {
         document.querySelector('#jspsych-survey-multi-choice-next').disabled = true;
-        var input=document.getElementById('age');
+        var input = document.querySelector('#age');
         input.addEventListener('input', () => {
-            var age = Number(input.value);
+            age = Number(input.value);
             document.querySelector('#jspsych-survey-multi-choice-next').disabled = true;
             if (Number.isInteger(age)) 
                     if(age>=16&age<=70)
@@ -98,10 +95,10 @@ var s3_info = {
 
         var response = {
             "gender": data.response.choice_gender,
-            "age": document.getElementById('age').value,
+            "age": age,
         }
         // remove the additional components
-        document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
+/*        document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);*/
         //save results,don't use start time
         globalThis.myResultModel.saveResult(
             data.trial_type, response, data.rt, -1
@@ -113,11 +110,10 @@ var s3_info = {
 var s3_atn = {
     type: surveyMultiChoice,
     css_classes: ['questions'],
-    preamble:"Regardless of your own preferences, please select GOLD to the following question.",
     questions:
         [
             {
-                prompt: 'What color of iPhone would you purchase if you had to buy one tomorrow?',
+                prompt: 'Regardless of your own preferences, please select Gold to this question.<br><b>What color of iPhone would you purchase if you had to buy one tomorrow?</b>',
                 name: 'choice_iPhone',
                 options: ['Gold', 'Navy', 'Space Grey', 'Silver', 'Red'],
                 required: true

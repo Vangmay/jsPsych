@@ -1,18 +1,18 @@
 /**
- * @title demo_design2_0.15similarity
+ * @title demo_design1_0.1similarity
  * @description 
  * Current demo: 
- *  - similar title search,design 2,
+ *  - similar title search,design 1,
  *  - title bank at corner,
- *  - similarity set to be 0.15,
+ *  - similarity set to be 0.1,
  *  - doesn't calculate similarity in real-time
  *  - without piggy bank.
  * To choose between demo:change the stimuliView to jump to in 'introView'.
  * 
  * @author Yawen D
- * @version 0.5.0
+ * @version 0.6.0
  *
- * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv
+ * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv,assets/screen.png
  */
 
 // You can import stylesheets (.scss or .css).

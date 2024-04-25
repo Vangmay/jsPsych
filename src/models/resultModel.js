@@ -17,6 +17,7 @@ export default class ResultModel {
         this.stmPool = [];//pool of chosen stimulus
         this.sim_table = sim_table;//similarity table
         this.isDistracted = false;//whether user is distracted during the task
+        this.feedback = '';//feedback from user after the exp
     }
 
     getID() {
@@ -27,13 +28,23 @@ export default class ResultModel {
         this.ID = id;
     }
 
+    setFeedback(fb) {
+        this.feedback = fb;
+    }
+
     confirmDistracted() {
         this.isDistracted = true;
     }
 
     //save statistics in the model after the experiment is finished
     saveModel() {
-        var model2save = { ID: this.ID, final_score: this.score, is_distracted: this.isDistracted };
+        var model2save = {
+            ID: this.ID,
+            final_score: this.score,
+            is_distracted: this.isDistracted,
+            feedback: this.feedback,
+        };
+        console.log("model2save: ", model2save);
         this.result.push(model2save);
         return this.result;//for display
     }

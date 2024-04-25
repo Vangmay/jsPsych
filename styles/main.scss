@@ -46,6 +46,29 @@
     white-space: pre;
 }
 
+.p-intro-title{
+    font-size:26px;
+    text-align:center;
+}
+
+.p-intro-content {
+    font-size: 18px;
+    text-align: left;
+    white-space:pre-line;
+}
+
+//image at the left side of the page
+.img-right {
+    float: left;
+    height: calc(40vh);
+    position: fixed;
+    top: 150px;
+    left: 5%;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+
 .img-choice {
     float: left;
     width: 220px;
@@ -53,7 +76,10 @@
     top: 220px;
     left: 5%;
     margin-right: 10px;
+    display: inline-block;
 }
+
+
 
 .btn-img {
     position: relative;
@@ -86,6 +112,39 @@
         visibility: hidden;
     }
 }
+
+//a box at the right side of the page
+.div-right {
+    position: fixed;
+    top:100px;
+    left: calc(50vw);
+    width: calc(32vw);
+    display: inline-block;
+}
+
+//a box of full screen text
+.div-full {
+    width: calc(52vw);
+    margin: auto;
+    position: fixed;
+    top: calc(30vh);
+    left: calc(25vw);
+}
+
+.div-frame {
+    position: fixed;
+    top: 8px;
+    left: 10px;
+    width: calc(96vw);
+    height: calc(93vh);
+
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    padding: 10px;
+    display: inline-block;
+}
+
 
 .div-title {
     position: relative;
@@ -129,7 +188,7 @@
     line-height: 14px;
     font-size: 16px;
     height: calc(90vh);
-    width: 284px;
+    width: 330px;
     top: 0px;
     left: 0px;
     overflow-y: scroll;
@@ -158,6 +217,14 @@
 .div-likert-scale{
     position:relative;
     left:80px;
+}
+
+.div-age {
+    position: fixed;
+    top: calc(24vh);
+    left: calc(22.2vw);
+    text-align: left;
+    white-space: pre;
 }
 
 .input-slider {
@@ -225,13 +292,7 @@
     bottom:40px;
 }
 
-.div-age {
-    position: fixed;
-    top: calc(24vh);
-    left: calc(22.2vw);
-    text-align: left;
-    white-space: pre;
-}
+
 
 //slider handle Chrome
 .input-slider::-webkit-slider-thumb {
