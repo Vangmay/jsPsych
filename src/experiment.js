@@ -10,9 +10,9 @@
  * To choose between demo:change the stimuliView to jump to in 'introView'.
  * 
  * @author Yawen D
- * @version 0.6.0
+ * @version 0.6.1
  *
- * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv,assets/screen.png
+ * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv,assets/screen.png,assets/example.png
  */
 
 // You can import stylesheets (.scss or .css).

@@ -27,7 +27,9 @@ var s3 = {
     type: surveyLikert,
     preamble: () => {
         var title_html = '<div>'
-        title_html += ' <p class="p-corner" >The lists of names are...</p>';
+        title_html += ' <div class="div-upperLeft" >Here are the generated titles.'
+        title_html += '<div class="div-scroll">' + globalThis.myResultModel.getPool()+'</div>';
+        title_html+='<b>In your opinion, they are...</b></div > ';
         title_html += '<div class="div-likert-scale"><p class="p-likert-scale-0">Strongly_disagree Strongly_agree</p><p class="p-likert-scale-1">1 2 3 4 5 6 7</p></div>'
         title_html += '</div > ';
         return title_html;
@@ -38,6 +40,7 @@ var s3 = {
         { prompt: "novel", name: 'rate_novel', labels: likert_scale, required: true },
         { prompt: "accurate", name: 'rate_accurate', labels: likert_scale, required: true },
         { prompt: "practical", name: 'rate_practical', labels: likert_scale, required: true },
+        { prompt: "similar", name: 'rate_similar', labels: likert_scale, required: true },
     ],
 
     on_load: function () {
@@ -65,7 +68,7 @@ var s3_info = {
     questions:
         [
             {
-                prompt: 'What is your age in years? Please enter numbers only. <input number="number" min="0" max="60" id = "age"><br>How do you describe yourself?',
+                prompt: 'What is your age in years? Please enter numbers only. <input number="number" min="0" max="100" id = "age"><br>How do you describe yourself?',
                 name: 'choice_gender',
                 options: ['Male','Female','Other'],
                 required: true
@@ -85,7 +88,7 @@ var s3_info = {
             age = Number(input.value);
             document.querySelector('#jspsych-survey-multi-choice-next').disabled = true;
             if (Number.isInteger(age)) 
-                    if(age>=16&age<=70)
+                    if(age>=16&age<=99)
                         document.querySelector('#jspsych-survey-multi-choice-next').disabled = false;
             }
         )

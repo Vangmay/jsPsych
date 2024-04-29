@@ -50,7 +50,8 @@ export default class ResultModel {
     }
 
     appendPool(newStm) {
-        this.stmPool.push(newStm);
+        if (this.stmPool.indexOf(newStm) == -1)//debouncing, if the title hasn't appeared before, add to pool
+            this.stmPool.push(newStm);
     }
 
     getPool() {
@@ -109,7 +110,8 @@ export default class ResultModel {
                     delay(Math.random() * (delayTime[1] - delayTime[0]) + delayTime[0]).then(() => resolve(result));
                 }
                 else {
-                    para = { "s1": last_title, "database": data, "distance": sim_queue.pop() };
+                    para = { "s1": last_title, "database": data, "distance": sim_queue.pop(), "pool": pool };
+                    console.log("current pool: ", pool);
                     passPara(para);
                     runPython(`
                             from pyModel import nlpModel

@@ -73,10 +73,10 @@ var s1 = {
 
 
 //the instruction
-var p1_html = `<div class="div-frame"><img src="assets/img.png" class="img-right"><div class="div-right"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction1}</p></div></div>`;
-var p2_html = `<div class="div-frame"><img src="assets/screen.png" class="img-right"><div class="div-right"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction2}</p></div></div>`;
-var p3_html = `<div class="div-frame"><div class="div-full"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction3}</p></div></div>`;
-var btn_html = '<button class="jspsych-btn" style = "position:fixed; bottom: 50px;right:60px; width:120px; background-color:lightgrey">%choice%</button>';
+var p1_html = `<img src="assets/example.png" class="img-left-profile"><div class="div-right"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction1}</p></div>`;
+var p2_html = `<img src="assets/screen.png" class="img-left-landscape"><div class="div-right"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction2}</p></div>`;
+var p3_html = `<div class="div-full"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction3}</p></div>`;
+var btn_html = '<button class="btn-corner" >%choice%</button>';
 
 var s1_instruction = {
     type: htmlButtonResponse,

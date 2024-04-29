@@ -21,6 +21,7 @@ def find_similar(s1, database, distance,pool):
     used=list(pool)
 
     text_1=list(set(text_1).difference(set(used))) # titles that has not appeared yet
+    print("Python not shown titles: " + ', '.join(text_1))
 
     similarity_matrix = calCosineDistance(text_0, text_1)
 
@@ -28,9 +29,10 @@ def find_similar(s1, database, distance,pool):
     distances = abs(similarity_matrix - distance)
     minIndex = np.argmin(distances)
 
-    print("Python caculated: " + database[minIndex])
+    print("Python caculated: " + text_1[minIndex])
+    print("Python actual similarity: " + str(similarity_matrix[minIndex]))
 
-    return database[minIndex]
+    return text_1[minIndex]
 
 
 def calCosineDistance(text_0, text_1):

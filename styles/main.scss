@@ -23,15 +23,6 @@
     white-space: pre;
 }
 
-.p-corner {
-    position: fixed;
-    left: 10px;
-    top: 10px;
-    font-size: 26px;
-    font-weight: bold;
-    text-align: left;
-}
-
 .p-likert-scale-0 {
     line-height: 5px;
     font-size: 14px;
@@ -47,44 +38,14 @@
 }
 
 .p-intro-title{
-    font-size:26px;
+    font-size:calc(4vh);
     text-align:center;
 }
 
 .p-intro-content {
-    font-size: 18px;
+    font-size: calc(2.7vh);
     text-align: left;
-    white-space:pre-line;
-}
-
-//image at the left side of the page
-.img-right {
-    float: left;
-    height: calc(40vh);
-    position: fixed;
-    top: 150px;
-    left: 5%;
-    margin-right: 10px;
-    display: inline-block;
-}
-
-
-.img-choice {
-    float: left;
-    width: 220px;
-    position: fixed;
-    top: 220px;
-    left: 5%;
-    margin-right: 10px;
-    display: inline-block;
-}
-
-
-
-.btn-img {
-    position: relative;
-    top: 50px;
-    z-index: 2;
+    white-space: pre-line;
 }
 
 .p-aboveTitle {
@@ -112,6 +73,65 @@
         visibility: hidden;
     }
 }
+
+//image at the left side of the page
+//it's an image with width < height
+.img-left-profile {
+    float: left;
+    width: calc(20vw);
+    position: fixed;
+    top: calc(15vh);
+    left: calc(10vw);
+    margin-right: 10px;
+    display: inline-block;
+}
+//it's an image with width > height
+.img-left-landscape {
+    float: left;
+    width: calc(40vw);
+    position: fixed;
+    top: 150px;
+    left: 5%;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+
+.img-choice {
+    float: left;
+    width: 220px;
+    position: fixed;
+    top: 220px;
+    left: 5%;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+
+
+.btn-img {
+    position: relative;
+    top: 50px;
+    z-index: 2;
+}
+
+//a div at the upper left corner
+.div-upperLeft {
+    position: fixed;
+    left: 40px;
+    top: 10px;
+    width: calc(90vw);
+    font-size:16px;
+
+    text-align: left;
+}
+
+.div-scroll {
+    height: calc(10vh);
+    overflow-y: auto;
+    color:dimgrey;
+}
+
 
 //a box at the right side of the page
 .div-right {
@@ -261,6 +281,26 @@
     background-color: #fff;
     border-color: #ccc;
     width: 200px;
+}
+
+.btn-corner {
+    position: fixed;
+    bottom: calc(3vh);
+    right: calc(2vw);
+    width: calc(10vw);
+    height: 60px;
+    background-color: lightgrey;
+    font-size: calc(2vw);
+    font-weight: 400;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    cursor: pointer;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
 }
 
 .my-jspsych-btn:disabled {

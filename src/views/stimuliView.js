@@ -85,7 +85,6 @@ function printResult(result) {
     startTime = Date.now();//start timing after the stimuli presented
 }
 
-
 // show image and title
 var s2_img = {
     type: imageButtonResponse,
@@ -162,9 +161,13 @@ var s2_img = {
     },
 
     on_load: async function () {
+        document.querySelector('#jspsych-image-button-response-button-0 button').onclick = function () {
+            document.querySelector('#jspsych-image-button-response-button-0 button').disabled = true;
+            console.log("button 0 clicked!");
+        };
         document.querySelector('#jspsych-image-button-response-button-0 button').disabled = true;
         document.querySelector('#jspsych-image-button-response-button-1 button').disabled = true;
-        globalThis.myResultModel.calTitle(5,[5000,8000]).then((result) => printResult(result));//get or calculate title,no delay
+        globalThis.myResultModel.calTitle(5,[5000,8000]).then((result) => printResult(result));//get or calculate title,delay of T1-T2 ms
         //hint below button
         //hint_hover();
         //display the most recent titles as prompt
