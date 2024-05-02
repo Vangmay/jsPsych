@@ -74,7 +74,7 @@ async function prepare_data() {
         //seperate to a list of title pairs and similarity
         sim_table = tableArray.map((tt) => {
             var temp = tt.split(",")
-            return [temp[0] + "," + temp[1], parseFloat(temp[2])];
+            return [temp[0] ,temp[1], parseFloat(temp[2])];
         });
         globalThis.myResultModel = new ResultModel(myArray, sim_table);//initialize the model with data
     }

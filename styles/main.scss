@@ -46,6 +46,7 @@
     font-size: calc(2.7vh);
     text-align: left;
     white-space: pre-line;
+    line-height: calc(4vh);
 }
 
 .p-aboveTitle {
@@ -180,14 +181,21 @@
     position: absolute;
     left: 0px;
     top: 30px;
-    width:200px;
+    width: 200px;
     display: inline-block;
     font-size: 14px;
     /*    visibility: hidden;*/
     text-align: left;
     margin: 10px;
+    pointer-events: none;
 }
 
+.div-error{
+    text-align:right;
+    color:red;
+    font-size:14px;
+    visibility:hidden;
+}
 
 
 .div-score {
@@ -376,4 +384,11 @@
 .input-slider::-moz-range-progress {
     height: 15px;
     background-color: gray;
+}
+
+.input-title{
+    position:fixed;
+    left:620px;
+    top:calc(54vh);
+    font-size:14px;
 }

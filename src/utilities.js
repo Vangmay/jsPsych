@@ -24,16 +24,15 @@ function getSimilar(para) {
     var newTitle = "";
     var minDistance = 100;
     table.forEach((tt) => {
-        if (tt[0].includes(target)) {
+        if (tt[0]==target) {
             //pick the other title from the pair
-            var other_title = tt[0].replace(target, "");
-            other_title=other_title.replace(",", "");
+            var other_title = tt[1]
             //mark the title with closest similarity
-            if (Math.abs(tt[1] - sim) < minDistance) {
+            if (Math.abs(tt[2] - sim) < minDistance) {
                 //if title has not been shown before
                 if (pool.indexOf(other_title) < 0) {
                     newTitle = other_title;
-                    minDistance = Math.abs(tt[1] - sim);
+                    minDistance = Math.abs(tt[2] - sim);
                     
                 }
             }

@@ -26,9 +26,13 @@ var likert_scale = [
 var s3 = {
     type: surveyLikert,
     preamble: () => {
+        //list the shown titles and the question
+        var pool = globalThis.myResultModel.getPool();
+        var pool_html = pool.map((tt) => ' ' + tt);
+
         var title_html = '<div>'
         title_html += ' <div class="div-upperLeft" >Here are the generated titles.'
-        title_html += '<div class="div-scroll">' + globalThis.myResultModel.getPool()+'</div>';
+        title_html += '<div class="div-scroll">' + pool_html +'</div>';
         title_html+='<b>In your opinion, they are...</b></div > ';
         title_html += '<div class="div-likert-scale"><p class="p-likert-scale-0">Strongly_disagree Strongly_agree</p><p class="p-likert-scale-1">1 2 3 4 5 6 7</p></div>'
         title_html += '</div > ';
@@ -68,7 +72,7 @@ var s3_info = {
     questions:
         [
             {
-                prompt: 'What is your age in years? Please enter numbers only. <input number="number" min="0" max="100" id = "age"><br>How do you describe yourself?',
+                prompt: '<div style="width:640px;"><div class="div-error" id="error"></div>What is your age in years? Please enter a number only. <input number="number" min="0" max="100" id = "age"></div>How do you describe yourself?',
                 name: 'choice_gender',
                 options: ['Male','Female','Other'],
                 required: true
@@ -80,16 +84,24 @@ var s3_info = {
 
     },
 
-    //block continue if user doesn't enter name
+    //block continue if user doesn't enter the right age
     on_load() {
-        document.querySelector('#jspsych-survey-multi-choice-next').disabled = true;
+        var btn = document.querySelector('#jspsych-survey-multi-choice-next');
+        btn.disabled = true;
         var input = document.querySelector('#age');
         input.addEventListener('input', () => {
             age = Number(input.value);
-            document.querySelector('#jspsych-survey-multi-choice-next').disabled = true;
-            if (Number.isInteger(age)) 
-                    if(age>=16&age<=99)
-                        document.querySelector('#jspsych-survey-multi-choice-next').disabled = false;
+            btn.disabled = true;
+            //show error msg
+            var errorMsg = document.getElementById('error');
+            errorMsg.innerHTML = "Please a number from 16-99"
+            errorMsg.style.visibility = "visible";
+
+            if (Number.isInteger(age))
+                if (age >= 16 & age <= 99) {
+                    btn.disabled = false;
+                    errorMsg.style.visibility = "hidden";
+                }
             }
         )
     },

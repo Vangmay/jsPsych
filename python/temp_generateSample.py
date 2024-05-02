@@ -43,6 +43,22 @@ column = ['title_0', 'title_1', 'similarity']
 sim_data = pd.DataFrame(columns=column, data=table)
 sim_data.to_csv('sample.csv',index=False)
 
+# --------------------extract titles from similarity table----------------
+path = 'NameSimilarity70.csv'
+data = pd.read_csv(path)
+com = list(data[['Name1']].values)
+
+# make the list hashable
+allTitles=[]
+for cc in com:
+    allTitles.append(cc[0])
+# remove repeated
+titles=list(set(allTitles))
+
+f = open("sample.txt", "w", encoding='utf-8')
+f.write('\n'.join(titles))
+f.close()
+
 # --------------------train word2vec model--------------------------------
 sentences=word2vec.Text8Corpus("E:/Download/jsPsych/python/trainingDoc.txt")
 model=word2vec.Word2Vec(sentences,sg=1,size=100,window=5,min_count=2,negative=3)

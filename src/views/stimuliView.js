@@ -161,15 +161,11 @@ var s2_img = {
     },
 
     on_load: async function () {
-        document.querySelector('#jspsych-image-button-response-button-0 button').onclick = function () {
-            document.querySelector('#jspsych-image-button-response-button-0 button').disabled = true;
-            console.log("button 0 clicked!");
-        };
         document.querySelector('#jspsych-image-button-response-button-0 button').disabled = true;
         document.querySelector('#jspsych-image-button-response-button-1 button').disabled = true;
-        globalThis.myResultModel.calTitle(5,[5000,8000]).then((result) => printResult(result));//get or calculate title,delay of T1-T2 ms
+        globalThis.myResultModel.calTitle(5,[0,0]).then((result) => printResult(result));//get or calculate title,delay of T1-T2 ms
         //hint below button
-        //hint_hover();
+        //hint_hover()
         //display the most recent titles as prompt
         if (get_condition().bank_position == "center") {
             var pool = globalThis.myResultModel.getPool();
@@ -261,9 +257,89 @@ var s2_choose = {
         globalThis.myResultModel.saveResult(
             data.trial_type, data.response.choice_title, data.rt, -1
         );
-        jsPsych.addNodeToEndOfTimeline(s3);
+        jsPsych.addNodeToEndOfTimeline(s3_own);
     }
 };
+
+//propose own title
+var myTitle = "";
+
+function canGo(radio, input) {
+    document.querySelector('#jspsych-survey-multi-choice-next').disabled = true;
+    var title = input.value;
+    console.log("radio checked?", radio.checked);
+    console.log("input?", title != "");
+    var canGo = ((radio.checked) & (title != "") & (title != "enter your own title here"));
+    if (canGo)
+        document.querySelector('#jspsych-survey-multi-choice-next').disabled = false;
+}
+
+var s3_own = {
+    type: surveyMultiChoice,
+    css_classes: ['questions'],
+    questions: () => {
+        var chosen = jsPsych.data.get().last(1).values()[0].response.choice_title;
+        return [
+            {
+                required: true,
+                prompt: `You have chosen <i>${chosen}</i>. Do you want to submit this title for evaluation or would you want to come up with your own title?`,
+                name: 'choice_own',
+                options: [`Yes, I want to submit <i>${chosen}</i> for evaluation`, 'No, I want to submit my own title'],
+                
+            }
+        ]
+    },
+
+    on_load() {
+
+        //input
+        var input_html = '<input id="myTitle" placeholder="Enter your own title here" class="input-title">';
+        div.innerHTML = input_html;
+        document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);
+
+        var radio = document.querySelector('#jspsych-survey-multi-choice-response-0-1');
+        var radio_yes = document.querySelector('#jspsych-survey-multi-choice-response-0-0')
+        var input = document.querySelector('#myTitle');
+
+        radio_yes.addEventListener('change', () => {
+            if (radio_yes.checked)
+                document.querySelector('#jspsych-survey-multi-choice-next').disabled = false;
+        })
+
+        radio.addEventListener('change', () => {
+            canGo(radio, input);
+        })
+
+        input.addEventListener('input', () => {
+            canGo(radio, input);
+            ////show error msg
+            //var errorMsg = document.getElementById('error');
+            //errorMsg.innerHTML = "Please a number from 16-99"
+            //errorMsg.style.visibility = "visible";
+
+            //if (Number.isInteger(age))
+            //    if (age >= 16 & age <= 99) {
+            //        btn.disabled = false;
+            //        errorMsg.style.visibility = "hidden";
+            //    }
+        })
+    },
+
+    on_finish: function (data) {
+
+        var response = {
+            "proposed": data.response.choice_own,
+            "own_title": myTitle,
+        }
+        // remove the additional components
+        document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
+        //save results,don't use start time
+        globalThis.myResultModel.saveResult(
+            data.trial_type, response, data.rt, -1
+        );
+        jsPsych.addNodeToEndOfTimeline(s3);
+    }
+}
 
 export {
     s2,
