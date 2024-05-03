@@ -13,19 +13,24 @@ const openai = new OpenAI({
 }
 );
 
-async function getHaiku_API() {
+//get a similar title
+async function getTitle_API(oldTitle,temp) {
     const completion = await openai.chat.completions.create({
         messages: [
             {
                 role: "system",
                 content: "You are a helpful assistant designed to output JSON.",
             },
-            { role: "user", content: "Generate a Haiku" },
+            { role: "user", content: `Generate a painting title related to ${oldTitle}` },
         ],
         model: "gpt-3.5-turbo-1106",
         response_format: { type: "json_object" },
+        temperature: temp,
     });
-    return completion.choices[0].message.content;
+    var answer = completion.choices[0].message.content;
+    var title = answer.split('"')[3];
+    console.log("API says: ", answer);
+    return title;
 }
 
 //ask openai to generate titles from base64 image
@@ -63,7 +68,7 @@ function cleanTitles(titles) {
     console.log("the titles are cleaned");
     return clean;
 }
-async function getTitle_API(path) {
+async function getTitleFromImage_API(path) {
     return new Promise((resolve) => {
         //convert to base64
         window.URL = window.URL || window.webkitURL;
@@ -91,6 +96,6 @@ async function getTitle_API(path) {
 
 export {
     openai,
-    getHaiku_API,
     getTitle_API,
+    getTitleFromImage_API,
 }

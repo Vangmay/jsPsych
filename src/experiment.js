@@ -1,16 +1,15 @@
 /**
- * @title demo_design1_0.1similarity
+ * @title demo_design2_openAI
  * @description 
  * Current demo: 
- *  - similar title search,design 1,
+ *  - similar title search,design 2,
  *  - title bank at corner,
- *  - similarity set to be 0.1,
- *  - doesn't calculate similarity in real-time
+ *  - similarity set to by slider,
+ *  - NOT calculate similarity in real-time
  *  - without piggy bank.
- * To choose between demo:change the stimuliView to jump to in 'introView'.
  * 
  * @author Yawen D
- * @version 0.6.3
+ * @version 0.7.0
  *
  * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv,assets/screen.png,assets/example.png
  */
@@ -33,9 +32,9 @@ import { s1_0 } from "./views/introView.js"
 
 export async function run({ assetPaths, input = {}, environment, title, version }) {
     //set up experiment conditions
-    const ui = { "bank": "corner", "isSlider": false, "showScore": false };//corner,center
+    const ui = { "bank": "corner", "isSlider": true, "showScore": false };//corner,center
     const para = { "similarity": "different" };//similar,different,variant
-    const algo = { "useTable": true };
+    const algo = { "useTable": false };
 
     init_condition(ui, para,algo);
 

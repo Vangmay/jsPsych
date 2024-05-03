@@ -7,7 +7,6 @@ import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import imageButtonResponse from '@jspsych/plugin-image-button-response';
 import surveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
 
-import { getHaiku_API, getTitle_API } from "../APIs/openAI.js"
 import { s3 } from "./surveyView"
 import { jsPsych } from "../models/jsPsychModel.js"
 import { get_condition, appendSimilarity } from "../models/conditionManager"
@@ -116,8 +115,12 @@ var s2_img = {
 
         //slider
         if (get_condition().isSlider) {
+            //calculate the original position of slider
+            var startValue=50;
+            if (globalThis.myResultModel.getPool().length >= 1)
+                startValue = [...get_condition().similarity].pop()*100;//previous position
             html1 += `<div class="div-slider">
-                        <input type="range" min="1" max="100" value="50" class="input-slider"id="user_similarity">
+                        <input type="range" min="1" max="100" value=${startValue} class="input-slider"id="user_similarity">
                         <div class="div-scale">
                             <br>   100% Similar</br>
                             <br>-  </br>
@@ -163,7 +166,9 @@ var s2_img = {
     on_load: async function () {
         document.querySelector('#jspsych-image-button-response-button-0 button').disabled = true;
         document.querySelector('#jspsych-image-button-response-button-1 button').disabled = true;
-        globalThis.myResultModel.calTitle(5,[0,0]).then((result) => printResult(result));//get or calculate title,delay of T1-T2 ms
+        //get or calculate title,delay of T1-T2 ms when using table
+        //the first parameter is the index of the initial title from the title database
+        globalThis.myResultModel.calTitle(0,[5000,8000]).then((result) => printResult(result));
         //hint below button
         //hint_hover()
         //display the most recent titles as prompt
@@ -262,11 +267,11 @@ var s2_choose = {
 };
 
 //propose own title
-var myTitle = "";
+var title = "";
 
 function canGo(radio, input) {
     document.querySelector('#jspsych-survey-multi-choice-next').disabled = true;
-    var title = input.value;
+    title = input.value;
     console.log("radio checked?", radio.checked);
     console.log("input?", title != "");
     var canGo = ((radio.checked) & (title != "") & (title != "enter your own title here"));
@@ -291,16 +296,17 @@ var s3_own = {
     },
 
     on_load() {
-
+        var radio = document.querySelector('#jspsych-survey-multi-choice-response-0-1');
+        var radio_yes = document.querySelector('#jspsych-survey-multi-choice-response-0-0')
+        
         //input
         var input_html = '<input id="myTitle" placeholder="Enter your own title here" class="input-title">';
         div.innerHTML = input_html;
-        document.getElementsByClassName("jspsych-display-element")[0].appendChild(div);
+        radio.parentNode.append(div);
 
-        var radio = document.querySelector('#jspsych-survey-multi-choice-response-0-1');
-        var radio_yes = document.querySelector('#jspsych-survey-multi-choice-response-0-0')
+
+        //listen to the changes
         var input = document.querySelector('#myTitle');
-
         radio_yes.addEventListener('change', () => {
             if (radio_yes.checked)
                 document.querySelector('#jspsych-survey-multi-choice-next').disabled = false;
@@ -312,16 +318,6 @@ var s3_own = {
 
         input.addEventListener('input', () => {
             canGo(radio, input);
-            ////show error msg
-            //var errorMsg = document.getElementById('error');
-            //errorMsg.innerHTML = "Please a number from 16-99"
-            //errorMsg.style.visibility = "visible";
-
-            //if (Number.isInteger(age))
-            //    if (age >= 16 & age <= 99) {
-            //        btn.disabled = false;
-            //        errorMsg.style.visibility = "hidden";
-            //    }
         })
     },
 
@@ -329,10 +325,8 @@ var s3_own = {
 
         var response = {
             "proposed": data.response.choice_own,
-            "own_title": myTitle,
+            "own_title": title,
         }
-        // remove the additional components
-        document.getElementsByClassName("jspsych-display-element")[0].removeChild(div);
         //save results,don't use start time
         globalThis.myResultModel.saveResult(
             data.trial_type, response, data.rt, -1

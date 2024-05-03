@@ -54,18 +54,20 @@ async function prepare_data() {
 
     //if real-time calculation needed,initial the python packages
     if (!useTable) {
-        //load the database of titles
-        getTitle_API('assets/img.png').then((myArray) => {
-            console.log("titles:", myArray);
-            globalThis.myResultModel = new ResultModel(myArray, sim_table);//initialize the model with data
-            console.log("my model is built!", globalThis.myResultModel);
-        });
-        //init python packages
-        await init_py();
-        await runPython(`
-                from pyModel import nlpModel
-                nlpModel.find_similar("apple",["orange","apple banana","orange apple"],0.1,["orange apple"])
-            `);
+        globalThis.myResultModel = new ResultModel(myArray, sim_table);//initialize the model with data
+
+        ////load the database of titles
+        //getTitle_API('assets/img.png').then((myArray) => {
+        //    console.log("titles:", myArray);
+        //    globalThis.myResultModel = new ResultModel(myArray, sim_table);//initialize the model with data
+        //    console.log("my model is built!", globalThis.myResultModel);
+        //});
+        ////init python packages
+        //await init_py();
+        //await runPython(`
+        //        from pyModel import nlpModel
+        //        nlpModel.find_similar("apple",["orange","apple banana","orange apple"],0.1,["orange apple"])
+        //    `);
     }
     else {//load similarity table
         let table = loadFile('assets/sample.csv');

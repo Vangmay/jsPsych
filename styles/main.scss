@@ -386,9 +386,11 @@
     background-color: gray;
 }
 
-.input-title{
-    position:fixed;
-    left:620px;
-    top:calc(54vh);
-    font-size:14px;
+.input-title {
+    position:relative;
+    left:320px;
+    bottom:37px;
+    width: 250px;
+    font-size: 14px;
+    display: inline-block;
 }

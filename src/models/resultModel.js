@@ -6,6 +6,7 @@
 import { runPython, passPara, destroyPara } from "./jsPyModel.js"
 import { get_condition, appendSimilarity } from "../models/conditionManager"
 import { getSimilar } from "../utilities"
+import { getTitle_API } from "../APIs/openAI"
 
 export default class ResultModel {
     constructor(database,sim_table) {
@@ -87,7 +88,8 @@ export default class ResultModel {
             var data = this.database;
             var table = this.sim_table;
 
-            if (pool.length <= 0) {//it's the first title
+            //it's the first title
+            if (pool.length <= 0) {
                 var title = data[initIndex];
                 resolve(title);
             }
@@ -110,17 +112,22 @@ export default class ResultModel {
                     delay(Math.random() * (delayTime[1] - delayTime[0]) + delayTime[0]).then(() => resolve(result));
                 }
                 else {
-                    para = { "s1": last_title, "database": data, "distance": sim_queue.pop(), "pool": pool };
-                    console.log("current pool: ", pool);
-                    passPara(para);
-                    runPython(`
-                            from pyModel import nlpModel
-                            nlpModel.find_similar(s1,database,distance,pool)
-                        `).then((result) => {
-                        console.log("Similar title counted real-time:", result);
-                        destroyPara(para);//destroy the global parameters to avoid memory leak
+                    var temperature = 2-sim_queue.pop() * 2;//convert the similarity value to the temperature
+                    getTitle_API(last_title, temperature).then((result) => {
+                        console.log("Similar title fetched real-time:", result);
                         resolve(result);
                     });
+
+                    //para = { "s1": last_title, "database": data, "distance": sim_queue.pop(), "pool": pool };
+                    //passPara(para);
+                    //runPython(`
+                    //        from pyModel import nlpModel
+                    //        nlpModel.find_similar(s1,database,distance,pool)
+                    //    `).then((result) => {
+                    //    console.log("Similar title counted real-time:", result);
+                    //    destroyPara(para);//destroy the global parameters to avoid memory leak
+                    //    resolve(result);
+                    //});
                 }
             }
         });
