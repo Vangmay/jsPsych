@@ -38,7 +38,7 @@ function getSimilar(para) {
             }
         }
     });
-    console.log("the distance between required similarity and actual similarity: ", minDistance);
+    //console.log("the distance between required similarity and actual similarity: ", minDistance);
     return newTitle;
 }
 

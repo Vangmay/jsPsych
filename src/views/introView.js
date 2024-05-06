@@ -13,7 +13,7 @@ import instructions from '@jspsych/plugin-instructions';
 import { s4 } from "./endView.js"
 import { s2_img } from "./stimuliView"
 import { jsPsych } from "../models/jsPsychModel.js"
-import { prepare_data } from "../models/conditionManager"
+import { prepare_data, get_condition } from "../models/conditionManager"
 import { fullscreenListener } from "../utilities"
 import {text} from "./txtSource"
 
@@ -23,7 +23,7 @@ var s1_0 = {
     on_load: async function () {
         //detect mobile users and forbid
         var userAgentInfo = navigator.userAgent.toLowerCase();
-        console.log("user agent: ", userAgentInfo);
+        //console.log("user agent: ", userAgentInfo);
         var agents = ["android", "iphone",
             "symbianos", "windows phone",
             "ipad", "ipod"];
@@ -74,7 +74,6 @@ var s1 = {
 
 //the instruction
 var p1_html = `<img src="assets/example.png" class="img-left-profile"><div class="div-right"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction1}</p></div>`;
-var p2_html = `<img src="assets/screen.png" class="img-left-landscape"><div class="div-right"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction2}</p></div>`;
 var p3_html = `<div class="div-full"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction3}</p></div>`;
 var btn_html = '<button class="btn-corner" >%choice%</button>';
 
@@ -92,7 +91,16 @@ var s1_instruction = {
 
 var s1_instruction2 = {
     type: htmlButtonResponse,
-    stimulus: p2_html,
+    stimulus: () => {
+        var img = "assets/screen.png";
+        var instr = text.instruction2;
+        //instruction for slider
+        if (get_condition().isSlider) {
+            img = "assets/screen_slider.png";
+            instr = text.instruction2 + text.instruction2_slider;
+        }
+        return `<img src=${img} class="img-left-landscape"><div class="div-right"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${instr}</p></div>`;
+    },
     choices: ['>>Next'],
     button_html: [btn_html],
 

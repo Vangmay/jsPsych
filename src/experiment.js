@@ -1,17 +1,17 @@
 /**
- * @title demo_design2_openAI
+ * @title demo_design1
  * @description 
  * Current demo: 
- *  - similar title search,design 2,
+ *  - similar title search,design 1,
  *  - title bank at corner,
- *  - similarity set to by slider,
+ *  - similarity set to 0.1,
  *  - NOT calculate similarity in real-time
  *  - without piggy bank.
  * 
  * @author Yawen D
- * @version 0.7.0
+ * @version 0.7.1
  *
- * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv,assets/screen.png,assets/example.png
+ * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv,assets/screen.png,assets/screen_slider.png,assets/example.png,assets/endPage.html
  */
 
 // You can import stylesheets (.scss or .css).
@@ -32,9 +32,9 @@ import { s1_0 } from "./views/introView.js"
 
 export async function run({ assetPaths, input = {}, environment, title, version }) {
     //set up experiment conditions
-    const ui = { "bank": "corner", "isSlider": true, "showScore": false };//corner,center
-    const para = { "similarity": "different" };//similar,different,variant
-    const algo = { "useTable": false };
+    const ui = { "bank": "corner", "isSlider": false, "showScore": false };//corner,center
+    const para = { "similarity": "different", "user_batch": 'C2NSO5P8' };//similarity:similar,different,variant
+    const algo = { "useTable": true };
 
     init_condition(ui, para,algo);
 

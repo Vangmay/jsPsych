@@ -30,7 +30,7 @@ var s2 = {
 
         startTime = Date.now();//start timing after the haiku is presented
         //console.log(startTime);
-        console.log(next_haiku);
+        //console.log(next_haiku);
 
         addCount();
     },
@@ -272,8 +272,6 @@ var title = "";
 function canGo(radio, input) {
     document.querySelector('#jspsych-survey-multi-choice-next').disabled = true;
     title = input.value;
-    console.log("radio checked?", radio.checked);
-    console.log("input?", title != "");
     var canGo = ((radio.checked) & (title != "") & (title != "enter your own title here"));
     if (canGo)
         document.querySelector('#jspsych-survey-multi-choice-next').disabled = false;

@@ -1,6 +1,6 @@
-// manage the experiment conditions, such as UI, parameters, timeline, ect
+// manage the experiment conditions before user interaction, such as UI, parameters, timeline, ect
 // UI condition:design 1 title bank at the corner/center, whether to show remaining scores
-// Parameter condition:similarity of next title (similar,different, variant)
+// Parameter condition:similarity of next title (similar,different, variant), batch code of user
 // algorithm condition:use pre-calculated similarity table, or calculate similarity in real time
 
 import { runPython, init_py } from "./jsPyModel.js"
@@ -14,12 +14,14 @@ var simType = "";//similarity type
 var isSlider = false;//UI condition, whether it's the slider trial or image-response trial
 var useTable = true;//algorithm condition, use similarity table or real-time calculation
 var showScore = true;//UI condition:if the remaining score will be shown
+var user_batch = '';//Parameter condition,batch code of user (redirect to different ending URL)
 
 var max_gen = 24;//maximum times of generate new stimulus
 
 function init_condition(ui, para,algo) {
     bank_position = ui.bank;
     simType = para.similarity;
+    user_batch = para.user_batch;
     isSlider = ui.isSlider;
     useTable = algo.useTable;
     showScore = ui.showScore;
@@ -43,7 +45,7 @@ function init_condition(ui, para,algo) {
                 console.error(`${para.similarity} is not a valid similarity.`);
         }
     }
-    console.log("similarity set to be ", similarity);
+    //console.log("similarity set to be ", similarity);
 }
 
 async function prepare_data() {
@@ -90,6 +92,7 @@ async function prepare_data() {
 
 function get_condition() {
     return {
+        "user_batch": user_batch,
         "bank_position": bank_position,
         "similarity": similarity,
         "sim_type": simType,

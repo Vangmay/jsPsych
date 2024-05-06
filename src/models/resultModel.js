@@ -45,7 +45,7 @@ export default class ResultModel {
             is_distracted: this.isDistracted,
             feedback: this.feedback,
         };
-        console.log("model2save: ", model2save);
+        //console.log("model2save: ", model2save);
         this.result.push(model2save);
         return this.result;//for display
     }
@@ -106,7 +106,7 @@ export default class ResultModel {
                 if (get_condition().use_table) {
                     para = { "s1": last_title, "database": table, "distance": sim_queue.pop(), "pool": pool };
                     const result = getSimilar(para);
-                    console.log("Similar title counted from table:", result);
+                    //console.log("Similar title counted from table:", result);
                     //pretend it's loading
                     const delay = t => new Promise(resolve => setTimeout(resolve, t));
                     delay(Math.random() * (delayTime[1] - delayTime[0]) + delayTime[0]).then(() => resolve(result));
@@ -114,7 +114,7 @@ export default class ResultModel {
                 else {
                     var temperature = 2-sim_queue.pop() * 2;//convert the similarity value to the temperature
                     getTitle_API(last_title, temperature).then((result) => {
-                        console.log("Similar title fetched real-time:", result);
+                        //console.log("Similar title fetched real-time:", result);
                         resolve(result);
                     });
 

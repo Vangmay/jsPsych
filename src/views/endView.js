@@ -29,6 +29,13 @@ var exit_fullscreen = {
     type: fullscreen,
     fullscreen_mode: false,
     delay_after: 0,
+    on_load:()=> {
+        //window.open = `https://app.prolific.com/submissions/complete?cc=${get_condition().user_batch}`;
+    },
+    on_finish: () => {
+        //jatos.endStudyAndRedirect(`https://app.prolific.com/submissions/complete?cc=${get_condition().user_batch}`);
+        //window.open = `https://app.prolific.com/submissions/complete?cc=${get_condition().user_batch}`;
+    }
 }
 
 // show this page within T ms
