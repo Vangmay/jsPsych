@@ -7,8 +7,10 @@
 import OpenAI from "openai";
 import { getBase64 } from "../utilities";
 
+//decode the API key and init
+var myKey = atob(GLOBAL.OPENAI_API_KEY);
 const openai = new OpenAI({
-    apiKey: GLOBAL.OPENAI_API_KEY,
+    apiKey: myKey,
     dangerouslyAllowBrowser: true
 }
 );
@@ -29,7 +31,7 @@ async function getTitle_API(oldTitle,temp) {
     });
     var answer = completion.choices[0].message.content;
     var title = answer.split('"')[3];
-    console.log("API says: ", answer);
+    //console.log("API says: ", answer);
     return title;
 }
 
