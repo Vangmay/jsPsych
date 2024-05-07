@@ -7,6 +7,7 @@ import HtmlKeyboardResponsePlugin from "@jspsych/plugin-html-keyboard-response";
 import fullscreen from '@jspsych/plugin-fullscreen';
 import surveyText from '@jspsych/plugin-survey-text';
 
+
 import { jsPsych } from "../models/jsPsychModel.js"
 import { get_condition } from "../models/conditionManager"
 import { fullscreenListener } from "../utilities"
@@ -29,13 +30,6 @@ var exit_fullscreen = {
     type: fullscreen,
     fullscreen_mode: false,
     delay_after: 0,
-    on_load:()=> {
-        //window.open = `https://app.prolific.com/submissions/complete?cc=${get_condition().user_batch}`;
-    },
-    on_finish: () => {
-        //jatos.endStudyAndRedirect(`https://app.prolific.com/submissions/complete?cc=${get_condition().user_batch}`);
-        //window.open = `https://app.prolific.com/submissions/complete?cc=${get_condition().user_batch}`;
-    }
 }
 
 // show this page within T ms
@@ -51,7 +45,6 @@ var s4 = {
         data.myResult = globalThis.myResultModel.saveModel();//save statistics and user response
         //save experiment conditions
         data.myResult.push(get_condition());
-
         //exit fullscreen
         window.removeEventListener('resize', fullscreenListener);
         jsPsych.addNodeToEndOfTimeline(exit_fullscreen);
