@@ -116,13 +116,13 @@ var s2_img = {
         //slider
         if (get_condition().isSlider) {
             //calculate the original position of slider
-            var startValue=50;
+            var startValue=2;
             if (globalThis.myResultModel.getPool().length >= 1)
                 startValue = [...get_condition().similarity].pop()*100;//previous position
             html1 += `<div class="div-slider">
                         <input type="range" min="1" max="100" value=${startValue} class="input-slider"id="user_similarity">
                         <div class="div-scale">
-                            <br>   100% Similar</br>
+                            <br>   Different</br>
                             <br>-  </br>
                             <br>-  80%</br>
                             <br>-  </br>
@@ -132,7 +132,7 @@ var s2_img = {
                             <br>-  </br>
                             <br>-  20%</br>
                             <br>-  </br>
-                            <br>   0% Similar</br>
+                            <br>   Similar</br>
                         </div>`
             ////if it's the first time the slider is shown
             //if (globalThis.myResultModel.getPool().length <= 0)

@@ -40,10 +40,12 @@ git clone https://github.com/wdhub/jsPsych.git
 	```
 	npm i webpack-define-envs-plugin
 	```	
-	- Add an openai key variable in the system environment variable via the advanced setting in your PC. This is adviced by openAI for [security reasons](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety).
+	- Encrypted your openai key.In this program, base64 encryption is used. However, we recommend you to use more complex methods and then modify the decoding function in `API/openAI,js` accordingly.
+	
+	- Add the encrypted key as a system environment variable via the advanced setting in your PC. This is adviced by openAI for [security reasons](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety).
 	```
 	Variable name:OPENAI_API_KEY
-	Variable value:<your_api_key>
+	Variable value:<your_encrypted_key>
 
 	```
 

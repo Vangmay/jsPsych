@@ -43,7 +43,14 @@
 }
 
 .p-intro-content {
-    font-size: calc(2.7vh);
+    font-size: calc(2.5vh);
+    text-align: left;
+    white-space: pre-line;
+    line-height: calc(3.5vh);
+}
+
+.p-full-content {
+    font-size: calc(3vh);
     text-align: left;
     white-space: pre-line;
     line-height: calc(4vh);
@@ -145,10 +152,10 @@
 
 //a box of full screen text
 .div-full {
-    width: calc(52vw);
+    width: calc(45vw);
     margin: auto;
     position: fixed;
-    top: calc(30vh);
+    top: calc(25vh);
     left: calc(25vw);
 }
 
@@ -184,6 +191,7 @@
     width: 200px;
     display: inline-block;
     font-size: 14px;
+    line-height: 20px;
     /*    visibility: hidden;*/
     text-align: left;
     margin: 10px;
@@ -213,7 +221,7 @@
 
 .div-pool {
     position: fixed;
-    line-height: 14px;
+    line-height: 20px;
     font-size: 16px;
     height: calc(90vh);
     width: 330px;
@@ -296,7 +304,7 @@
     bottom: calc(3vh);
     right: calc(2vw);
     width: calc(10vw);
-    height: 60px;
+    height: 50px;
     background-color: lightgrey;
     font-size: calc(2vw);
     font-weight: 400;

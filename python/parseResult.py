@@ -1,4 +1,9 @@
 # parse the JSON format results from experiment
+# output:
+#   - titles: chosen,all presented, own
+#   - user feedback: ratings,comment, score
+#   - condition: user batch, similarity, distracted, similarity table+show score+slider, attention
+#   - user info: age, gender, ID
 import json
 import re
 import csv
@@ -7,7 +12,7 @@ import csv
 max_num_tt = 3  # max num of test trial with actual stimulus
 
 ## open and read file
-fileName = '../results/jatos_results_data_20240215152224'
+fileName = '../results/jatos_results_data_20240508101832'
 f = open(fileName + '.txt')
 rawData = f.readlines()
 f.close()
@@ -26,45 +31,52 @@ def cleanStimulus(st):
 
 ## pick important data
 pickedData = []
-acptDict = {0: "accepted", 1: "rejected"}
 
-for id in range(len(rawData)):
-    rD = rawData[id]
-    rD = json.loads(rD)  # read and convert JSON to data
-    numTrial = len(rD)
-    pD = {"id": id}  # picked data for the participant with id=..
+for rd in rawData:
+    values=json.loads(rd)['values']
+    # if contain any value
+    if len(values)>0:
+        dataList = values[0]
+        pD={'other_title':[]}
+        for dl in dataList:
+            # user
+            if 'feedback' in dl:
+                pD.update(dl)#ID, score, is distracted...
+            if 'stimulus' in dl:
+                if dl['stimulus']=='survey-likert':
+                    for kk in dl['acceptance'].keys():
+                        dl['acceptance'][kk]+=1
+                    pD.update(dl['acceptance'])# rates
+                if dl['stimulus']=='survey-multi-choice':
+                    if 'gender' in dl['acceptance']:
+                        pD.update(dl['acceptance'])  # age, gender
 
-    # select data for the participant
-    myResult = {}
-    for ii in range(numTrial):
-        eachTrial = rD[ii]
+            # titles
+            if 'acceptance' in dl:
+                if dl['acceptance'] in [0,1]:
+                    if dl['acceptance']==0:
+                         pD['other_title'].append(dl['stimulus'])
+                    else:
+                         pD['chosen_title']=dl['stimulus']
+                elif 'own_title' in dl['acceptance']:
+                    pD['own_title'] = dl['acceptance']['own_title']
 
-        # those trials contain the results we want
-        if 'myResult' in eachTrial:
-            myResult = eachTrial["myResult"]
-            break
+            # conditions
+            if 'user_batch' in dl:
+                pD.update(dl)# user batch,similarity, algorithm, etc
+            if 'stimulus' in dl:
+                if dl['stimulus']=='survey-multi-choice':
+                    if 'choice_iPhone' in dl['acceptance']:
+                        pD['attention']= dl['acceptance']['choice_iPhone']
+        pickedData.append(pD)
 
-    for jj in range(len(myResult)):
-        rr = myResult[jj]
-        # clear the stimulus
-        pD["stimulus " + str(jj)] = cleanStimulus(rr["stimulus"])
-        pD["response_time " + str(jj)] = rr["rspTime"]
-        pD["acceptance " + str(jj)] = rr["acceptance"]
 
-    pickedData.append(pD)
-
-## store parsed results
-header = ["id"]
-for ii in range(max_num_tt):
-    header.append("stimulus " + str(ii))
-    header.append("response_time " + str(ii))
-    header.append("acceptance " + str(ii))
+# store parsed results
 
 # make the non-exsisted trials empty
-for ii in range(len(pickedData)):
-    for hd in header:
-        if hd not in pickedData[ii]:
-            pickedData[ii][hd] = " "
+
+# header
+header=pickedData[0].keys()
 
 with open(fileName + '.csv', 'a', newline='', encoding='utf-8') as f:
     writer = csv.DictWriter(f, fieldnames=header)

@@ -74,7 +74,7 @@ var s1 = {
 
 //the instruction
 var p1_html = `<img src="assets/example.png" class="img-left-profile"><div class="div-right"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction1}</p></div>`;
-var p3_html = `<div class="div-full"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction3}</p></div>`;
+var p3_html = `<div class="div-full"><p class="p-intro-title">Instruction</p><p class="p-full-content">${text.instruction3}</p></div>`;
 var btn_html = '<button class="btn-corner" >%choice%</button>';
 
 var s1_instruction = {

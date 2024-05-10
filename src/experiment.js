@@ -1,15 +1,15 @@
 /**
- * @title demo_design2
+ * @title demo_design1
  * @description 
  * Current demo: 
- *  - similar title search,design 2,
+ *  - similar title search,design 1,
  *  - title bank at corner,
- *  - similarity set by slider,
- *  - calculate similarity in real-time
+ *  - similarity set to 0.1,
+ *  - NOT calculate similarity in real-time
  *  - without piggy bank.
  * 
  * @author Yawen D
- * @version 0.7.2
+ * @version 0.7.4
  *
  * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv,assets/screen.png,assets/screen_slider.png,assets/example.png
  */
@@ -36,9 +36,9 @@ export async function run({ assetPaths, input = {}, environment, title, version 
     initJsp(user_batch);
 
     //set up experiment conditions
-    const ui = { "bank": "corner", "isSlider": true, "showScore": false };//corner,center
+    const ui = { "bank": "corner", "isSlider": false, "showScore": false };//corner,center
     const para = { "similarity": "different", "user_batch": user_batch};//similarity:similar,different,variant
-    const algo = { "useTable": false };
+    const algo = { "useTable": true };
 
     init_condition(ui, para,algo);
 
