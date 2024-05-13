@@ -1,16 +1,17 @@
 # Perception experiment
-A JsPsych website for psychology experiment. During the experiment, openAI API will be called multiple times to generate the stimuli. The website is interactive, i.e the displayed content may change according to participants' choices. The introduction pages, stimuli pages and conclusion pages are sequentially shown to the participants.
+A JsPsych website for psychology experiment. During the experiment, openAI API will be called multiple times to generate the stimuli. The website is interactive, i.e the displayed content may change according to participants' choices. Sequentially, the participants would be shown with the introductions, interaction pages, surveys and an ending page.
 
-This readme will explain how to install and use the website, as well as the design principles. For the design process, please refer to [issues](https://github.com/wdhub/jsPsych/issues).
+This readme will explain how to install and use the program, as well as the design principles. For the design process, please refer to [issues](https://github.com/wdhub/jsPsych/issues).
 
 For research purpose, the project is led by [Hui Sun](https://www.huisunsh.com/) from House of Innovation, Stockholm School of Economics. See paper (not published yet)...
 Contact: [Yawen](yawend@kth.se), research assistant, if you have any question.
 
 ## Update:
-In the latest release, the experiment is about letting participants decide if they accept the realtime-generated Haiku or not. If accepted, their reaction time and choices will be shown on the final page. Participants can reject the stimuli for maximun 3 times. This, however, is only a demo to build and test the tech stack.
+In the latest release, the experiment allows participants to come up with a painting title collaborating with the AI. After reading the instructions, they have the choice to accept the generated title or to generate a new one, as well as controlling the similarity of the coming title via a slider. Once a title is picked, participant could optionally propose their own titles. In the following survey, user validation on the interaction and some additional information are required. Finally, participants would be directed to a Prolific page for their rewards, etc.
+
+Here is a link to try it out:[demo at Jatos](http://157.230.27.41/publix/6jq04deNr3b)
 
 Here is a screen record of how it works.
-![s5](https://github.com/wdhub/jsPsych/assets/56460190/e25d39c5-dd27-4393-a664-e2f19b5f9512)
 
 
 ## Tech Stack:
