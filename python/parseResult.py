@@ -5,7 +5,6 @@
 #   - condition: user batch, similarity, distracted, similarity table+show score+slider, attention
 #   - user info: age, gender, ID
 import json
-import re
 import csv
 
 # parameters
@@ -16,17 +15,6 @@ fileName = '../results/jatos_results_data_20240508101832'
 f = open(fileName + '.txt')
 rawData = f.readlines()
 f.close()
-
-
-# clear the stimulus
-# select between "haiku:" and "}"
-# clean special symbols
-def cleanStimulus(st):
-    t1 = st.split('"haiku":')[1]
-    t2 = t1.split('}')[0]
-    cln = re.sub('[\t\n\\"{}]', '', t2)
-
-    return cln
 
 
 ## pick important data
