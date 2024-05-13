@@ -24,17 +24,6 @@ Here is a link to try it out: [demo at Jatos](http://157.230.27.41/publix/6jq04d
 If the link no long works, this is a screen record of how it works.
 ![demo](https://github.com/wdhub/jsPsych/assets/56460190/e30b7e45-11cf-420f-9f9d-21fc3414f0c1)
 
-## Tech Stack:
-The website is built around the [Jspsych](https://www.jspsych.org/7.3/) framework. The reason why we adopt this framework rather than React or VueX is that it provides ready-to-use process control plugins for behavioral experiments. Such as the timeline that navigates throughout the experiment, reaction time recorder, eye-tracker, etc. Besides the framework, [jsPsych Builder](https://github.com/bjoluc/jspsych-builder), a React ClI, is ultilized to set up and update the environment. With the simple commands like "npm run build" or "npm run jatos", the program could be packaged.
-
-[Jatos](https://www.jatos.org/) is used to manage experiment results. The reason why Jatos is preferred than Firebase is the built-in access control. For instance, researchers can choose in the panel the participant's access level of the shared URL link. Some could be submitted multiple times, some could be submitted only once in the same IP. 
-
-To host the webiste remotely, a server in German with Docker on Ubuntu pre-installed is picked from [DigitalOcean](https://www.digitalocean.com/). The location is selected due to performance requirement and academic ethics. 
-
-OpenAI API is maily called to generate the stimuli. In specific, [gpt-3.5-turbo-0125](https://platform.openai.com/docs/guides/text-generation/completions-api) is the currently used model, with the purpose of text generation. Each fetch of the API may take around 1 second, depending on the current load of openAI platform and the local network of the participant. Therefore, a loading feature is needed in the UI.
-
-![图片1](https://github.com/wdhub/jsPsych/assets/56460190/691771bd-d73e-412b-bc14-aaf96f5b416e)
-
 ## Get Started: Launching the experiment
 - Before you get started: 
 	- make sure you have git bash/github desktop and `npm` installed in your computer
@@ -215,6 +204,18 @@ Please note:
 - [How to set up a new experiment via jsPsych Builder](https://github.com/bjoluc/jspsych-builder)
 - [Step-by-step install Jatos in DigitalOcean](https://www.jatos.org/next/JATOS-on-DigitalOcean.html)
 - [Examples of experiments using Jatos (Jspsych, React, etc)](https://www.jatos.org/Example-Studies.html)
+
+
+## Tech Stack:
+The website is built around the [Jspsych](https://www.jspsych.org/7.3/) framework. The reason why we adopt this framework rather than React or VueX is that it provides ready-to-use process control plugins for behavioral experiments. Such as the timeline that navigates throughout the experiment, reaction time recorder, eye-tracker, etc. Besides the framework, [jsPsych Builder](https://github.com/bjoluc/jspsych-builder), a React ClI, is ultilized to set up and update the environment. With the simple commands like "npm run build" or "npm run jatos", the program could be packaged.
+
+[Jatos](https://www.jatos.org/) is used to manage experiment results. The reason why Jatos is preferred than Firebase is the built-in access control. For instance, researchers can choose in the panel the participant's access level of the shared URL link. Some could be submitted multiple times, some could be submitted only once in the same IP. 
+
+To host the webiste remotely, a server in German with Docker on Ubuntu pre-installed is picked from [DigitalOcean](https://www.digitalocean.com/). The location is selected due to performance requirement and academic ethics. 
+
+OpenAI API is maily called to generate the stimuli. In specific, [gpt-3.5-turbo-0125](https://platform.openai.com/docs/guides/text-generation/completions-api) is the currently used model, with the purpose of text generation. Each fetch of the API may take around 1 second, depending on the current load of openAI platform and the local network of the participant. Therefore, a loading feature is needed in the UI.
+
+![图片1](https://github.com/wdhub/jsPsych/assets/56460190/691771bd-d73e-412b-bc14-aaf96f5b416e)
 
 ### File Structure
 - views/
