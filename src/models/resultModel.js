@@ -51,8 +51,8 @@ export default class ResultModel {
     }
 
     appendPool(newStm) {
-        if (this.stmPool.indexOf(newStm) == -1)//debouncing, if the title hasn't appeared before, add to pool
-            this.stmPool.push(newStm);
+        //if (this.stmPool.indexOf(newStm) == -1)//debouncing, if the title hasn't appeared before, add to pool
+        this.stmPool.push(newStm);
     }
 
     getPool() {
@@ -104,7 +104,9 @@ export default class ResultModel {
 
                 //choose similarity measurement algorithms
                 if (get_condition().use_table) {
-                    para = { "s1": last_title, "database": table, "distance": sim_queue.pop(), "pool": pool };
+                    para = { "s1": last_title, "database": table, "similarity": sim_queue.pop(), "pool": pool };
+                    if (get_condition().isSlider)
+                        para.similarity = 1 - para.similarity;//0 in slider is similar, 1 is different
                     const result = getSimilar(para);
                     //console.log("Similar title counted from table:", result);
                     //pretend it's loading
@@ -112,13 +114,21 @@ export default class ResultModel {
                     delay(Math.random() * (delayTime[1] - delayTime[0]) + delayTime[0]).then(() => resolve(result));
                 }
                 else {
-                    var temperature = 2-sim_queue.pop() * 2;//convert the similarity value to the temperature
+                    //convert the similarity value to the temperature
+                    //0 in slider is similar, 1 is different
+                    var temperature = sim_queue.pop() * 2;
+
+                    //without slider, similarity is a value of 0-1 which measures the similarity.
+                    if (!get_condition().isSlider)
+                        para.similarity = 2 - para.similarity;
                     getTitle_API(last_title, temperature).then((result) => {
                         //console.log("Similar title fetched real-time:", result);
                         resolve(result);
                     });
 
-                    //para = { "s1": last_title, "database": data, "distance": sim_queue.pop(), "pool": pool };
+                    //para = { "s1": last_title, "database": data, "distance": sim_queue.pop(), "pool": pool };//the distance is actually similarity
+                    //if (get_condition().isSlider)
+                    //    para.similarity = 1 - para.similarity;//0 in slider is similar, 1 is different
                     //passPara(para);
                     //runPython(`
                     //        from pyModel import nlpModel

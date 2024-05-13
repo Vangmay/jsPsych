@@ -17,7 +17,7 @@ function loadFile(name) {
 function getSimilar(para) {
     var target = para.s1;
     var table = para.database;
-    var sim = para.distance;
+    var sim = para.similarity;
     var pool = para.pool;
 
     // find the closest via iterations
