@@ -19,7 +19,7 @@ Contact: [Yawen](yawend@kth.se), research assistant, if you have any question.
 ## Update:
 In the latest release, the experiment allows participants to come up with a painting title collaborating with the AI. After reading the instructions, they have the choice to accept the generated title or to generate a new one, as well as controlling the similarity of the coming title via a slider. Once a title is picked, participant could optionally propose their own titles. In the following survey, user validation on the interaction and some additional information are required. Finally, participants would be directed to a Prolific page for their rewards, etc.
 
-Here is a link to try it out: [demo at Jatos](http://157.230.27.41/publix/6jq04deNr3b)
+Here is a link to try it out: [demo at Jatos](http://157.230.27.41/publix/hs9Qsc19DJ0)
 
 If the link no long works, this is a screen record of how it works.
 ![demo](https://github.com/wdhub/jsPsych/assets/56460190/e30b7e45-11cf-420f-9f9d-21fc3414f0c1)
