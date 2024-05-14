@@ -53,7 +53,7 @@ How different building blocks are activated are further explained in the Program
 ```
 npm start
 ```
-Enter `localhost:3000` in your browser as the npm indicates project running. If the website is able to interact as the demo, the environment are set up successfully.
+Enter `localhost:3000` in your browser as the npm indicates project running. The website should interact as the demo, except that it displays the results at the end, instead of jumping to Prolific. 
 
 ### Integrate OpenAI API
 #### Get your own [OpenAI key](https://platform.openai.com/docs/quickstart). 
@@ -94,7 +94,7 @@ npm run jatos
 - Open [localhost:9000](http://localhost:9000/) in your browser.
 - Import `.jzip` file in Jatos GUI and run the experiment. 
 
-After finishing the experiment, there should be an entry of result in _Study Results_ in local Jatos GUI. If the state of the result is marked as FINISHED and the message contains data, it means Jatos can now manage the experiment.
+After finishing the experiment, there should be an entry of result in _Study Results_ in local Jatos GUI. If the experiment ends up with a Prolific link, the state of the Jatos result is marked as FINISHED and the message contains data, it means Jatos can now manage the experiment.
 
 #### Hosting Jatos in a server
 In this project, DigitalOcean is used to host Jatos. However, you may use other cloud providers as AWS, Google Cloud, Azure etc. Here are the steps:
