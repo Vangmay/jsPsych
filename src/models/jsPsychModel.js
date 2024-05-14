@@ -1,5 +1,5 @@
 /**
- * Manage API issue from jsPsych
+ * Manage API issue from jsPsych and Jatos
  *
  */
 

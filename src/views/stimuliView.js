@@ -1,6 +1,6 @@
 /**
  * Stimuli page of the exp
- * - show haiku and choose accept or not
+ * - show title and choose accept or not
  */
 
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
@@ -14,7 +14,7 @@ import { get_condition, appendSimilarity } from "../models/conditionManager"
 var startTime;
 var div = document.createElement("div");//div for additional components
 
-// haiku-acceptance interaction
+//-------------------------haiku-acceptance interaction (not used)---------------------
 var s2 = {
     type: htmlButtonResponse,
     choices: ['Accept', 'Re-generate'],
@@ -71,10 +71,7 @@ function addRespFromButton(data,rt) {
     //console.log(data.myResult);
 }
 
-// image-title match
-
-
-
+// -------------------------display and save fetching result-------------------------
 function printResult(result) {
     globalThis.myResultModel.appendPool(result);//save this title in stimulus pool
     document.getElementById('title').innerHTML = "&#91;" + result + "&#93;";
@@ -84,7 +81,8 @@ function printResult(result) {
     startTime = Date.now();//start timing after the stimuli presented
 }
 
-// show image and title
+//-----------------------------------------------------------------------
+//-------------------------show image and title-------------------------
 var s2_img = {
     type: imageButtonResponse,
     stimulus: 'assets/img.png',
@@ -214,7 +212,7 @@ var s2_img = {
     },
 }
 
-// make hint appear when mouse hovers
+//-------------------------make hint appear when mouse hovers-------------------------
 function hint_hover() {
     document.querySelector('#jspsych-image-button-response-button-0 button').addEventListener("mouseover", () => {
         document.getElementById('hint_stop').style.visibility = "visible";
@@ -230,7 +228,8 @@ function hint_hover() {
     });
 }
 
-// choose the ideal title
+//-----------------------------------------------------------------------
+//-------------------------choose the ideal title-------------------------
 var s2_choose = {
     type: surveyMultiChoice,
     css_classes: ['questions'],
@@ -266,7 +265,8 @@ var s2_choose = {
     }
 };
 
-//propose own title
+//-----------------------------------------------------------------------
+//-------------------------propose own title-------------------------
 var title = "";
 
 function canGo(radio, input) {

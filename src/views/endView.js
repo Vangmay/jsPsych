@@ -25,14 +25,16 @@ function showResult(result) {
     return displayR;
 }
 
-//exit fullscreen after the results are shown
+//-----------------------------------------------------------------------
+//------------exit fullscreen after the results are shown-------------------------
 var exit_fullscreen = {
     type: fullscreen,
     fullscreen_mode: false,
     delay_after: 0,
 }
 
-// show this page within T ms
+//-----------------------------------------------------------------------
+//-------------------------additional feedback-------------------------
 var s4 = {
     type: surveyText,
     questions: [

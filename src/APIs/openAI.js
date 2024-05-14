@@ -15,7 +15,7 @@ const openai = new OpenAI({
 }
 );
 
-//get a similar title
+//-------------------------get a similar title-------------------------
 async function getTitle_API(oldTitle,temp) {
     const completion = await openai.chat.completions.create({
         messages: [
@@ -30,12 +30,14 @@ async function getTitle_API(oldTitle,temp) {
         temperature: temp,
     });
     var answer = completion.choices[0].message.content;
-    var title = answer.split('"')[3];
+    var title = answer.split('"')[3]
+    //get maximum 10 words
+
     //console.log("API says: ", answer);
     return title;
 }
 
-//ask openai to generate titles from base64 image
+//-------------------------ask openai to generate titles from base64 image-------------------------
 async function base64toTitle(base64) {
     const response = await openai.chat.completions.create({
         model: "gpt-4-turbo",
@@ -58,7 +60,7 @@ async function base64toTitle(base64) {
     return response.choices[0].message.content;
 }
 
-//clean the numbers and symbols
+//-------------------------clean the numbers and symbols-------------------------
 function cleanTitles(titles) {
     var tArray = titles.split("\n");
     //remove the numbers, symbols, blank space fpr valid titles
@@ -70,6 +72,8 @@ function cleanTitles(titles) {
     console.log("the titles are cleaned");
     return clean;
 }
+
+//-------------------------API read image and say all the titles----------------
 async function getTitleFromImage_API(path) {
     return new Promise((resolve) => {
         //convert to base64

@@ -114,25 +114,25 @@ export default class ResultModel {
                     delay(Math.random() * (delayTime[1] - delayTime[0]) + delayTime[0]).then(() => resolve(result));
                 }
                 else {
-                    //convert the similarity value to the temperature
+                    para = { "s1": last_title, "database": data, "similarity": sim_queue.pop(), "pool": pool };//the distance is actually similarity
+                    //convert the similarity value to the temperature (1-2, it start with 1 since <1 in temperature is very similar)
                     //0 in slider is similar, 1 is different
-                    var temperature = sim_queue.pop() * 2;
+                    var temperature = para.similarity * 1 + 1;
 
                     //without slider, similarity is a value of 0-1 which measures the similarity.
                     if (!get_condition().isSlider)
-                        para.similarity = 2 - para.similarity;
+                        temperature = 2 - 2*para.similarity;
                     getTitle_API(last_title, temperature).then((result) => {
-                        //console.log("Similar title fetched real-time:", result);
+                        //console.log("Similar title fetched real-time:", temperature);
                         resolve(result);
                     });
 
-                    //para = { "s1": last_title, "database": data, "distance": sim_queue.pop(), "pool": pool };//the distance is actually similarity
                     //if (get_condition().isSlider)
                     //    para.similarity = 1 - para.similarity;//0 in slider is similar, 1 is different
                     //passPara(para);
                     //runPython(`
                     //        from pyModel import nlpModel
-                    //        nlpModel.find_similar(s1,database,distance,pool)
+                    //        nlpModel.find_similar(s1,database,similarity,pool)
                     //    `).then((result) => {
                     //    console.log("Similar title counted real-time:", result);
                     //    destroyPara(para);//destroy the global parameters to avoid memory leak

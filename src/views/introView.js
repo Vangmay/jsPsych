@@ -17,6 +17,8 @@ import { prepare_data, get_condition } from "../models/conditionManager"
 import { fullscreenListener } from "../utilities"
 import {text} from "./txtSource"
 
+//-----------------------------------------------------------------------
+//-------------------------start fullscreen-------------------------
 var s1_0 = {
     type: fullscreen,
     message: '<p id="msg">The experiment will switch to full screen mode when you press the button below (no mobile user allowed)</p>',
@@ -43,10 +45,8 @@ var s1_0 = {
     }
 };
 
-//var isFull;//global in introView, if it's fullscreen
-
-// the consent form
-//the HTML consent form content should be in another file?
+//-----------------------------------------------------------------------
+//-------------------------the consent form-------------------------
 var s1 = {
     type: surveyText,
     preamble: `<p class="p-descript"><b>Hello! </b>${text.welcome1}<br><b>${text.welcome2}</b></br></p>`,
@@ -71,8 +71,8 @@ var s1 = {
     }
 }
 
-
-//the instruction
+//-----------------------------------------------------------------------
+//-------------------------the instruction-------------------------
 var p1_html = `<img src="assets/example.png" class="img-left-profile"><div class="div-right"><p class="p-intro-title">Instruction</p><p class="p-intro-content">${text.instruction1}</p></div>`;
 var p3_html = `<div class="div-full"><p class="p-intro-title">Instruction</p><p class="p-full-content">${text.instruction3}</p></div>`;
 var btn_html = '<button class="btn-corner" >%choice%</button>';

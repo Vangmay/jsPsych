@@ -18,6 +18,8 @@ var user_batch = '';//Parameter condition,batch code of user (redirect to differ
 
 var max_gen = 24;//maximum times of generate new stimulus
 
+//-----------------------------------------------------------------------
+//----------initialize conditions according to input parameters----------
 function init_condition(ui, para,algo) {
     bank_position = ui.bank;
     simType = para.similarity;
@@ -48,6 +50,8 @@ function init_condition(ui, para,algo) {
     //console.log("similarity set to be ", similarity);
 }
 
+//-----------------------------------------------------------------------
+//----------prepare data for user model according to conditions----------
 async function prepare_data() {
     //load the database of titles
     let text = loadFile('assets/sample.txt');
