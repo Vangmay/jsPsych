@@ -11,7 +11,7 @@ import csv
 max_num_tt = 3  # max num of test trial with actual stimulus
 
 ## open and read file
-fileName = '../results/jatos_results_data_20240508101832'
+fileName = 'python\jatos_results_data_20240527103119'
 f = open(fileName + '.txt')
 rawData = f.readlines()
 f.close()
@@ -64,6 +64,7 @@ for rd in rawData:
 # make the non-exsisted trials empty
 
 # header
+print(pickedData)
 header=pickedData[0].keys()
 
 with open(fileName + '.csv', 'a', newline='', encoding='utf-8') as f:

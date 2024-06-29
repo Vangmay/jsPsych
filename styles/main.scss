@@ -298,6 +298,10 @@
     border-color: #ccc;
     width: 200px;
 }
+.my-disabled-jspsych-btn {
+    cursor: not-allowed;
+    display: none;
+}
 
 .btn-corner {
     position: fixed;
