@@ -8,7 +8,6 @@ import { get_condition, appendSimilarity } from "../models/conditionManager"
 import { getSimilar } from "../utilities"
 import { getTitle_API } from "../APIs/openAI"
 
-var init_score;// to mark the initial score
 
 export default class ResultModel {
     constructor(database,sim_table,max_gen) {
@@ -21,7 +20,7 @@ export default class ResultModel {
         this.sim_table = sim_table;//similarity table
         this.isDistracted = false;//whether user is distracted during the task
         this.feedback = '';//feedback from user after the exp
-        init_score = this.score;
+        this.count = 0;// how many times of generation
     }
 
     getID() {
@@ -75,6 +74,7 @@ export default class ResultModel {
     }
 
     addCount() {
+        this, count += 1;
         this.score -= 2;
     }
 
@@ -90,6 +90,7 @@ export default class ResultModel {
             var pool = this.stmPool;
             var data = this.database;
             var table = this.sim_table;
+            var count = this.count;
 
             //it's the first title
             if (pool.length <= 0) {
@@ -107,8 +108,7 @@ export default class ResultModel {
 
                 //choose similarity measurement algorithms
                 if (get_condition().use_table) {
-                    index_similarity = (init_score - score) / 2;//which similarity to get
-                    para = { "s1": last_title, "database": table, "similarity": sim_queue[index_similarity], "pool": pool };
+                    para = { "s1": last_title, "database": table, "similarity": sim_queue[count], "pool": pool };
                     if (get_condition().isSlider)
                         para.similarity = 1 - para.similarity;//0 in slider is similar, 1 is different
                     const result = getSimilar(para);

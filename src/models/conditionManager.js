@@ -42,7 +42,6 @@ function init_condition(ui, para,algo) {
                 var dif_num = max_gen - sim_num;
                 var variant = new Array(dif_num).fill(0.1).concat(new Array(sim_num).fill(0.5));
                 similarity = variant.sort(() => Math.random() - 0.5);//shuffle
-                console.log("similarity length", similarity.length)
                 break;
             default:
                 console.error(`${para.similarity} is not a valid similarity.`);
