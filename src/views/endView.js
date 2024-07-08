@@ -47,6 +47,7 @@ var s4 = {
         data.myResult = globalThis.myResultModel.saveModel();//save statistics and user response
         //save experiment conditions
         data.myResult.push(get_condition());
+        console.log("similarity length", get_condition().similarity.length)
         //exit fullscreen
         window.removeEventListener('resize', fullscreenListener);
         jsPsych.addNodeToEndOfTimeline(exit_fullscreen);

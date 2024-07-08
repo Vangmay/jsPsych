@@ -42,6 +42,7 @@ function init_condition(ui, para,algo) {
                 var dif_num = max_gen - sim_num;
                 var variant = new Array(dif_num).fill(0.1).concat(new Array(sim_num).fill(0.5));
                 similarity = variant.sort(() => Math.random() - 0.5);//shuffle
+                console.log("similarity length", similarity.length)
                 break;
             default:
                 console.error(`${para.similarity} is not a valid similarity.`);
@@ -60,7 +61,8 @@ async function prepare_data() {
 
     //if real-time calculation needed,initial the python packages
     if (!useTable) {
-        globalThis.myResultModel = new ResultModel(myArray, sim_table);//initialize the model with data
+        //initialize the model with data
+        globalThis.myResultModel = new ResultModel(myArray, sim_table, max_gen);
 
         ////load the database of titles
         //getTitle_API('assets/img.png').then((myArray) => {
