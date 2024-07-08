@@ -2,10 +2,10 @@
  * @title demo_design2
  * @description 
  * Current demo: 
- *  - similar title search,design 2,
+ *  - similar title search,design 1,
  *  - title bank at corner,
- *  - similarity set by slider,
- *  - calculate similarity in real-time
+ *  - similarity set by table, variant,
+ *  - NOT calculate similarity in real-time
  *  - without piggy bank.
  * 
  * @author Yawen D
