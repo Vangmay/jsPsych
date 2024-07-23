@@ -60,7 +60,8 @@ async function prepare_data() {
 
     //if real-time calculation needed,initial the python packages
     if (!useTable) {
-        globalThis.myResultModel = new ResultModel(myArray, sim_table);//initialize the model with data
+        //initialize the model with data
+        globalThis.myResultModel = new ResultModel(myArray, sim_table, max_gen);
 
         ////load the database of titles
         //getTitle_API('assets/img.png').then((myArray) => {

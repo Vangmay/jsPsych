@@ -8,17 +8,19 @@ import { get_condition, appendSimilarity } from "../models/conditionManager"
 import { getSimilar } from "../utilities"
 import { getTitle_API } from "../APIs/openAI"
 
+
 export default class ResultModel {
-    constructor(database,sim_table) {
+    constructor(database,sim_table,max_gen) {
         this.ID = 0;
         this.result = [];//result of stimuli, reaction time, choice, etc
         this.next_stimuli = "";
-        this.score = 48;//score that is left for user to re-generate
+        this.score = max_gen*2;//score that is left for user to re-generate. If the method of calculating score is changed, change the method to calculate index_similarity in calTitle()as well
         this.database = database;//database to fetch the stimuli from
         this.stmPool = [];//pool of chosen stimulus
         this.sim_table = sim_table;//similarity table
         this.isDistracted = false;//whether user is distracted during the task
         this.feedback = '';//feedback from user after the exp
+        this.count = 0;// how many times of generation
     }
 
     getID() {
@@ -72,6 +74,7 @@ export default class ResultModel {
     }
 
     addCount() {
+        this, count += 1;
         this.score -= 2;
     }
 
@@ -87,6 +90,7 @@ export default class ResultModel {
             var pool = this.stmPool;
             var data = this.database;
             var table = this.sim_table;
+            var count = this.count;
 
             //it's the first title
             if (pool.length <= 0) {
@@ -104,7 +108,7 @@ export default class ResultModel {
 
                 //choose similarity measurement algorithms
                 if (get_condition().use_table) {
-                    para = { "s1": last_title, "database": table, "similarity": sim_queue.pop(), "pool": pool };
+                    para = { "s1": last_title, "database": table, "similarity": sim_queue[count], "pool": pool };
                     if (get_condition().isSlider)
                         para.similarity = 1 - para.similarity;//0 in slider is similar, 1 is different
                     const result = getSimilar(para);
