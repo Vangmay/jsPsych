@@ -7,9 +7,7 @@ import OpenAI from "openai";
 import { getBase64 } from "../utilities";
 
 //decode the API key and init
-var myKey = atob(
-  "c2stcHJvai12R21Fb1U3dVNIdjdlbTN2WG5yNFQzQmxia0ZKUXlnQTBJdkRqem00U2FyUENqekQ="
-);
+var myKey = GLOBAL.OPENAI_API_KEY;
 const openai = new OpenAI({
   apiKey: myKey,
   dangerouslyAllowBrowser: true,
