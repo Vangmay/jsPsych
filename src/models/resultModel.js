@@ -74,7 +74,7 @@ export default class ResultModel {
     }
 
     addCount() {
-        this, count += 1;
+        this.count += 1;
         this.score -= 2;
     }
 
