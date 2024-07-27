@@ -1,5 +1,5 @@
 /**
- * @title demo_design2
+ * @title Online_Study_Checked
  * @description
  * Current demo:
  *  - similar title search,design 1,
@@ -9,7 +9,7 @@
  *  - without piggy bank.
  *
  * @author Yawen D
- * @version 0.7.4
+ * @version 0.0.2
  *
  * @assets assets/pyModel-0.1-py3-none-any.whl,assets/sample.txt,assets/img.png,assets/sample.csv,assets/screen.png,assets/screen_slider.png,assets/example.png
  */
@@ -40,9 +40,9 @@ export async function run({
   initJsp(user_batch);
 
   //set up experiment conditions
-  const ui = { bank: "corner", isSlider: false, showScore: false }; //corner,center
+  const ui = { bank: "corner", isSlider: true, showScore: false }; //corner,center
   const para = { similarity: "variant", user_batch: user_batch }; //similarity:similar,different,variant
-  const algo = { useTable: true };
+  const algo = { useTable: false };
 
   init_condition(ui, para, algo);
 

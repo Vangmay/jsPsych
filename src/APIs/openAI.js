@@ -9,11 +9,9 @@ import { getBase64 } from "../utilities";
 //decode the API key and init
 var myKey = GLOBAL.OPENAI_API_KEY;
 const openai = new OpenAI({
-  apiKey: myKey,
+  apiKey: atob(myKey),
   dangerouslyAllowBrowser: true,
 });
-console.log(myKey);
-
 //-------------------------get a similar title-------------------------
 async function getTitle_API(oldTitle, temp) {
   const completion = await openai.chat.completions.create({
@@ -25,6 +23,7 @@ async function getTitle_API(oldTitle, temp) {
       {
         role: "user",
         content: `Generate a painting title related to ${oldTitle}`,
+        max_tokens: 80,
       },
     ],
     model: "gpt-3.5-turbo-1106",
