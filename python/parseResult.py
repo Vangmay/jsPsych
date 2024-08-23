@@ -11,7 +11,7 @@ import csv
 max_num_tt = 3  # max num of test trial with actual stimulus
 
 ## open and read file
-fileName = './python/jatos_results_data_20240822163215'
+fileName = './python/jatos_results_data_20240822132026'
 f = open(fileName + '.txt')
 rawData = f.readlines()
 f.close()
@@ -41,9 +41,6 @@ for rd in rawData:
 
             # titles
             if 'acceptance' in dl:
-                print(dl)
-                print(dl["acceptance"])
-                print(dl)
                 if dl['acceptance'] in [0,1]:
                     if dl['acceptance']==0:
                          pD['other_title'].append(dl['stimulus'])
