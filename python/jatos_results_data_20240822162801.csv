@@ -1,0 +1,2 @@
+other_title,chosen_title,own_title,rate_creative,rate_unique,rate_novel,rate_accurate,rate_practical,rate_similar,gender,age,attention,ID,final_score,is_distracted,feedback,user_batch,bank_position,similarity,sim_type,isSlider,use_table,show_score
+"['Sputnik Fractal', 'Sputnik Escape']",Sputnik Escape,,1,1,1,1,1,1,Male,77,Gold,ghj,,False,hh,COM6LC8F,corner,"[0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]",similar,False,True,False

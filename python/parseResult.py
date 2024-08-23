@@ -11,7 +11,7 @@ import csv
 max_num_tt = 3  # max num of test trial with actual stimulus
 
 ## open and read file
-fileName = './python/jatos_results_data_20240822132026'
+fileName = './python/jatos_results_data_20240822163215'
 f = open(fileName + '.txt')
 rawData = f.readlines()
 f.close()
@@ -40,15 +40,20 @@ for rd in rawData:
                         pD.update(dl['acceptance'])  # age, gender
 
             # titles
-            # if 'acceptance' in dl:
-            #     if dl['acceptance'] in [0,1]:
-            #         if dl['acceptance']==0:
-            #              pD['other_title'].append(dl['stimulus'])
-            #         else:
-            #              pD['chosen_title']=dl['stimulus']
-            #              pD['other_title'].append(dl["stimulus"])
-            #     elif 'own_title' in dl['acceptance']:
-            #         pD['own_title'] = dl['acceptance']['own_title']
+            if 'acceptance' in dl:
+                print(dl)
+                print(dl["acceptance"])
+                print(dl)
+                if dl['acceptance'] in [0,1]:
+                    if dl['acceptance']==0:
+                         pD['other_title'].append(dl['stimulus'])
+                    else:
+                         pD['chosen_title']=dl['stimulus']
+                         pD['other_title'].append(dl["stimulus"])
+                elif 'own_title' in dl['acceptance']:
+                    pD['own_title'] = dl['acceptance']['own_title']
+                elif dl["acceptance"] in pD["other_title"]:
+                    pD["chosen_title"] = dl["acceptance"]
 
             # conditions
             if 'user_batch' in dl:
