@@ -11,7 +11,7 @@ import csv
 max_num_tt = 3  # max num of test trial with actual stimulus
 
 ## open and read file
-fileName = './python/jatos_results_data_20240822132026'
+fileName = './python/n_300'
 f = open(fileName + '.txt')
 rawData = f.readlines()
 f.close()
